@@ -62,6 +62,7 @@ main {
 .sell-nav {
   align-items: center;
   display: flex;
+  gap: 10px;
   justify-content: space-between;
   padding-inline: 40px;
   position: sticky;
@@ -74,10 +75,13 @@ main {
   align-items: center;
   display: flex;
   gap: 20px;
+  white-space: nowrap;
+  overflow: scroll;
 }
 
 .sell-nav-links a {
   color: #666;
+  scroll-snap-align: end;
 }
 
 .cat-nav-links {
@@ -101,11 +105,14 @@ main {
 }
 
 .sell-banner {
-  background-image: url(assets/$_57.JPG);
-  height: 100%;
-  min-height: 436px;
+  overflow: hidden;
   width: 100%;
-  margin-bottom: 61100px;
+}
+
+.sell-banner img {
+  display: block;
+  height: auto;
+  width: 100%;
 }
 
 nav a {
@@ -321,7 +328,17 @@ select {
   padding: 2px;
 }
 
+@media (max-width: 674px) {
+  .none {
+    display: none;
+  }
+}
+
 @media (max-width: 49.9375rem) {
+  .sell-nav {
+    padding: 10px;
+  }
+
   .searchbtn,
   .left-s-icon {
     display: none;

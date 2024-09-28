@@ -115,8 +115,9 @@ function renderCategories() {
     });
   });
 }
-
-renderCategories();
+if (categoryLinks) {
+  renderCategories();
+}
 
 async function saveUser() {
   const userRef = doc(database, "users/" + uid);
@@ -219,7 +220,9 @@ async function renderLaptops() {
   }
 }
 
-renderLaptops();
+if (productsContainer) {
+  renderLaptops();
+}
 
 async function renderPhones() {
   try {
@@ -275,7 +278,9 @@ async function renderPhones() {
   }
 }
 
-renderPhones();
+if (productsContainer) {
+  renderPhones();
+}
 
 document.body.addEventListener("keydown", (e) => {
   if (e.key === "Enter") {
