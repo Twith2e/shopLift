@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="shortcut icon"
+      href="assets/shoplift-favicon.jpg"
+      type="image/x-icon"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Merriweather+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="general.css" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Shoplift</title>
+  </head>
+  <body>
+    <div class="body-wrapper">
+      <header>
+        <nav class="sb-nav">
+          <div class="authlinkwrapper" id="authdisplay">
+            <a href="signup.html">Create Account</a>
+            <a id="login" href="">Login</a>
+          </div>
+          <div class="leftnav">
+            <a href="sell.html">Sell</a>
+            <!-- <div class="s-dd-menu" id="sddmenu">
+              <span>shoplift</span>
+              <div>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="24px"
+                  viewBox="0 -960 960 960"
+                  width="24px"
+                  fill="#777"
+                >
+                  <path
+                    d="M480-344 240-584l56-56 184 184 184-184 56 56-240 240Z"
+                  />
+                </svg>
+              </div>
+              <div class="shoplift-dd" id="shopliftdd">
+                <ul>
+                  <a href=""><li>Purchase History</li></a>
+                  <a href="sell.html"><li>Selling</li></a>
+                </ul>
+              </div>
+            </div> -->
+            <a href="cart.html"
+              ><img src="assets/icons8-shopping-cart-32.png" alt="cart"
+            /></a>
+          </div>
+        </nav>
+        <nav class="sb-nav sb">
+          logo
+          <!-- <div><img src="assets/shoplift-logo.png" alt="logo" /></div> -->
+          <!-- <div><img src="assets/shoplift-favicon.jpg" alt="logo" /></div> -->
+          <div class="searchbar">
+            <svg
+              class="left-s-icon"
+              xmlns="http://www.w3.org/2000/svg"
+              x="0px"
+              y="0px"
+              width="20"
+              height="20"
+              viewBox="0 0 48 48"
+            >
+              <path
+                d="M 20.5 6 C 12.509634 6 6 12.50964 6 20.5 C 6 28.49036 12.509634 35 20.5 35 C 23.956359 35 27.133709 33.779044 29.628906 31.75 L 39.439453 41.560547 A 1.50015 1.50015 0 1 0 41.560547 39.439453 L 31.75 29.628906 C 33.779044 27.133709 35 23.956357 35 20.5 C 35 12.50964 28.490366 6 20.5 6 z M 20.5 9 C 26.869047 9 32 14.130957 32 20.5 C 32 23.602612 30.776198 26.405717 28.791016 28.470703 A 1.50015 1.50015 0 0 0 28.470703 28.791016 C 26.405717 30.776199 23.602614 32 20.5 32 C 14.130953 32 9 26.869043 9 20.5 C 9 14.130957 14.130953 9 20.5 9 z"
+              ></path>
+            </svg>
+            <input
+              class="search"
+              id="search"
+              placeholder="Search for anything"
+              type="text"
+            />
+            <div id="searchbtn" class="r-s-i-wrapper">
+              <svg
+                class="right-s-icon"
+                xmlns="http://www.w3.org/2000/svg"
+                x="0px"
+                y="0px"
+                width="40"
+                height="30"
+                viewBox="0 0 48 48"
+                fill="#fff"
+              >
+                <path
+                  d="M 20.5 6 C 12.509634 6 6 12.50964 6 20.5 C 6 28.49036 12.509634 35 20.5 35 C 23.956359 35 27.133709 33.779044 29.628906 31.75 L 39.439453 41.560547 A 1.50015 1.50015 0 1 0 41.560547 39.439453 L 31.75 29.628906 C 33.779044 27.133709 35 23.956357 35 20.5 C 35 12.50964 28.490366 6 20.5 6 z M 20.5 9 C 26.869047 9 32 14.130957 32 20.5 C 32 23.602612 30.776198 26.405717 28.791016 28.470703 A 1.50015 1.50015 0 0 0 28.470703 28.791016 C 26.405717 30.776199 23.602614 32 20.5 32 C 14.130953 32 9 26.869043 9 20.5 C 9 14.130957 14.130953 9 20.5 9 z"
+                ></path>
+              </svg>
+            </div>
+          </div>
+          <button class="searchbtn" id="searchbtn">Search</button>
+        </nav>
+        <nav class="cat-nav">
+          <div id="categorylinks" class="cat-nav-links"></div>
+        </nav>
+      </header>
+      <main>
+        <div class="products-container" id="products-container"></div>
+      </main>
+    </div>
+  </body>
+</html>
+<script defer src="../src/script.js" type="module"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="general.css" />
+    <link rel="stylesheet" href="search.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="body-wrapper">
+      <header>
+        <nav class="sm-nav">
+          <div>logo</div>
+          <div class="right-sm-nav">
+            <div id="user" class="user">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="24px"
+                viewBox="0 -960 960 960"
+                width="24px"
+                fill="#000"
+              >
+                <path
+                  d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Zm80-80h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T560-640q0-33-23.5-56.5T480-720q-33 0-56.5 23.5T400-640q0 33 23.5 56.5T480-560Zm0-80Zm0 400Z"
+                />
+              </svg>
+            </div>
+            <div class="cart">
+              <a href="cart.html"
+                ><svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="24px"
+                  viewBox="0 -960 960 960"
+                  width="20px"
+                  fill="#000"
+                >
+                  <path
+                    d="M280-80q-33 0-56.5-23.5T200-160q0-33 23.5-56.5T280-240q33 0 56.5 23.5T360-160q0 33-23.5 56.5T280-80Zm400 0q-33 0-56.5-23.5T600-160q0-33 23.5-56.5T680-240q33 0 56.5 23.5T760-160q0 33-23.5 56.5T680-80ZM246-720l96 200h280l110-200H246Zm-38-80h590q23 0 35 20.5t1 41.5L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68-39.5t-2-78.5l54-98-144-304H40v-80h130l38 80Zm134 280h280-280Z"
+                  />
+                </svg>
+                <div class="cart-count">
+                  <span id="cartcount">1</span>
+                </div>
+              </a>
+            </div>
+            <div id="menubtn">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                x="0px"
+                y="0px"
+                width="20"
+                height="20"
+                viewBox="0 0 50 50"
+              >
+                <path
+                  d="M 0 9 L 0 11 L 50 11 L 50 9 Z M 0 24 L 0 26 L 50 26 L 50 24 Z M 0 39 L 0 41 L 50 41 L 50 39 Z"
+                ></path>
+              </svg>
+            </div>
+          </div>
+          <div id="sidemenu" class="sidemenu">
+            <div id="closebtn" style="text-align: right">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                x="0px"
+                y="0px"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M 4.7070312 3.2929688 L 3.2929688 4.7070312 L 10.585938 12 L 3.2929688 19.292969 L 4.7070312 20.707031 L 12 13.414062 L 19.292969 20.707031 L 20.707031 19.292969 L 13.414062 12 L 20.707031 4.7070312 L 19.292969 3.2929688 L 12 10.585938 L 4.7070312 3.2929688 z"
+                ></path>
+              </svg>
+            </div>
+            <ul>
+              <li>Categories</li>
+              <li>Deals</li>
+              <li><a href="sell.html">Sell</a></li>
+              <li>Help</li>
+            </ul>
+            <div id="auth" style="margin-top: 20px">
+              <a href="login.html">Sign In</a>
+              <span>or</span>
+              <a href="signup.html">Register</a>
+            </div>
+          </div>
+        </nav>
+        <nav class="sm-search-nav">
+          <div class="search-wrapper">
+            <input id="search" type="text" />
+            <div class="search-icon" id="searchbtn">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                x="0px"
+                y="0px"
+                width="20"
+                height="20"
+                viewBox="0 0 30 30"
+                fill="#fff"
+              >
+                <path
+                  d="M 13 3 C 7.4889971 3 3 7.4889971 3 13 C 3 18.511003 7.4889971 23 13 23 C 15.396508 23 17.597385 22.148986 19.322266 20.736328 L 25.292969 26.707031 A 1.0001 1.0001 0 1 0 26.707031 25.292969 L 20.736328 19.322266 C 22.148986 17.597385 23 15.396508 23 13 C 23 7.4889971 18.511003 3 13 3 z M 13 5 C 17.430123 5 21 8.5698774 21 13 C 21 17.430123 17.430123 21 13 21 C 8.5698774 21 5 17.430123 5 13 C 5 8.5698774 8.5698774 5 13 5 z"
+                ></path>
+              </svg>
+            </div>
+          </div>
+        </nav>
+        <nav class="md-nav">
+          <div id="authlinkwrapper">
+            <a style="color: #fb8d28" href="login.html">Login</a>
+            <span>or</span>
+            <a style="color: #fb8d28" href="signup.html">Register</a>
+          </div>
+          <div class="right-md-nav">
+            <a href="sell.html">Sell</a>
+            <div class="cart">
+              <a href="cart.html"
+                ><svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="24px"
+                  viewBox="0 -960 960 960"
+                  width="20px"
+                  fill="#000"
+                >
+                  <path
+                    d="M280-80q-33 0-56.5-23.5T200-160q0-33 23.5-56.5T280-240q33 0 56.5 23.5T360-160q0 33-23.5 56.5T280-80Zm400 0q-33 0-56.5-23.5T600-160q0-33 23.5-56.5T680-240q33 0 56.5 23.5T760-160q0 33-23.5 56.5T680-80ZM246-720l96 200h280l110-200H246Zm-38-80h590q23 0 35 20.5t1 41.5L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68-39.5t-2-78.5l54-98-144-304H40v-80h130l38 80Zm134 280h280-280Z"
+                  />
+                </svg>
+                <div class="cart-count">
+                  <span id="cartcount">1</span>
+                </div>
+              </a>
+            </div>
+          </div>
+        </nav>
+      </header>
+      <main>
+        <div class="searched" id="searcheditems">
+          <div class="loader-overlay">
+            <div class="loader"></div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>
+<script src="../src/search.js" type="module"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

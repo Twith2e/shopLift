@@ -1,0 +1,332 @@
+.complete-header {
+  align-items: center;
+  background-color: #fff;
+  display: flex;
+  height: 50px;
+  justify-content: center;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+}
+
+.complete-header nav {
+  background-color: #fff;
+  border-bottom: 1px solid #777;
+  padding-block: 20px;
+  text-align: center;
+  width: 80%;
+}
+
+main {
+  margin: 50px auto;
+  padding: 40px 30px;
+  width: 80%;
+}
+
+.head-del-wrapper {
+  align-items: center;
+  color: #191919;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.p-h-wrapper {
+  align-items: center;
+  color: #191919;
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.delete-wrapper {
+  align-items: center;
+  background: #fb8d28;
+  border: none;
+  border-radius: 5px;
+  display: flex;
+  padding: 5px 10px;
+}
+
+.delete-wrapper span {
+  font-size: 12px;
+}
+
+.body-container {
+  /* display: flex;
+  flex-direction: column; */
+  font-weight: 400;
+  /* gap: 30px; */
+}
+
+.photopick-wrapper,
+.title-wrapper,
+.category,
+.specifics,
+.condition,
+.pricing,
+.description {
+  border-bottom: 1px solid #777;
+  padding: 30px 0 60px 0;
+}
+
+.photo-count {
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+
+.upload-wrapper {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.upload input {
+  display: none;
+}
+
+.upload {
+  border: 1px dotted #777;
+  border-radius: 30px;
+  display: flex;
+  height: 250px;
+}
+
+.uploadlabel,
+.uploadlabel0,
+.uploadlabel1,
+.uploadlabel2 {
+  align-items: center;
+  border: 1px dotted #777;
+  border-radius: 30px;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  width: 100%;
+}
+
+.imgupload {
+  width: 20%;
+}
+
+.vidupload {
+  width: 20%;
+}
+
+.editbtn,
+.editbtn0,
+.editbtn1,
+.editbtn2 {
+  background-color: #191919;
+  display: none;
+  position: relative;
+}
+
+.delbtn,
+.delbtn0,
+.delbtn1,
+.delbtn2 {
+  align-items: center;
+  background-color: #ffffff80;
+  border-radius: 50%;
+  display: none;
+  font-size: 16px;
+  height: 2em;
+  justify-content: center;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  transition: background-color 10ms ease;
+  width: 2em;
+}
+
+.delbtn:hover {
+  background-color: #00000080;
+}
+
+.delbtn svg {
+  transition: fill 10ms ease;
+}
+
+.delbtn:hover svg {
+  fill: #fff;
+}
+
+#inputimg,
+#inputimg0,
+#inputimg1,
+#inputimg2 {
+  height: 100%;
+  object-fit: contain;
+  width: 100%;
+}
+
+.title-input {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.title-input input,
+.category input {
+  border: 1px solid #555;
+  border-radius: 10px;
+  outline: none;
+  padding: 15px 15px;
+  width: 100%;
+}
+
+.title-wrapper h3,
+.category h3,
+.specifics h3,
+.condition h3,
+.pricing h3 {
+  margin-bottom: 20px;
+}
+
+.specifics-head {
+  align-items: start;
+  display: flex;
+  gap: 20px;
+}
+
+.specifics-head button {
+  background: #fb8d28;
+  border: none;
+  color: #fff;
+  padding: 3px;
+}
+
+.remove-tile {
+  display: none;
+}
+
+.brandcontainer {
+  display: grid;
+  gap: 30px;
+  grid-template-columns: 100px 400px;
+}
+
+.brandcontainer input {
+  padding: 10px;
+  width: 100%;
+}
+
+.brandcontainer1 {
+  align-items: start;
+  display: grid;
+  gap: 30px;
+  grid-template-columns: 100px 400px 50px;
+}
+
+.brandcontainer1 input {
+  padding: 10px;
+  width: 100%;
+}
+
+#incremental {
+  display: flex;
+  flex-direction: column;
+  grid-area: 10px;
+}
+
+textarea {
+  border: 1px solid #555;
+  border-radius: 10px;
+  outline: none;
+  padding: 15px 15px;
+  width: 100%;
+}
+
+.brandwrapper {
+  align-items: center;
+  display: flex;
+  gap: 30%;
+}
+
+.brandbtn {
+  border: 1px solid #555;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  padding: 9.5px 20px;
+  width: 48%;
+}
+
+.brandtext {
+  background-color: red;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+}
+
+.brandinput {
+  align-items: center;
+  border: 1px solid #555;
+  display: flex;
+  /* width: 48%; */
+}
+
+#list {
+  display: flex;
+  flex-direction: column;
+  height: 50px;
+  overflow: scroll;
+  /* position: absolute; */
+  width: 48%;
+}
+
+#list button {
+  border: none;
+  padding: 10px;
+  text-align: left;
+}
+
+.brandoptions {
+  display: none;
+  position: absolute;
+}
+
+.brandbtnwrapper {
+  position: relative;
+  width: 100%;
+}
+
+.priceinput {
+  align-items: center;
+  border: 1px solid #555;
+  border-radius: 10px;
+  display: flex;
+  padding-inline: 10px;
+  width: fit-content;
+}
+
+.priceinput span {
+  color: #777;
+}
+
+.priceinput input {
+  border: none;
+  outline: none;
+  padding: 10px;
+  width: 90%;
+}
+
+.quantity {
+  display: flex;
+  flex-direction: column;
+  width: 38%;
+}
+
+.quantity input {
+  border: 1px solid #555;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.phonenum {
+  border: 1px solid #555;
+  border-radius: 10px;
+  outline: none;
+  padding: 10px;
+}

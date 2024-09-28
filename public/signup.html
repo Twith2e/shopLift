@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="shortcut icon"
+      href="assets/shoplift-favicon.jpg"
+      type="image/x-icon"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Merriweather+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="general.css" />
+    <link rel="stylesheet" href="auth.css" />
+    <title>Shoplift</title>
+  </head>
+  <body>
+    <div class="body-wrapper">
+      <header></header>
+      <main>
+        <div class="signuppage">
+          <div>
+            <h1>Create an Account</h1>
+            <p>Sign up and enjoy all of our services</p>
+          </div>
+          <div class="signupform">
+            <div class="field-wrapper">
+              <img src="assets/icons8-user-32.png" alt="" />
+              <input id="thename" placeholder="First Name" type="text" />
+              <span class="errortag" id="err"></span>
+            </div>
+            <div class="field-wrapper">
+              <img src="assets/icons8-email-24.png" alt="" />
+              <input id="email" placeholder="Email" type="email" />
+              <span class="errortag" id="err"></span>
+            </div>
+            <div class="field-wrapper">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                x="0px"
+                y="0px"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M 12 1 C 8.6761905 1 6 3.6761905 6 7 L 6 8 C 4.9069372 8 4 8.9069372 4 10 L 4 20 C 4 21.093063 4.9069372 22 6 22 L 18 22 C 19.093063 22 20 21.093063 20 20 L 20 10 C 20 8.9069372 19.093063 8 18 8 L 18 7 C 18 3.6761905 15.32381 1 12 1 z M 12 3 C 14.27619 3 16 4.7238095 16 7 L 16 8 L 8 8 L 8 7 C 8 4.7238095 9.7238095 3 12 3 z M 6 10 L 18 10 L 18 20 L 6 20 L 6 10 z M 12 13 C 10.9 13 10 13.9 10 15 C 10 16.1 10.9 17 12 17 C 13.1 17 14 16.1 14 15 C 14 13.9 13.1 13 12 13 z"
+                ></path>
+              </svg>
+              <input id="password" placeholder="Password" type="text" />
+              <img src="assets/icons8-hide-password-24.png" alt="" />
+              <span class="errortag" id="err"></span>
+            </div>
+            <div class="field-wrapper">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                x="0px"
+                y="0px"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M 12 1 C 8.6761905 1 6 3.6761905 6 7 L 6 8 C 4.9069372 8 4 8.9069372 4 10 L 4 20 C 4 21.093063 4.9069372 22 6 22 L 18 22 C 19.093063 22 20 21.093063 20 20 L 20 10 C 20 8.9069372 19.093063 8 18 8 L 18 7 C 18 3.6761905 15.32381 1 12 1 z M 12 3 C 14.27619 3 16 4.7238095 16 7 L 16 8 L 8 8 L 8 7 C 8 4.7238095 9.7238095 3 12 3 z M 6 10 L 18 10 L 18 20 L 6 20 L 6 10 z M 12 13 C 10.9 13 10 13.9 10 15 C 10 16.1 10.9 17 12 17 C 13.1 17 14 16.1 14 15 C 14 13.9 13.1 13 12 13 z"
+                ></path>
+              </svg>
+              <input
+                id="confirmpassword"
+                placeholder="Confirm Password"
+                type="text"
+              />
+              <img src="assets/icons8-hide-password-24.png" alt="" />
+              <span class="errortag" id="err"></span>
+            </div>
+            <button id="submit">Sign Up</button>
+            <div class="login-rd">
+              <p>Already have an account?</p>
+              <a href="login.html">Login</a>
+            </div>
+            <div class="suo-divider">
+              <div class="empty"></div>
+              <span>or</span>
+              <div class="empty"></div>
+            </div>
+            <div class="continue-wrapper">
+              <button class="continue" id="signwithgg">
+                <span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    x="0px"
+                    y="0px"
+                    width="30"
+                    height="30"
+                    viewBox="0 0 48 48"
+                  >
+                    <path
+                      fill="#FFC107"
+                      d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"
+                    ></path>
+                    <path
+                      fill="#FF3D00"
+                      d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"
+                    ></path>
+                    <path
+                      fill="#4CAF50"
+                      d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"
+                    ></path>
+                    <path
+                      fill="#1976D2"
+                      d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"
+                    ></path>
+                  </svg>
+                </span>
+                <span>Continue with Google</span>
+              </button>
+              <button class="continue" id="signwithgfb">
+                <span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    x="0px"
+                    y="0px"
+                    width="30"
+                    height="30"
+                    viewBox="0 0 48 48"
+                  >
+                    <linearGradient
+                      id="CXanuwD9EGkBgTn76_1mxa_p62ASPK2Kpqp_gr1"
+                      x1="9.993"
+                      x2="40.615"
+                      y1="-299.993"
+                      y2="-330.615"
+                      gradientTransform="matrix(1 0 0 -1 0 -290)"
+                      gradientUnits="userSpaceOnUse"
+                    >
+                      <stop offset="0" stop-color="#2aa4f4"></stop>
+                      <stop offset="1" stop-color="#007ad9"></stop>
+                    </linearGradient>
+                    <path
+                      fill="url(#CXanuwD9EGkBgTn76_1mxa_p62ASPK2Kpqp_gr1)"
+                      d="M24,4C12.954,4,4,12.954,4,24c0,10.028,7.379,18.331,17.004,19.777	C21.981,43.924,22.982,41,24,41c0.919,0,1.824,2.938,2.711,2.818C36.475,42.495,44,34.127,44,24C44,12.954,35.046,4,24,4z"
+                    ></path>
+                    <path
+                      d="M27.707,21.169c0-1.424,0.305-3.121,1.757-3.121h4.283l-0.001-5.617l-0.05-0.852l-0.846-0.114	c-0.608-0.082-1.873-0.253-4.206-0.253c-5.569,0-8.636,3.315-8.636,9.334v2.498H15.06v7.258h4.948V43.6	C21.298,43.861,22.633,44,24,44c1.268,0,2.504-0.131,3.707-0.357V30.301h5.033l1.122-7.258h-6.155V21.169z"
+                      opacity=".05"
+                    ></path>
+                    <path
+                      d="M27.207,21.169c0-1.353,0.293-3.621,2.257-3.621h3.783V12.46l-0.026-0.44l-0.433-0.059	c-0.597-0.081-1.838-0.249-4.143-0.249c-5.323,0-8.136,3.055-8.136,8.834v2.998H15.56v6.258h4.948v13.874	C21.644,43.876,22.806,44,24,44c1.094,0,2.16-0.112,3.207-0.281V29.801h5.104l0.967-6.258h-6.072V21.169z"
+                      opacity=".05"
+                    ></path>
+                    <path
+                      fill="#fff"
+                      d="M26.707,29.301h5.176l0.813-5.258h-5.989v-2.874c0-2.184,0.714-4.121,2.757-4.121h3.283V12.46	c-0.577-0.078-1.797-0.248-4.102-0.248c-4.814,0-7.636,2.542-7.636,8.334v3.498H16.06v5.258h4.948v14.475	C21.988,43.923,22.981,44,24,44c0.921,0,1.82-0.062,2.707-0.182V29.301z"
+                    ></path>
+                  </svg>
+                </span>
+                <span>Continue with Google</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>
+<script src="../src/signup.js" type="module"></script>

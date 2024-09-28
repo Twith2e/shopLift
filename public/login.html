@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="shortcut icon"
+      href="assets/shoplift-favicon.jpg"
+      type="image/x-icon"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Merriweather+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="general.css" />
+    <link rel="stylesheet" href="auth.css" />
+    <title>Shoplift</title>
+  </head>
+  <body>
+    <div class="body-wrapper">
+      <header></header>
+      <main>
+        <div class="signuppage">
+          <div>
+            <h1>Login</h1>
+            <p>Hello, welcome back</p>
+          </div>
+          <div class="signupform">
+            <div class="field-wrapper">
+              <img src="assets/icons8-email-24.png" alt="" />
+              <input id="email" placeholder="Email" type="email" />
+              <span class="errortag" id="err"></span>
+            </div>
+            <div class="field-wrapper">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                x="0px"
+                y="0px"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M 12 1 C 8.6761905 1 6 3.6761905 6 7 L 6 8 C 4.9069372 8 4 8.9069372 4 10 L 4 20 C 4 21.093063 4.9069372 22 6 22 L 18 22 C 19.093063 22 20 21.093063 20 20 L 20 10 C 20 8.9069372 19.093063 8 18 8 L 18 7 C 18 3.6761905 15.32381 1 12 1 z M 12 3 C 14.27619 3 16 4.7238095 16 7 L 16 8 L 8 8 L 8 7 C 8 4.7238095 9.7238095 3 12 3 z M 6 10 L 18 10 L 18 20 L 6 20 L 6 10 z M 12 13 C 10.9 13 10 13.9 10 15 C 10 16.1 10.9 17 12 17 C 13.1 17 14 16.1 14 15 C 14 13.9 13.1 13 12 13 z"
+                ></path>
+              </svg>
+              <input id="password" placeholder="Password" type="password" />
+              <img src="assets/icons8-hide-password-24.png" alt="" />
+              <span class="errortag" id="err"></span>
+            </div>
+            <button id="submit">Login</button>
+            <div class="login-rd">
+              <p>Don't have an account?</p>
+              <a href="signup.html">Sign Up</a>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>
+<script src="../src/login.js" type="module"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

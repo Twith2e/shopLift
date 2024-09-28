@@ -1,0 +1,21 @@
+@font-face {
+  font-family: msans;
+  src: url(MarketSans-Regular.otf);
+}
+
+* {
+  box-sizing: border-box;
+  font-family: msans;
+  font-size: 0.875rem;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  height: 100vh;
+  width: 100%;
+}
+
+header {
+  width: 100%;
+}

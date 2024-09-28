@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="general.css" />
+    <link rel="stylesheet" href="checkout.css" />
+    <title>Paystack Payment with Receipt and Email</title>
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"
+    ></script>
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"
+    ></script>
+  </head>
+  <body>
+    <div class="body-container">
+      <header>
+        <nav>
+          <div>logo</div>
+          <span>Checkout</span>
+        </nav>
+      </header>
+      <main>
+        <div class="main-container">
+          <div class="payment-method">
+            <div class="pay-head">
+              <h2>Pay with</h2>
+            </div>
+            <div class="pay-input">
+              <input type="radio" name="" id="" />
+              <img height="20" src="assets/paystack.png" alt="" />
+              <span>Paystack</span>
+            </div>
+          </div>
+          <div class="checkout-info">
+            <div class="item">
+              <span>Item <span></span></span>
+              <span id="price"></span>
+            </div>
+            <div class="shipping">
+              <span>Shipping</span>
+              <span>NGN ₦0</span>
+            </div>
+            <div class="divider"></div>
+            <div class="order-total">
+              <h2>Order Total</h2>
+              <h2 id="price"></h2>
+            </div>
+            <button id="paymentbtn"><span>Confirm and pay</span></button>
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>
+<script src="../src/checkout.js" type="module"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
