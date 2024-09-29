@@ -1,10 +1,11 @@
-#similaritemscontainer {
-  margin-top: 80px;
-}
-
-#similaritemscontainer h1 {
+#similaritemscontainer h1,
+.about-item h1 {
   font-size: 24px;
   margin-bottom: 10px;
+}
+
+.about-item {
+  margin-top: 60px;
 }
 
 .carousel {

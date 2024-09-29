@@ -51,6 +51,7 @@ let isShown = false;
 onAuthStateChanged(auth, (user) => {
   if (user) {
     uid = user.uid;
+    cartIconCount(uid);
     saveUser();
     authDisplay.innerHTML = `
     <p id="userDd">Hi ${user.displayName.split(" ")[0]}</p>
@@ -177,6 +178,7 @@ async function renderLaptops() {
     const productCategoryWrapper = document.createElement("div");
     const productCategory = document.createElement("h1");
     productCategory.textContent = "Laptops";
+    productCategory.style.fontSize = "1.5rem";
     productCategoryWrapper.appendChild(productCategory);
     productTray.appendChild(productCategoryWrapper);
     const productWrapper = document.createElement("div");
@@ -205,7 +207,8 @@ async function renderLaptops() {
       productName.textContent = product.data().productName;
       productName.style.fontSize = "0.875rem";
       productCard.appendChild(productName);
-      const productPrice = document.createElement("h4");
+      const productPrice = document.createElement("h1");
+      productPrice.style.fontSize = "1rem";
       productPrice.textContent = `NGN ₦${formatter.format(
         product.data().price
       )}`;
@@ -214,6 +217,26 @@ async function renderLaptops() {
     });
     productTray.appendChild(productWrapper);
     productsContainer.appendChild(productTray);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function cartIconCount(uid) {
+  try {
+    const q = query(collection(database, "users/" + uid + "/cart"));
+    const querySnapshot = await getDocs(q);
+    const items = querySnapshot.docs;
+    let count = 0;
+
+    for (let i = 0; i < items.length; i++) {
+      count++;
+    }
+    if (count > 0) {
+      document.querySelector(".cart-count").style.display = "flex";
+      cartcount.textContent = count;
+      return;
+    }
   } catch (error) {
     console.log(error);
   }
@@ -235,6 +258,7 @@ async function renderPhones() {
     const productCategoryWrapper = document.createElement("div");
     const productCategory = document.createElement("h1");
     productCategory.textContent = "Mobile Phones";
+    productCategory.style.fontSize = "1.5rem";
     productCategoryWrapper.appendChild(productCategory);
     productTray.appendChild(productCategoryWrapper);
     const productWrapper = document.createElement("div");
@@ -261,9 +285,11 @@ async function renderPhones() {
       productImg.alt = product.data().productName;
       productCard.appendChild(productImg);
       const productName = document.createElement("span");
+      productName.style.fontSize = "0.875rem";
       productName.textContent = product.data().productName;
       productCard.appendChild(productName);
       const productPrice = document.createElement("h4");
+      productPrice.style.fontSize = "1rem";
       productPrice.textContent = `NGN ₦${formatter.format(
         product.data().price
       )}`;

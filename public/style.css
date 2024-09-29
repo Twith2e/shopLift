@@ -142,7 +142,7 @@ select {
 
 .authlinkwrapper a {
   color: #fb8d28;
-  font-size: 0.75rem;
+  font-size: 0.875rem;
 }
 
 .leftnav {
@@ -152,7 +152,7 @@ select {
 }
 
 .leftnav a {
-  font-size: 0.75rem;
+  font-size: 0.875rem;
 }
 
 .cart {
@@ -167,7 +167,7 @@ select {
   background-color: #28a745;
   border-radius: 50%;
   color: #fff;
-  display: flex;
+  display: none;
   height: 1em;
   justify-content: center;
   position: absolute;
@@ -343,7 +343,7 @@ select {
 .grid {
   display: grid;
   gap: 20px;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 90px 1fr;
 }
 
 .sign-out {

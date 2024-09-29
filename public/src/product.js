@@ -245,7 +245,7 @@ async function checkCart() {
 }
 
 async function addToCart() {
-  user = auth.currentUser;
+  const user = auth.currentUser;
   if (!isInCart) {
     if (user) {
       const userId = user.uid;
@@ -355,7 +355,11 @@ async function cartIconCount(uid) {
     for (let i = 0; i < items.length; i++) {
       count++;
     }
-    cartcount.textContent = count;
+    if (count > 0) {
+      document.querySelector(".cart-count").style.display = "flex";
+      cartcount.textContent = count;
+      return;
+    }
   } catch (error) {
     console.log(error);
   }
