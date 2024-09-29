@@ -9,7 +9,7 @@ import {
   RecaptchaVerifier,
   signInWithPhoneNumber,
 } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
-import { CONFIG } from "../src/config.js";
+import { CONFIG } from "./config.js";
 
 const firebaseConfig = {
   apiKey: CONFIG.apiKey,

@@ -328,7 +328,7 @@ select {
   padding: 2px;
 }
 
-@media (max-width: 674px) {
+@media (max-width: 42.1875rem) {
   .none {
     display: none;
   }

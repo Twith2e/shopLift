@@ -20,7 +20,7 @@ import {
   ref,
 } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-storage.js";
 
-import { CONFIG } from "../src/config.js";
+import { CONFIG } from "./config.js";
 
 const firebaseConfig = {
   apiKey: CONFIG.apiKey,
