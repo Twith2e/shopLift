@@ -188,7 +188,6 @@ async function renderLaptops() {
       productCard.addEventListener("click", () => {
         location.href = `product.html?productId=${product.id}`;
       });
-      productCard.classList.add("product-card");
       const productImg = document.createElement("img");
       productImg.className = "product-img";
       const imgRef = ref(storage, `${product.data().productImg}`);

@@ -19,7 +19,6 @@ import {
   getDownloadURL,
   ref,
 } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-storage.js";
-
 import { CONFIG } from "./config.js";
 
 const firebaseConfig = {

@@ -35,7 +35,9 @@ const auth = getAuth();
 const database = getFirestore();
 const storage = getStorage();
 
+const similarProducts = [];
 let isInCart = false;
+let isShown = false;
 const formatter = Intl.NumberFormat("en-NG");
 const productId = getProductIdFromUrl();
 const productName = document.getElementById("productname");
@@ -44,6 +46,9 @@ const condition = document.getElementById("condition");
 const cartBtn = document.getElementById("cartbtn");
 const searchBtn = document.getElementById("searchbtn");
 const searchInput = document.getElementById("search");
+const seller = document.getElementById("seller");
+const delivery = document.getElementById("delivery");
+const similarItemsContainer = document.getElementById("s-i-tray");
 
 onAuthStateChanged(auth, (user) => {
   if (user) {
@@ -54,9 +59,21 @@ onAuthStateChanged(auth, (user) => {
     checkCart();
     cartIconCount(user.uid);
     authDisplay.innerHTML = `
-    <p>welcome ${user.displayName.split(" ")[0]}</p>
-    <button id="signOut">Sign out</button>
+    <p id="userDd">Hi ${user.displayName.split(" ")[0]}</p>
+    <div class="sign-out">
+      <button id="signOut">Sign out</button>
+    </div>
     `;
+    userDd.style.cursor = "pointer";
+    userDd.addEventListener("click", () => {
+      if (!isShown) {
+        document.querySelector(".sign-out").style.display = "flex";
+        isShown = true;
+      } else {
+        document.querySelector(".sign-out").style.display = "none";
+        isShown = false;
+      }
+    });
     const signOutBtn = document.getElementById("signOut");
     signOutBtn.addEventListener("click", () => {
       if (confirm("Do you want to sign out")) {
@@ -75,7 +92,37 @@ onAuthStateChanged(auth, (user) => {
 
 renderProduct();
 
+function createSkeletonItem() {
+  const skeletonItem = document.createElement("div");
+  skeletonItem.classList.add("product-card", "skeleton");
+
+  const imgSkeleton = document.createElement("div");
+  imgSkeleton.classList.add("skeleton-img", "product-img");
+  skeletonItem.appendChild(imgSkeleton);
+
+  const nameSkeleton = document.createElement("div");
+  nameSkeleton.classList.add("skeleton-text");
+  skeletonItem.appendChild(nameSkeleton);
+
+  const priceSkeleton = document.createElement("div");
+  priceSkeleton.classList.add("skeleton-text");
+  skeletonItem.appendChild(priceSkeleton);
+
+  return skeletonItem;
+}
+
+function createSimilarProductsSkeleton(count) {
+  const container = document.createElement("div");
+  container.classList.add("product-wrapper");
+  for (let i = 0; i < count; i++) {
+    const skeletonItem = createSkeletonItem();
+    container.appendChild(skeletonItem);
+  }
+  return container;
+}
+
 async function renderProduct() {
+  similarItemsContainer.appendChild(createSimilarProductsSkeleton(4));
   try {
     const productRef = doc(database, "products/" + productId);
     const productSnapshot = await getDoc(productRef);
@@ -101,6 +148,47 @@ async function renderProduct() {
       await Promise.all(imagePromises);
       initCarousel();
 
+      const q = query(
+        collection(database, "products"),
+        where("category", "==", `${product.category}`)
+      );
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        const similarProduct = doc.data();
+        if (similarProduct.productName !== product.productName) {
+          similarProducts.push(similarProduct);
+        }
+      });
+
+      similarProducts.forEach((similarProduct) => {
+        const similarItem = document.createElement("div");
+        similarItem.classList.add("product-card");
+        const img = document.createElement("img");
+        const imgRef = ref(storage, similarProduct.productImages[0]);
+        getDownloadURL(imgRef).then((url) => {
+          img.src = url;
+          img.className = "product-img";
+        });
+        similarItem.appendChild(img);
+        const name = document.createElement("p");
+        name.textContent = similarProduct.productName;
+        similarItem.appendChild(name);
+        const price = document.createElement("h4");
+        price.textContent = `NGN ₦${formatter.format(similarProduct.price)}`;
+        similarItem.appendChild(price);
+
+        const skeletonItem = similarItemsContainer.querySelector(".skeleton");
+        if (skeletonItem) {
+          similarItemsContainer.innerHTML = "";
+          similarItemsContainer.appendChild(similarItem);
+        } else {
+          similarItemsContainer.appendChild(similarItem);
+        }
+      });
+      const userRef = doc(database, "users", product.owner);
+      const userSnapshot = await getDoc(userRef);
+      const user = userSnapshot.data();
+      seller.textContent = user.userName;
       productName.textContent = product.productName;
       productPrice.textContent = `NGN ₦${formatter.format(product.price)}`;
       condition.textContent = product.condition;
@@ -114,6 +202,7 @@ async function renderProduct() {
     console.log(error);
   }
 }
+
 function initCarousel() {
   const carousel = document.getElementById("productCarousel");
   const items = carousel.querySelectorAll(".carousel-item");
@@ -156,19 +245,15 @@ async function checkCart() {
 }
 
 async function addToCart() {
-  const user = auth.currentUser;
+  user = auth.currentUser;
   if (!isInCart) {
     if (user) {
-      console.log(user);
-
       const userId = user.uid;
       try {
         const productId = getProductIdFromUrl();
         const productRef = doc(database, "products/" + productId);
         const productSnapshot = await getDoc(productRef);
         const product = productSnapshot.data();
-        console.log(`%c${productId}`, "color: red");
-
         const q = query(
           collection(database, "users/" + userId + "/cart"),
           where("productId", "==", productId)
@@ -204,7 +289,7 @@ async function addToCart() {
         console.log(error);
       }
     } else {
-      console.log("please login to add to cart");
+      alert("please login to add to cart");
     }
   } else {
     location.href = `cart.html`;
@@ -274,6 +359,36 @@ async function cartIconCount(uid) {
   } catch (error) {
     console.log(error);
   }
+}
+
+function getEstimatedDeliveryDates() {
+  const today = new Date();
+  const threeDaysLater = new Date(today.setDate(today.getDate() + 3));
+  const fourDaysLater = new Date(today.setDate(today.getDate() + 1));
+
+  const options = { weekday: "short", month: "short", day: "numeric" };
+
+  return {
+    threeDays: threeDaysLater.toLocaleDateString("en-NG", options),
+    fourDays: fourDaysLater.toLocaleDateString("en-NG", options),
+  };
+}
+
+delivery.textContent =
+  "Estimated between" +
+  " " +
+  getEstimatedDeliveryDates().threeDays +
+  " - " +
+  getEstimatedDeliveryDates().fourDays;
+
+function showError(message) {
+  Swal.fire({
+    background: "#dc3",
+    color: "#fff",
+    position: "top",
+    showConfirmButton: false,
+    text: `${message}`,
+  });
 }
 
 function showSuccess(message) {

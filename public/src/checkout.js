@@ -1,4 +1,28 @@
-(function () {
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+import {
+  getAuth,
+  onAuthStateChanged,
+} from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
+import { CONFIG } from "./config";
+
+const firebaseConfig = {
+  apiKey: CONFIG.apiKey,
+  authDomain: CONFIG.authDomain,
+  databaseURL: CONFIG.databaseURL,
+  projectId: CONFIG.projectId,
+  storageBucket: CONFIG.storageBucket,
+  messagingSenderId: CONFIG.messagingSenderId,
+  appId: CONFIG.appId,
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth();
+
+onAuthStateChanged(auth, (user) => {
+  if (!user) {
+    window.location.href = "login.html";
+  }
+})(function () {
   emailjs.init({ publicKey: "pZeVBA8Xt9mOrjobf" });
 })();
 
