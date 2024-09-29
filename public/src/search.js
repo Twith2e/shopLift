@@ -10,7 +10,6 @@ import {
   getDoc,
   getDocs,
   doc,
-  setDoc,
   query,
   where,
 } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";

@@ -9,11 +9,7 @@ import {
 import {
   getFirestore,
   collection,
-  addDoc,
-  getDoc,
   getDocs,
-  doc,
-  setDoc,
   query,
   where,
   deleteDoc,
@@ -41,19 +37,42 @@ const auth = getAuth();
 const database = getFirestore();
 const storage = getStorage();
 
+let isShown = false;
 let itemCount = 0;
 let priceArray = [];
 let total = 0;
 const formatter = Intl.NumberFormat("en-NG");
 const aIC = document.getElementById("aic");
 const checkoutBtns = document.querySelectorAll("#checkout");
+const authDisplay = document.getElementById("authdisplay");
+const menuBtn = document.getElementById("menu");
+const closeBtn = document.getElementById("closebtn");
+const sideMenu = document.getElementById("sidemenu");
+const authWrapper = document.getElementById("auth");
+const searchBtn = document.getElementById("searchbtn");
+const searchIcon = document.getElementById("searchicon");
 
 onAuthStateChanged(auth, (user) => {
   if (!user) {
     location.href = "signup.html";
   } else {
-    console.log(auth.currentUser.uid);
-
+    authWrapper.innerHTML = `<button id="signoutbtn" class="sign-out-btn">Sign Out</button>`;
+    authDisplay.innerHTML = `
+    <p id="userDd">Hi ${user.displayName.split(" ")[0]}</p>
+    <div class="sign-out">
+      <button id="signOut">Sign out</button>
+    </div>
+    `;
+    userDd.style.cursor = "pointer";
+    userDd.addEventListener("click", () => {
+      if (!isShown) {
+        document.querySelector(".sign-out").style.display = "flex";
+        isShown = true;
+      } else {
+        document.querySelector(".sign-out").style.display = "none";
+        isShown = false;
+      }
+    });
     updateItemCount(auth.currentUser.uid);
     renderItems(auth.currentUser.uid);
     getPrice(auth.currentUser.uid).then((price) => {
@@ -63,13 +82,19 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
+searchIcon.addEventListener("click", () => {
+  document.querySelector(".sm-search-nav").style.display = "block";
+});
+
+document.getElementById("close").addEventListener("click", () => {
+  document.querySelector(".sm-search-nav").style.display = "none";
+});
+
 async function updateItemCount(uid) {
   try {
     const q = query(collection(database, "users/" + uid + "/cart"));
     const querySnapshot = await getDocs(q);
     const items = querySnapshot.docs;
-
-    console.log(items);
     console.log(querySnapshot);
 
     if (items) {
@@ -84,6 +109,51 @@ async function updateItemCount(uid) {
   } catch (error) {
     console.log(error);
   }
+}
+
+document.body.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    const searchInput = document.getElementById("search");
+    const searchValue = searchInput.value.trim();
+    searchProductsByInput(searchValue);
+  }
+});
+
+searchBtn.addEventListener("click", () => {
+  const searchInput = document.getElementById("search");
+  const searchValue = searchInput.value.trim();
+  searchProductsByInput(searchValue);
+});
+
+async function searchProductsByInput(searchTerm) {
+  const lowercaseSearchTerm = searchTerm.toLowerCase();
+
+  const productsRef = collection(database, "products");
+  const querySnapshot = await getDocs(productsRef);
+
+  const matchingProducts = [];
+
+  querySnapshot.forEach((doc) => {
+    const product = doc.data();
+    const productName = product.productName.toLowerCase();
+    const brand = product.brand.toLowerCase();
+    const category = product.category.toLowerCase();
+
+    if (
+      productName.includes(lowercaseSearchTerm) ||
+      brand.includes(lowercaseSearchTerm) ||
+      category.includes(lowercaseSearchTerm)
+    ) {
+      matchingProducts.push(doc.id);
+    }
+  });
+
+  localStorage.setItem("searchTerm", searchTerm);
+  console.log(searchTerm);
+
+  console.log(matchingProducts);
+  location.href = "search.html?searchTerm=" + matchingProducts;
+  return matchingProducts;
 }
 
 async function renderItems(uid) {
@@ -167,7 +237,7 @@ async function renderItems(uid) {
 
             cartitemtotalprice.textContent = `NGN ₦${formatter.format(total)}`;
             price.textContent = `NGN ₦${formatter.format(total)}`;
-
+            location.reload();
             sessionStorage.setItem("price", total.toString());
           } catch (error) {
             console.error("Error removing document: ", error);
@@ -211,3 +281,11 @@ async function getPrice(uid) {
     return 0;
   }
 }
+
+menuBtn.addEventListener("click", () => {
+  sideMenu.style.left = "0";
+});
+
+closeBtn.addEventListener("click", () => {
+  sideMenu.style.left = "-100%";
+});

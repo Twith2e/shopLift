@@ -4,8 +4,48 @@ nav {
   justify-content: space-between;
 }
 
+.sm-search-nav {
+  background-color: #fff;
+  display: none;
+  height: 100%;
+  left: 0;
+  padding: 10px 20px;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 999;
+}
+
+.search-wrapper {
+  border: 1px solid #777;
+  display: flex;
+  height: fit-content;
+  margin-top: 20px;
+}
+
+.search-wrapper input {
+  border: none;
+  outline: none;
+  padding: 5px 10px;
+  width: 91%;
+}
+
+.search-icon {
+  align-items: center;
+  background-color: #fb8d28;
+  display: flex;
+  justify-content: center;
+  padding: 5px 0;
+  width: 9%;
+}
+
+.md-nav,
+.sb {
+  display: none;
+}
+
 .body-container {
-  padding: 10px 50px;
+  padding: 10px 20px;
 }
 
 .main-container {
@@ -92,8 +132,142 @@ nav {
   gap: 10px;
 }
 
+.sign-out-btn {
+  background-color: transparent;
+  border: none;
+  color: #fb8d28;
+  cursor: pointer;
+}
+
+ul {
+  border-bottom: 1px solid #ccc;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-bottom: 20px;
+}
+
+li {
+  list-style: none;
+}
+
+li a {
+  color: #000;
+  text-decoration: none;
+}
+
+.sidemenu {
+  background-color: #fff;
+  left: -100%;
+  height: 100vh;
+  padding: 20px;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 9999;
+}
+
+.r-s-i-wrapper {
+  display: none;
+}
+
+@media (min-width: 31.2rem) {
+  .body-container {
+    padding-inline: 50px;
+  }
+}
+
 @media (min-width: 48rem) {
-  .c-O {
+  .md-nav,
+  .sb {
+    display: flex;
+  }
+
+  .sb {
+    border-bottom: 1px solid #999;
+    border-top: 1px solid #999;
+    padding-block: 10px;
+  }
+
+  .searchbar {
+    align-items: center;
+    border: 2px solid #000;
+    border-radius: 40px;
+    display: flex;
+    max-width: 100%;
+    margin: 0 auto;
+    min-width: 200px;
+    padding-inline: 20px;
+    width: 70%;
+  }
+
+  .search {
+    border: none;
+    font-size: 20px;
+    height: 100%;
+    outline: none;
+    padding: 10px;
+    width: 100%;
+  }
+
+  .search::placeholder {
+    font-size: 15px;
+  }
+
+  .searchbtn {
+    background-color: #fb8d28;
+    border: none;
+    border-radius: 30px;
+    color: #fff;
+    padding: 10px 40px;
+  }
+
+  .authlinkwrapper {
+    align-items: center;
+    display: flex;
+    gap: 30px;
+    position: relative;
+  }
+
+  .authlinkwrapper a {
+    color: #fb8d28;
+    font-size: 0.875rem;
+    text-decoration: none;
+  }
+
+  .sign-out {
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+    bottom: -40px;
+    display: none;
+    padding: 5px;
+    position: absolute;
+    width: 100%;
+  }
+
+  .sign-out button {
+    background: transparent;
+    border: none;
+    color: #000;
+    cursor: pointer;
+    padding: 2px;
+  }
+
+  .leftnav {
+    align-items: center;
+    display: flex;
+    gap: 30px;
+  }
+
+  .leftnav a {
+    color: #000;
+    font-size: 0.875rem;
+    text-decoration: none;
+  }
+
+  .c-O,
+  .sm-nav {
     display: none;
   }
 
