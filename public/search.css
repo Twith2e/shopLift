@@ -1,8 +1,17 @@
+@font-face {
+  font-family: "priceFont";
+  src: url(assets/helvetica-neue-5/HelveticaNeueLight.otf);
+}
+
+.body-wrapper {
+  padding-inline: 20px;
+}
+
 .sm-nav {
   align-items: center;
   display: flex;
   justify-content: space-between;
-  padding: 10px 20px;
+  padding-block: 10px;
   position: relative;
 }
 
@@ -14,7 +23,14 @@
 
 .sm-search-nav {
   border-bottom: 1px solid #777;
-  padding: 0 20px 30px 20px;
+  padding: 0 0 30px 0;
+}
+
+.sb-nav {
+  align-items: center;
+  display: none;
+  justify-content: space-between;
+  padding-block: 10px;
 }
 
 .search-wrapper {
@@ -37,6 +53,48 @@
   justify-content: center;
   padding: 5px;
   width: 10%;
+}
+
+.sb {
+  border-bottom: 1px solid #999;
+  border-top: 1px solid #999;
+}
+
+.r-s-i-wrapper {
+  display: none;
+}
+
+.searchbar {
+  align-items: center;
+  border: 2px solid #000;
+  border-radius: 40px;
+  display: flex;
+  max-width: 100%;
+  margin: 0 auto;
+  min-width: 200px;
+  padding-inline: 20px;
+  width: 70%;
+}
+
+.search {
+  border: none;
+  font-size: 20px;
+  height: 100%;
+  outline: none;
+  padding: 10px;
+  width: 100%;
+}
+
+.search::placeholder {
+  font-size: 15px;
+}
+
+.searchbtn {
+  background-color: #fb8d28;
+  border: none;
+  border-radius: 30px;
+  color: #fff;
+  padding: 10px 40px;
 }
 
 .md-nav {
@@ -74,7 +132,11 @@
   display: grid;
   gap: 2%;
   grid-template-columns: 40% 58%;
-  padding: 15px;
+  padding-block: 15px;
+}
+
+.price {
+  font-family: priceFont, sans-serif;
 }
 
 .sign-out-btn {
@@ -137,7 +199,7 @@ button {
 
 .loader-overlay {
   align-items: center;
-  /* background-color: rgba(255, 255, 255, 0.9); */
+  background-color: rgba(255, 255, 255, 0.9);
   display: flex;
   height: 100%;
   justify-content: center;
@@ -145,12 +207,18 @@ button {
   position: absolute;
   top: 0;
   width: 100%;
-  /* z-index: 9999; */
 }
 
 .searched {
   height: 100vh;
   position: relative;
+}
+
+@media (min-width: 56.25rem) {
+  .searched {
+    display: grid;
+    grid-template-columns: 50% 50%;
+  }
 }
 
 @media (min-width: 48rem) {
@@ -159,9 +227,18 @@ button {
     display: none;
   }
 
-  .md-nav {
+  .sb-nav {
     display: flex;
-    padding: 5px 20px;
+  }
+
+  .md-nav {
+    align-items: center;
+    display: flex;
+    padding-block: 5px;
+  }
+
+  .body-wrapper {
+    padding-inline: 60px;
   }
 
   .right-md-nav {

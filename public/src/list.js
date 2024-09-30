@@ -34,18 +34,6 @@ onAuthStateChanged(auth, (user) => {
     searchBtn.addEventListener("click", () => {
       write();
     });
-    async function write() {
-      try {
-        const docRef = await addDoc(collection(database, "products"), {
-          first: "Ada",
-          last: "Lovelace",
-          born: 1815,
-        });
-        console.log("Document written with ID: ", docRef.id);
-      } catch (e) {
-        console.error("Error adding document: ", e);
-      }
-    }
   } else {
     console.log("No user signed in");
     // Redirect to sign-in page or show an error

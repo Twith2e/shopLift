@@ -41,7 +41,7 @@ const formatter = Intl.NumberFormat("en-NG");
 const authDisplay = document.getElementById("authdisplay");
 const loginBtn = document.getElementById("login");
 const productsContainer = document.getElementById("products-container");
-const searchBtn = document.getElementById("searchbtn");
+const searchBtns = document.querySelectorAll("#searchbtn");
 const categoryLinks = document.getElementById("categorylinks");
 
 let uid;
@@ -111,6 +111,7 @@ function renderCategories() {
       const link = document.createElement("a");
       link.href = `search.html?category=${doc.data().name}`;
       link.textContent = doc.data().name;
+      link.style.color = "#fb8d28";
       div.appendChild(link);
       categoryLinks.appendChild(div);
     });
@@ -192,7 +193,7 @@ async function renderLaptops() {
       });
       const productImg = document.createElement("img");
       productImg.className = "product-img";
-      const imgRef = ref(storage, `${product.data().productImg}`);
+      const imgRef = ref(storage, `${product.data().productImages[0]}`);
       getDownloadURL(imgRef)
         .then((ref) => {
           productImg.src = ref;
@@ -315,10 +316,12 @@ document.body.addEventListener("keydown", (e) => {
   }
 });
 
-searchBtn.addEventListener("click", () => {
-  const searchInput = document.getElementById("search");
-  const searchValue = searchInput.value.trim();
-  searchProductsByInput(searchValue);
+searchBtns.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const searchInput = document.getElementById("search");
+    const searchValue = searchInput.value.trim();
+    searchProductsByInput(searchValue);
+  });
 });
 
 async function searchProductsByInput(searchTerm) {

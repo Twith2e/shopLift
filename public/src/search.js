@@ -136,14 +136,21 @@ function fetchItems(productID) {
           location.href = `product.html?productId=${productRef.id}`;
         });
         const imgDiv = document.createElement("div");
-        imgDiv.style.height = "150px";
+        imgDiv.style.height = "250px";
         imgDiv.style.borderRadius = "5px";
         const descDiv = document.createElement("div");
-        const header = document.createElement("h2");
+        descDiv.style.display = "flex";
+        descDiv.style.flexDirection = "column";
+        descDiv.style.gap = "20px";
+        const header = document.createElement("p");
+        header.style.fontSize = "1rem";
         const features = document.createElement("span");
         features.style.display = "flex";
         features.style.gap = "10px";
-        const price = document.createElement("h1");
+        const price = document.createElement("p");
+        price.style.fontSize = "1.5rem";
+        price.style.fontWeight = "700";
+        price.classList.add("price");
 
         const img = document.createElement("img");
         img.style.width = "100%";

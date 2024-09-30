@@ -282,6 +282,8 @@ async function getPrice(uid) {
   }
 }
 
+sideMenu.style.transition = "left 1s ease";
+
 menuBtn.addEventListener("click", () => {
   sideMenu.style.left = "0";
 });
