@@ -155,7 +155,7 @@ async function renderProduct() {
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
         const similarProduct = doc.data();
-        if (similarProduct.productName !== product.productName) {
+        if (similarProduct.productID !== product.productID) {
           similarProducts.push(similarProduct);
         }
       });
@@ -272,12 +272,10 @@ async function addToCart() {
             productPrice: product.price,
             productImg: product.productImages[0],
             condition: product.condition,
+            quantity: product.quantity,
           };
           addDoc(cartRef, cartItem)
             .then(() => {
-              setInterval(() => {
-                location.href = "cart.html";
-              }, 1000);
               showSuccess("product added to cart");
             })
             .catch((error) => {

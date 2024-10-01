@@ -171,6 +171,25 @@ li a {
   display: none;
 }
 
+.qty {
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  display: flex;
+  gap: 10px;
+  padding-inline: 10px;
+  width: fit-content;
+}
+
+.qty span {
+  font-size: 0.875rem;
+}
+
+.qty-btn {
+  background: none;
+  border: none;
+}
+
 @media (min-width: 31.2rem) {
   .body-container {
     padding-inline: 50px;

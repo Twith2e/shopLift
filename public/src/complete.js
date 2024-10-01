@@ -8,6 +8,7 @@ import {
   getFirestore,
   collection,
   addDoc,
+  updateDoc,
 } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 import {
   getAuth,
@@ -372,25 +373,33 @@ priceInput.addEventListener("input", () => {
   priceInput.value = formatter.format(priceInput.value);
 });
 
+function allImagesSelected() {
+  return (
+    document.getElementById("inputimg").src &&
+    document.getElementById("inputimg0").src &&
+    document.getElementById("inputimg1").src &&
+    document.getElementById("inputimg2").src
+  );
+}
+
 listBtn.addEventListener("click", () => {
-  if (
-    !document.getElementById("inputimg").src ||
-    !document.getElementById("inputimg0").src ||
-    !document.getElementById("inputimg1").src ||
-    !document.getElementById("inputimg2").src
-  ) {
-    console.log(productImg.value);
-    showError("fill in pictures for your product");
+  if (!allImagesSelected()) {
+    showError("Please select all 4 required product images");
   } else if (
     document.getElementById("old").checked === false &&
     document.getElementById("new").checked === false
   ) {
-    showError("fill all inputs and check all checkboxes");
+    showError("Please select the product condition (new or pre-owned)");
   } else if (!priceInput.value) {
-    showError("set a price");
+    showError("Please set a price for your product");
   } else if (!descField.value) {
-    showError("fill the description field");
+    showError("Please fill in the product description");
+  } else if (!brandInput.value) {
+    showError("Please fill the brand");
+  } else if (!qty.value) {
+    showError("please specify the quantity you are listing");
   } else {
+    // Proceed with listing the product
     if (document.getElementById("new").checked) {
       productDetails.condition = "new";
     } else {
@@ -411,13 +420,16 @@ listBtn.addEventListener("click", () => {
       let descriptions = [];
 
       for (let j = 0; j < inputs.length; j++) {
-        descriptions.push(inputs[j].value);
+        if (inputs[j].value) {
+          descriptions.push(inputs[j].value);
+        }
       }
-
-      tempStore.push({
-        title,
-        desc: descriptions,
-      });
+      if (title !== "") {
+        tempStore.push({
+          title,
+          desc: descriptions,
+        });
+      }
     }
     productDetails.additionalFeatures = tempStore;
     productDetails.searchableFields = [
@@ -432,16 +444,21 @@ listBtn.addEventListener("click", () => {
     console.log(productImg.value);
   }
 });
-
 const addProduct = async () => {
   console.log(productDetails);
 
-  await addDoc(collection(database, "products"), productDetails).then(() => {
-    console.log("Document written with ID: ");
-  });
+  const docRef = await addDoc(collection(database, "products"), productDetails);
+  const newProductId = docRef.id;
+
+  // Update productDetails with the new ID
+  productDetails.productID = newProductId;
+
+  // Update the document with the new productID field
+  await updateDoc(docRef, { productID: newProductId });
+
+  console.log("Document written with ID: ", newProductId);
   showSuccess("Product added");
 };
-
 // async function test() {
 //   const docRef = doc(database, "users/" + auth.currentUser.uid);
 //   const docSnap = await getDoc(docRef);

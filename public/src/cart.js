@@ -56,6 +56,16 @@ onAuthStateChanged(auth, (user) => {
   if (!user) {
     location.href = "signup.html";
   } else {
+    checkoutBtns.forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        if (user) {
+          location.replace("checkout.html");
+        } else {
+          location.replace("login.html");
+        }
+      });
+    });
     authWrapper.innerHTML = `<button id="signoutbtn" class="sign-out-btn">Sign Out</button>`;
     authDisplay.innerHTML = `
     <p id="userDd">Hi ${user.displayName.split(" ")[0]}</p>
@@ -75,9 +85,6 @@ onAuthStateChanged(auth, (user) => {
     });
     updateItemCount(auth.currentUser.uid);
     renderItems(auth.currentUser.uid);
-    getPrice(auth.currentUser.uid).then((price) => {
-      sessionStorage.setItem("price", price);
-    });
     sessionStorage.setItem("mail", auth.currentUser.email);
   }
 });
@@ -166,9 +173,9 @@ async function renderItems(uid) {
     console.log(querySnapshot);
 
     if (items) {
+      let totalDesiredQty = 1;
       items.forEach((doc) => {
         console.log(doc.data());
-        priceArray.push(doc.data().productPrice);
         const mainWrapper = document.createElement("div");
         mainWrapper.className = "main-wrapper";
         const itemWrapper = document.createElement("div");
@@ -185,9 +192,77 @@ async function renderItems(uid) {
         itemName.textContent = doc.data().productName;
         const condition = document.createElement("span");
         condition.textContent = doc.data().condition;
-        const qty = document.createElement("span");
+        const qty = document.createElement("div");
+        qty.classList.add("qty");
+        const qtyElement = `<button id="minus" class="qty-btn"><svg xmlns="http://www.w3.org/2000/svg" height="15" viewBox="0 -960 960 960" width="15" fill="#fb8d28"><path d="M200-440v-80h560v80H200Z"/></svg></button>
+                            <span id="dqty">1</span>
+                            <button id="plus" class="qty-btn" disabled="true">
+                              <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="15" height="12" viewBox="0 0 24 24" fill="#fb8d28">
+                                <path fill-rule="evenodd" d="M 11 2 L 11 11 L 2 11 L 2 13 L 11 13 L 11 22 L 13 22 L 13 13 L 22 13 L 22 11 L 13 11 L 13 2 Z"></path>
+                              </svg>
+                            </button>
+                            `;
+        qty.innerHTML = qtyElement;
+        const desiredQty = qty.querySelector("#dqty");
+        const plus = qty.querySelector("#plus");
+        const minus = qty.querySelector("#minus");
+
+        plus.disabled = false; // Enable the plus button initially
+
+        plus.addEventListener("click", () => {
+          let currentQty = parseInt(desiredQty.textContent);
+          let totalQty = doc.data().quantity;
+          if (currentQty < totalQty) {
+            currentQty++;
+            desiredQty.textContent = currentQty;
+            totalDesiredQty = currentQty;
+            minus.disabled = false;
+            updatePrice();
+            updateTotalCartPrice();
+          }
+          if (currentQty >= totalQty) {
+            plus.disabled = true;
+          }
+        });
+
+        minus.addEventListener("click", () => {
+          let currentQty = parseInt(desiredQty.textContent);
+          if (currentQty > 1) {
+            currentQty--;
+            desiredQty.textContent = currentQty;
+            totalDesiredQty = currentQty;
+            plus.disabled = false;
+            updatePrice();
+            updateTotalCartPrice();
+          }
+          if (currentQty <= 1) {
+            minus.disabled = true;
+          }
+        });
+
+        function updatePrice() {
+          const PRICE_AS_INT = Number(doc.data().productPrice);
+          const totalPrice = PRICE_AS_INT * totalDesiredQty;
+          price.textContent = `NGN ₦${formatter.format(totalPrice)}`;
+        }
+
+        function updateTotalCartPrice() {
+          const priceElements = document.querySelectorAll(
+            ".about-item span:last-child"
+          );
+          total = Array.from(priceElements).reduce((acc, priceElement) => {
+            const priceText = priceElement.textContent.replace(/[^0-9]/g, "");
+            return acc + parseInt(priceText, 10);
+          }, 0);
+          sessionStorage.setItem("price", total);
+          document.getElementById("price").innerHTML = `NGN ₦${formatter.format(
+            total
+          )}`;
+          console.log(total);
+          console.log(cartitemtotalprice);
+        }
         const price = document.createElement("span");
-        price.textContent = `NGN ₦${formatter.format(doc.data().productPrice)}`;
+        updatePrice();
         div.appendChild(itemName);
         div.appendChild(condition);
         div.appendChild(qty);
@@ -247,12 +322,8 @@ async function renderItems(uid) {
         mainWrapper.appendChild(itemWrapper);
         mainWrapper.appendChild(removeWrapper);
         aIC.appendChild(mainWrapper);
+        updateTotalCartPrice();
       });
-      priceArray.forEach((price) => {
-        total = +price + total;
-      });
-      cartitemtotalprice.textContent = `NGN ₦${formatter.format(total)}`;
-      price.textContent = `NGN ₦${formatter.format(total)}`;
     }
   } catch (error) {
     console.log(error);
@@ -282,7 +353,7 @@ async function getPrice(uid) {
   }
 }
 
-sideMenu.style.transition = "left 1s ease";
+sideMenu.style.transition = "left 0.5s ease";
 
 menuBtn.addEventListener("click", () => {
   sideMenu.style.left = "0";

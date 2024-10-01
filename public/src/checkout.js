@@ -3,7 +3,7 @@ import {
   getAuth,
   onAuthStateChanged,
 } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
-import { CONFIG } from "./config";
+import { CONFIG } from "../src/config.js";
 
 const firebaseConfig = {
   apiKey: CONFIG.apiKey,
@@ -18,11 +18,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 
-onAuthStateChanged(auth, (user) => {
-  if (!user) {
-    window.location.href = "login.html";
-  }
-})(function () {
+(function () {
   emailjs.init({ publicKey: "pZeVBA8Xt9mOrjobf" });
 })();
 
@@ -142,3 +138,9 @@ function confirm(message) {
     cancelButtonAriaLabel: "Thumbs down",
   });
 }
+
+onAuthStateChanged(auth, (user) => {
+  if (!user) {
+    window.location.href = "login.html";
+  }
+});
