@@ -24,9 +24,7 @@
     <header class="complete-header">
       <nav>
         <div>
-          <a href="index.html"
-            ><img src="assets/shoplift-logo.png" alt="logo"
-          /></a>
+          <a href="index.html">logo</a>
         </div>
       </nav>
     </header>
@@ -59,7 +57,7 @@
                 </svg>
               </div>
             </div>
-            <button class="delete-wrapper">
+            <button class="delete-wrapper" id="delall">
               <p
                 style="
                   display: flex;
@@ -209,7 +207,7 @@
               <input type="text" value="Quantity" readonly />
             </div>
             <div>
-              <input type="number" />
+              <input min="1" type="number" />
             </div>
           </div>
         </div>
@@ -235,7 +233,6 @@
               </svg>
             </div>
           </div>
-
           <div class="brandcontainer1" id="brandcontainer1">
             <div>
               <input id="ftitle0" type="text" />
@@ -249,14 +246,14 @@
         <div class="condition">
           <div><h3>CONDITION</h3></div>
           <div><h3>Item condition</h3></div>
-          <div>
+          <div style="display: flex; gap: 20px">
             <label for="new">
               <input type="radio" name="condition" id="new" value="new" />
               <span>New</span>
             </label>
             <label for="used">
               <input type="radio" name="condition" id="old" value="old" />
-              <span>Used</span>
+              <span>Pre-Owned</span>
             </label>
           </div>
         </div>
@@ -279,10 +276,6 @@
               ><input class="numberdigit" id="digitinput" type="text"
             /></span>
           </div>
-          <div class="quantity">
-            <label for="">Quantity</label>
-            <input id="digitinput" type="number" value="1" />
-          </div>
         </div>
       </div>
       <div>
@@ -292,5 +285,5 @@
     <footer></footer>
   </body>
 </html>
-<script defer src="../src/complete.js" type="module"></script>
+<script defer src="src/complete.js" type="module"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

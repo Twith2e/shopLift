@@ -109,7 +109,6 @@ productImg.addEventListener("change", (e) => {
     sessionStorage.setItem("productDets", JSON.stringify(productDetails));
   });
 });
-
 document.getElementById("productimg0").addEventListener("change", (e) => {
   addImg(e, 0);
 });
@@ -190,6 +189,7 @@ document.querySelector(".editbtn2").addEventListener("mouseleave", () => {
 delBtn.addEventListener("click", () => {
   photoCounter--;
   photoCount.innerText = `${photoCounter} of 4 photo`;
+  inputimg.src = "";
   uploadLabel.style.display = "flex";
   editBtnWrapper.style.display = "none";
 });
@@ -197,6 +197,7 @@ delBtn.addEventListener("click", () => {
 document.querySelector(".delbtn0").addEventListener("click", () => {
   photoCounter--;
   photoCount.innerText = `${photoCounter} of 4 photo`;
+  inputimg0.src = "";
   document.querySelector(".editbtn0").style.display = "none";
   document.querySelector(".uploadlabel0").style.display = "flex";
 });
@@ -204,6 +205,7 @@ document.querySelector(".delbtn0").addEventListener("click", () => {
 document.querySelector(".delbtn1").addEventListener("click", () => {
   photoCounter--;
   photoCount.innerText = `${photoCounter} of 4 photo`;
+  inputimg1.src = "";
   document.querySelector(".editbtn1").style.display = "none";
   document.querySelector(".uploadlabel1").style.display = "flex";
 });
@@ -211,6 +213,30 @@ document.querySelector(".delbtn1").addEventListener("click", () => {
 document.querySelector(".delbtn2").addEventListener("click", () => {
   photoCounter--;
   photoCount.innerText = `${photoCounter} of 4 photo`;
+  inputimg2.src = "";
+  document.querySelector(".editbtn2").style.display = "none";
+  document.querySelector(".uploadlabel2").style.display = "flex";
+});
+
+document.getElementById("delall").addEventListener("click", () => {
+  photoCounter--;
+  photoCount.innerText = `${photoCounter} of 4 photo`;
+  inputimg.src = "";
+  uploadLabel.style.display = "flex";
+  editBtnWrapper.style.display = "none";
+  photoCounter--;
+  photoCount.innerText = `${photoCounter} of 4 photo`;
+  inputimg0.src = "";
+  document.querySelector(".editbtn0").style.display = "none";
+  document.querySelector(".uploadlabel0").style.display = "flex";
+  photoCounter--;
+  photoCount.innerText = `${photoCounter} of 4 photo`;
+  inputimg1.src = "";
+  document.querySelector(".editbtn1").style.display = "none";
+  document.querySelector(".uploadlabel1").style.display = "flex";
+  photoCounter--;
+  photoCount.innerText = `${photoCounter} of 4 photo`;
+  inputimg2.src = "";
   document.querySelector(".editbtn2").style.display = "none";
   document.querySelector(".uploadlabel2").style.display = "flex";
 });
@@ -368,7 +394,7 @@ listBtn.addEventListener("click", () => {
     if (document.getElementById("new").checked) {
       productDetails.condition = "new";
     } else {
-      productDetails.condition = "used";
+      productDetails.condition = "Pre-Owned";
     }
 
     productDetails.brand = brandInput.value;

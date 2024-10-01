@@ -61,6 +61,28 @@ onAuthStateChanged(auth, (user) => {
       <button id="signOut">Sign out</button>
     </div>
     `;
+    document.getElementById("signOut").addEventListener("click", () => {
+      signOut(auth)
+        .then(() => {
+          Swal.fire({
+            text: "Sign out successful",
+            showConfirmButton: false,
+            timer: 1500,
+            position: "top",
+          }).then(() => {
+            location.reload();
+          });
+        })
+        .catch((error) => {
+          Swal.fire({
+            title: "Error!",
+            text: error.message,
+            icon: "error",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        });
+    });
     userDd.style.cursor = "pointer";
     userDd.addEventListener("click", () => {
       if (!isShown) {
