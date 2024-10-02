@@ -29,14 +29,8 @@ const clearInputBtn = document.getElementById("clearinputbtn");
 const searchBtn = document.querySelector(".searchbtn");
 
 onAuthStateChanged(auth, (user) => {
-  if (user) {
-    console.log("User is signed in:", user);
-    searchBtn.addEventListener("click", () => {
-      write();
-    });
-  } else {
-    console.log("No user signed in");
-    // Redirect to sign-in page or show an error
+  if (!user) {
+    console.warn("No user is signed in");
   }
 });
 

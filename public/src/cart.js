@@ -330,29 +330,6 @@ async function renderItems(uid) {
   }
 }
 
-async function getPrice(uid) {
-  try {
-    const q = query(collection(database, "users/" + uid + "/cart"));
-    const querySnapshot = await getDocs(q);
-    const items = querySnapshot.docs;
-
-    if (items.length > 0) {
-      const total = items.reduce((acc, doc) => {
-        const price = parseFloat(doc.data().productPrice);
-        return acc + (isNaN(price) ? 0 : price);
-      }, 0);
-      console.log("Calculated total:", total);
-      return total;
-    } else {
-      console.log("No items found in cart");
-      return 0;
-    }
-  } catch (error) {
-    console.error("Error getting price:", error);
-    return 0;
-  }
-}
-
 sideMenu.style.transition = "left 0.5s ease";
 
 menuBtn.addEventListener("click", () => {

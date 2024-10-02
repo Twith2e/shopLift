@@ -76,15 +76,32 @@ onAuthStateChanged(auth, (user) => {
     });
     const signOutBtn = document.getElementById("signOut");
     signOutBtn.addEventListener("click", () => {
-      if (confirm("Do you want to sign out")) {
-        signOut(auth)
-          .then(() => {
-            alert("Sign out successful");
-            location.reload();
-          })
-          .catch((error) => {
-            alert(error);
-          });
+      confirm("Do you want to sign out?");
+
+      const confirmButton = document.querySelector(".swal2-confirm");
+      if (confirmButton) {
+        confirmButton.addEventListener("click", () => {
+          signOut(auth)
+            .then(() => {
+              Swal.fire({
+                text: "Sign out successful",
+                showConfirmButton: false,
+                timer: 1500,
+                position: "top",
+              }).then(() => {
+                location.reload();
+              });
+            })
+            .catch((error) => {
+              Swal.fire({
+                title: "Error!",
+                text: error.message,
+                icon: "error",
+                showConfirmButton: false,
+                timer: 1500,
+              });
+            });
+        });
       }
     });
   }
@@ -176,6 +193,9 @@ async function renderProduct() {
         const price = document.createElement("h4");
         price.textContent = `NGN ₦${formatter.format(similarProduct.price)}`;
         similarItem.appendChild(price);
+        similarItem.addEventListener("click", () => {
+          window.location.href = `product.html?productId=${similarProduct.productID}`;
+        });
 
         const skeletonItem = similarItemsContainer.querySelector(".skeleton");
         if (skeletonItem) {
@@ -196,7 +216,9 @@ async function renderProduct() {
       description.textContent = product.description;
       quantity.textContent = `${product.quantity} available`;
     } else {
-      alert("product does not exist");
+      setTimeout(() => {
+        showError("product does not exist");
+      }, 2000);
     }
   } catch (error) {
     console.log(error);
@@ -276,18 +298,23 @@ async function addToCart() {
           };
           addDoc(cartRef, cartItem)
             .then(() => {
-              showSuccess("product added to cart");
+              showSuccess("product added to cart").then(() => {
+                location.replace("cart.html");
+              });
             })
             .catch((error) => {
-              console.log(error);
-              alert("error");
+              showError(error.message).then(() => {
+                location.replace("index.html");
+              });
             });
         }
       } catch (error) {
         console.log(error);
       }
     } else {
-      alert("please login to add to cart");
+      showError("please login to add to cart").then(() => {
+        location.replace("index.html");
+      });
     }
   } else {
     location.href = `cart.html`;
@@ -383,22 +410,54 @@ delivery.textContent =
   " - " +
   getEstimatedDeliveryDates().fourDays;
 
-function showError(message) {
-  Swal.fire({
-    background: "#dc3",
-    color: "#fff",
-    position: "top",
-    showConfirmButton: false,
-    text: `${message}`,
+async function showError(message) {
+  return new Promise((resolve) => {
+    Swal.fire({
+      background: "#dc3",
+      color: "#fff",
+      position: "top",
+      showConfirmButton: false,
+      text: `${message}`,
+      timer: 1500,
+      timerProgressBar: true,
+    }).then(() => {
+      resolve();
+    });
   });
 }
 
-function showSuccess(message) {
+async function showSuccess(message) {
+  return new Promise((resolve) => {
+    Swal.fire({
+      background: "#28a745",
+      color: "#fff",
+      position: "top",
+      showConfirmButton: false,
+      text: `${message}`,
+      timer: 1500,
+      timerProgressBar: true,
+    }).then(() => {
+      resolve();
+    });
+  });
+}
+function confirm(message) {
   Swal.fire({
-    background: "#28a745",
-    color: "#fff",
-    position: "top",
-    showConfirmButton: false,
-    text: `${message}`,
+    title: "<strong>Sign Out</strong>",
+    icon: "info",
+    html: `
+    ${message}
+  `,
+    showCloseButton: true,
+    showCancelButton: true,
+    focusConfirm: false,
+    confirmButtonText: `
+    Yes
+  `,
+    confirmButtonAriaLabel: "Thumbs up, great!",
+    cancelButtonText: `
+    No
+  `,
+    cancelButtonAriaLabel: "Thumbs down",
   });
 }
