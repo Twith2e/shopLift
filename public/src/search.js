@@ -205,9 +205,11 @@ function fetchItems(productID) {
         const errorDiv = document.createElement("div");
         const p = document.createElement("p");
         p.textContent = "No products found";
-        p.style.textAlign = "center";
+        errorDiv.style.textAlign = "center";
+        errorDiv.style.backgroundColor = "red";
         p.style.fontSize = "20px";
-        p.style.margin = "20px";
+        p.style.margin = "20px auto";
+        errorDiv.style.width = "100%";
         errorDiv.appendChild(p);
         searchedItems.innerHTML = "";
         searchedItems.appendChild(errorDiv);
@@ -233,8 +235,10 @@ function fetchCategory(category) {
         p.style.textAlign = "center";
         p.style.fontSize = "20px";
         p.style.margin = "20px";
+        errorDiv.style.width = "100%";
         errorDiv.appendChild(p);
         searchedItems.innerHTML = "";
+        searchedItems.style.width = "100%";
         searchedItems.appendChild(errorDiv);
         return;
       }
