@@ -39,7 +39,6 @@ const similarProducts = [];
 let isInCart = false;
 let isShown = false;
 const formatter = Intl.NumberFormat("en-NG");
-const productId = getProductIdFromUrl();
 const productName = document.getElementById("productname");
 const productPrice = document.getElementById("productprice");
 const condition = document.getElementById("condition");
@@ -118,6 +117,7 @@ for (let i = 0; i < 9; i++) {
 
 async function renderProduct() {
   try {
+    const productId = getProductIdFromUrl();
     const productRef = doc(database, "products/" + productId);
     const productSnapshot = await getDoc(productRef);
     if (productSnapshot.exists()) {
@@ -182,7 +182,9 @@ async function renderProduct() {
         price.textContent = `NGN ₦${formatter.format(similarProduct.price)}`;
         similarItem.appendChild(price);
         similarItem.addEventListener("click", () => {
-          window.location.href = `product.html?productId=${similarProduct.productID}`;
+          location.replace(
+            `product.html?productId=${similarProduct.productID}`
+          );
         });
 
         similarItemsContainer.appendChild(similarItem);
@@ -207,12 +209,13 @@ async function renderProduct() {
         addData.style.display = "grid";
       }
     } else {
-      setTimeout(() => {
-        showError("product does not exist");
-      }, 2000);
+      showError("product does not exist").then(() => {
+        console.log(productId);
+        // window.location.href = "index.html";
+      });
     }
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
   }
 }
 
@@ -247,6 +250,7 @@ function initCarousel() {
 }
 async function checkCart() {
   try {
+    const productId = getProductIdFromUrl();
     const q = query(
       collection(database, "users/" + auth.currentUser.uid + "/cart"),
       where("productId", "==", productId)
