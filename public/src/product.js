@@ -48,6 +48,7 @@ const searchBtn = document.getElementById("searchbtn");
 const searchInput = document.getElementById("search");
 const seller = document.getElementById("seller");
 const delivery = document.getElementById("delivery");
+const productTemp = document.getElementById("productTemp");
 const similarItemsContainer = document.getElementById("s-i-tray");
 
 onAuthStateChanged(auth, (user) => {
@@ -109,37 +110,13 @@ onAuthStateChanged(auth, (user) => {
 
 renderProduct();
 
-function createSkeletonItem() {
-  const skeletonItem = document.createElement("div");
-  skeletonItem.classList.add("product-card", "skeleton");
-
-  const imgSkeleton = document.createElement("div");
-  imgSkeleton.classList.add("skeleton-img", "product-img");
-  skeletonItem.appendChild(imgSkeleton);
-
-  const nameSkeleton = document.createElement("div");
-  nameSkeleton.classList.add("skeleton-text");
-  skeletonItem.appendChild(nameSkeleton);
-
-  const priceSkeleton = document.createElement("div");
-  priceSkeleton.classList.add("skeleton-text");
-  skeletonItem.appendChild(priceSkeleton);
-
-  return skeletonItem;
-}
-
-function createSimilarProductsSkeleton(count) {
-  const container = document.createElement("div");
-  container.classList.add("product-wrapper");
-  for (let i = 0; i < count; i++) {
-    const skeletonItem = createSkeletonItem();
-    container.appendChild(skeletonItem);
-  }
-  return container;
+for (let i = 0; i < 9; i++) {
+  similarItemsContainer.append(
+    document.getElementById("cardTemplate").cloneNode(true)
+  );
 }
 
 async function renderProduct() {
-  similarItemsContainer.appendChild(createSimilarProductsSkeleton(4));
   try {
     const productRef = doc(database, "products/" + productId);
     const productSnapshot = await getDoc(productRef);
@@ -154,16 +131,20 @@ async function renderProduct() {
           getDownloadURL(imgRef).then((url) => {
             const imgElement = document.createElement("img");
             imgElement.src = url;
+            imgElement.style.height = "550px";
             imgElement.classList.add("carousel-item");
             if (index === 0) imgElement.classList.add("active");
             carouselInner.appendChild(imgElement);
             resolve();
+            if (productTemp) {
+              productTemp.remove();
+            }
           });
         });
       });
 
-      await Promise.all(imagePromises);
       initCarousel();
+      await Promise.all(imagePromises);
 
       const q = query(
         collection(database, "products"),
@@ -185,6 +166,13 @@ async function renderProduct() {
         getDownloadURL(imgRef).then((url) => {
           img.src = url;
           img.className = "product-img";
+          const skeletonItem =
+            similarItemsContainer.querySelectorAll("#cardTemplate");
+          if (skeletonItem) {
+            skeletonItem.forEach((temp) => {
+              temp.remove();
+            });
+          }
         });
         similarItem.appendChild(img);
         const name = document.createElement("p");
@@ -197,14 +185,9 @@ async function renderProduct() {
           window.location.href = `product.html?productId=${similarProduct.productID}`;
         });
 
-        const skeletonItem = similarItemsContainer.querySelector(".skeleton");
-        if (skeletonItem) {
-          similarItemsContainer.innerHTML = "";
-          similarItemsContainer.appendChild(similarItem);
-        } else {
-          similarItemsContainer.appendChild(similarItem);
-        }
+        similarItemsContainer.appendChild(similarItem);
       });
+
       const userRef = doc(database, "users", product.owner);
       const userSnapshot = await getDoc(userRef);
       const user = userSnapshot.data();
@@ -215,6 +198,14 @@ async function renderProduct() {
       brand.textContent = product.brand;
       description.textContent = product.description;
       quantity.textContent = `${product.quantity} available`;
+      if (mdTemplate) {
+        mdTemplate.remove();
+        mainData.style.display = "flex";
+      }
+      if (pdTemplate) {
+        pdTemplate.remove();
+        addData.style.display = "grid";
+      }
     } else {
       setTimeout(() => {
         showError("product does not exist");
@@ -228,13 +219,17 @@ async function renderProduct() {
 function initCarousel() {
   const carousel = document.getElementById("productCarousel");
   const items = carousel.querySelectorAll(".carousel-item");
-  let currentIndex = 0; // Initialize currentIndex to 0
+  let currentIndex = 0;
 
   function showItem(index) {
-    items.forEach((item) => item.classList.remove("active"));
-    items[index].classList.add("active");
+    items.forEach((item, i) => {
+      if (i === index) {
+        item.classList.add("active");
+      } else {
+        item.classList.remove("active");
+      }
+    });
   }
-
   const prevBtn = carousel.querySelector(".carousel-prev");
   const nextBtn = carousel.querySelector(".carousel-next");
 

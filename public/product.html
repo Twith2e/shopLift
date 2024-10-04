@@ -111,16 +111,56 @@
         <div class="main-container">
           <div class="col">
             <div id="productCarousel" class="carousel">
-              <div class="carousel-inner"></div>
+              <div class="carousel-inner">
+                <div
+                  class="skeleton carousel-item"
+                  id="productTemp"
+                  style="height: 550px; display: block"
+                ></div>
+              </div>
               <button class="carousel-prev">Previous</button>
               <button class="carousel-next">Next</button>
             </div>
             <div style="display: flex; flex-direction: column; gap: 60px">
-              <div style="display: flex; flex-direction: column; gap: 10px">
+              <div
+                id="mdTemplate"
+                style="display: flex; flex-direction: column; gap: 10px"
+              >
+                <div>
+                  <h1 class="skeleton skeleton-header"></h1>
+                  <div class="sellercard">
+                    <div
+                      style="height: 50px; width: 50px; border-radius: 50%"
+                      class="skeleton"
+                    ></div>
+                    <div class="skeleton skeleton-name"></div>
+                  </div>
+                </div>
+                <div class="price-container">
+                  <div class="skeleton skeleton-name"></div>
+                  <div class="skeleton skeleton-text"></div>
+                </div>
+                <div class="k-v">
+                  <div class="skeleton skeleton-name"></div>
+                  <div class="skeleton skeleton-text"></div>
+                </div>
+                <div class="sell-btn-container">
+                  <div class="skeleton">
+                    <span style="color: transparent">g</span>
+                  </div>
+                  <div href="" class="skeleton">
+                    <span style="color: transparent">hi</span>
+                  </div>
+                </div>
+              </div>
+              <div
+                id="mainData"
+                style="display: none; flex-direction: column; gap: 10px"
+              >
                 <div>
                   <h1 id="productname"></h1>
                   <div class="sellercard">
-                    <img src="assets/icons8-user-32.png" alt="" />
+                    <img height="50px" src="" width="50px" alt="" />
                     <div class="sellercardlinks">
                       <span id="seller"></span>
                     </div>
@@ -141,7 +181,17 @@
                   </a>
                 </div>
               </div>
-              <div class="grid">
+              <div class="grid" id="pdTemplate">
+                <div class="skeleton"></div>
+                <div class="skeleton skeleton-text"></div>
+                <div class="skeleton"></div>
+                <div class="skeleton skeleton-text"></div>
+                <div class="skeleton"></div>
+                <div class="skeleton skeleton-text"></div>
+                <div class="skeleton"></div>
+                <div class="skeleton skeleton-text"></div>
+              </div>
+              <div id="addData" class="grid" style="display: none">
                 <div>
                   <span>Shipping:</span>
                 </div>
@@ -173,7 +223,13 @@
             <div>
               <h1>Similar Items</h1>
             </div>
-            <div class="product-wrapper" id="s-i-tray"></div>
+            <div class="product-wrapper" id="s-i-tray">
+              <div class="product-card" id="cardTemplate">
+                <div class="product-img skeleton"></div>
+                <div class="skeleton skeleton-text"></div>
+                <div class="skeleton skeleton-text"></div>
+              </div>
+            </div>
           </div>
         </div>
         <div class="about-item">
