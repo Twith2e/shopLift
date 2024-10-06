@@ -3,6 +3,14 @@ import {
   getAuth,
   onAuthStateChanged,
 } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  getDoc,
+  updateDoc,
+  doc,
+} from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 import { CONFIG } from "../src/config.js";
 
 const firebaseConfig = {
@@ -17,33 +25,135 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth();
+const database = getFirestore();
 
 (function () {
   emailjs.init({ publicKey: "pZeVBA8Xt9mOrjobf" });
 })();
 
+const productInfo = JSON.parse(sessionStorage.getItem("productInfo"));
 const paymentBtn = document.getElementById("paymentbtn");
+const radio = document.getElementById("radio");
 const prices = document.querySelectorAll("#price");
 const formatter = Intl.NumberFormat("en-NG");
+let userId;
+let tempRef;
+
+function checkStorage() {
+  if (
+    !sessionStorage.getItem("mail") ||
+    !sessionStorage.getItem("price") ||
+    !sessionStorage.getItem("productInfo")
+  ) {
+    showError("Invalid session data");
+    return;
+  }
+}
+
+checkStorage();
+
+onAuthStateChanged(auth, (user) => {
+  if (!user) {
+    window.location.href = "login.html";
+  } else {
+    userId = user.uid;
+  }
+});
+
+console.log("Quantity Bought:", productInfo.qtyBought);
+console.log("Product ID:", productInfo.productID);
 
 paymentBtn.addEventListener("click", payWithPaystack, false);
 
 function payWithPaystack() {
+  if (!radio.checked) {
+    showError("Please select a payment method");
+    return;
+  }
+  const email = sessionStorage.getItem("mail");
+  const price = sessionStorage.getItem("price");
+  const productInfo = JSON.parse(sessionStorage.getItem("productInfo"));
+  if (!email || !price || !productInfo) {
+    showError("Invalid session data");
+    return;
+  }
   let handler = PaystackPop.setup({
     key: "pk_test_c05702e7cf1cdedcdf4044fd7b97642551aaabb0",
-    email: sessionStorage.getItem("mail"),
-    amount: sessionStorage.getItem("price") * 100,
+    email: email,
+    amount: price * 100,
     currency: "NGN",
     callback: function (response) {
-      showSuccess("Payment complete! Reference: " + response.reference);
-      verifyTransaction(response.reference);
+      try {
+        const orderRef = collection(database, "users/" + userId + "/order");
+        const orderInfo = {
+          productID: productInfo.productID,
+          qtyBought: productInfo.qtyBought,
+          owner: productInfo.owner,
+          seller: productInfo.seller,
+          date: new Date().toLocaleString(),
+        };
+        addDoc(orderRef, orderInfo)
+          .then(() => {
+            // Update product quantity
+            console.log(productInfo.productID);
+
+            const productRef = doc(
+              database,
+              "products/",
+              productInfo.productID
+            );
+            tempRef = doc(database, "products/", productInfo.productID);
+            return getDoc(productRef);
+          })
+          .then((productSnap) => {
+            if (productSnap.exists()) {
+              const currentQty = productSnap.data().quantity;
+              console.log("Current Quantity:", currentQty);
+              const newQty = Math.max(0, currentQty - productInfo.qtyBought);
+              console.log("New Quantity:", newQty);
+              return updateDoc(tempRef, { quantity: newQty });
+            } else {
+              showError("Product does not exist");
+              return;
+            }
+          })
+          .then(() => {
+            showSuccess("Order placed successfully").then(() => {
+              location.href = "index.html";
+            });
+            verifyTransaction(response.reference);
+          })
+          .catch((error) => {
+            console.log(error.message);
+
+            showError(error.message);
+          });
+      } catch (error) {
+        console.log(error.message);
+
+        showError(error.message);
+      }
     },
     onClose: function () {
-      alert("Transaction was not completed, window closed.");
+      showCanceled("Transaction was not completed, window closed.");
     },
   });
   handler.openIframe();
 }
+
+// async function updateProductQuantity(productID, qtyBought) {
+//   const productRef = doc(database, "products", productID);
+//   const productSnap = await getDoc(productRef);
+
+//   if (productSnap.exists()) {
+//     const currentQty = productSnap.data().quantity;
+//     const newQty = currentQty - qtyBought;
+
+//     await updateDoc(productRef, {
+//       quantity: newQty,
+//     });
+//   }
+// }
 
 function verifyTransaction(reference) {
   fetch("https://api.paystack.co/transaction/verify/" + reference, {
@@ -103,44 +213,56 @@ function sendReceiptByEmail(email, pdfData) {
 }
 
 prices.forEach((price) => {
-  price.textContent = `NGN ₦${formatter.format(
-    sessionStorage.getItem("price")
-  )}`;
+  const priceValue = sessionStorage.getItem("price");
+  price.textContent = `NGN ₦${formatter.format(priceValue)}`;
 });
 
-function showSuccess(message) {
+async function showSuccess(message) {
+  return new Promise((resolve) => {
+    Swal.fire({
+      background: "#28a745",
+      color: "#fff",
+      height: "fit-content",
+      padding: "0 0",
+      position: "top",
+      showConfirmButton: false,
+      text: `${message}`,
+      timer: 1500,
+      timerProgressBar: true,
+    }).then(() => {
+      resolve();
+    });
+  });
+}
+
+async function showCanceled(message) {
   Swal.fire({
-    background: "#28a745",
+    background: "#DC3545",
+    borderRadius: "0px",
     color: "#fff",
+    height: "fit-content",
+    padding: "0",
     position: "top",
     showConfirmButton: false,
     text: `${message}`,
+    timer: 1500,
+    timerProgressBar: true,
+    width: "fit-content",
   });
 }
 
-function confirm(message) {
+async function showError(message) {
   Swal.fire({
-    title: "<strong>HTML <u>example</u></strong>",
-    icon: "info",
-    html: `
-    ${message}
-  `,
-    showCloseButton: true,
-    showCancelButton: true,
-    focusConfirm: false,
-    confirmButtonText: `
-    <i class="fa fa-thumbs-up"></i> Great!
-  `,
-    confirmButtonAriaLabel: "Thumbs up, great!",
-    cancelButtonText: `
-    <i class="fa fa-thumbs-down"></i>
-  `,
-    cancelButtonAriaLabel: "Thumbs down",
+    background: "#DC3545",
+    borderRadius: "0px",
+    color: "#fff",
+    height: "fit-content",
+    padding: "0",
+    position: "top-end",
+    showConfirmButton: false,
+    text: `${message}`,
+    timer: 1500,
+    timerProgressBar: true,
+    width: "fit-content",
   });
 }
-
-onAuthStateChanged(auth, (user) => {
-  if (!user) {
-    window.location.href = "login.html";
-  }
-});

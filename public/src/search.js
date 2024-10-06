@@ -46,6 +46,8 @@ const sideMenu = document.getElementById("sidemenu");
 const closeBtn = document.getElementById("closebtn");
 const authWrapper = document.getElementById("auth");
 const searchBtn = document.getElementById("searchbtn");
+const loginBtns = document.querySelectorAll("#login");
+const signupBtns = document.querySelectorAll("#signup");
 
 sideMenu.style.transition = "left 0.5s ease";
 
@@ -64,6 +66,7 @@ onAuthStateChanged(auth, (user) => {
     </div>
     `;
     document.getElementById("signOut").addEventListener("click", () => {
+      confirm("Do you want to sign out?");
       signOut(auth)
         .then(() => {
           Swal.fire({
@@ -119,6 +122,22 @@ onAuthStateChanged(auth, (user) => {
         });
     });
   }
+});
+
+loginBtns.forEach((btn) => {
+  btn.addEventListener("click", (e) => {
+    e.preventDefault();
+    sessionStorage.setItem("prevUrl", window.location.href);
+    location.replace("login.html");
+  });
+});
+
+signupBtns.forEach((btn) => {
+  btn.addEventListener("click", (e) => {
+    e.preventDefault();
+    sessionStorage.setItem("prevUrl", window.location.href);
+    location.replace("signup.html");
+  });
 });
 
 async function cartIconCount(uid) {
@@ -363,3 +382,24 @@ menuBtn.addEventListener("click", () => {
 closeBtn.addEventListener("click", () => {
   sideMenu.style.left = "-100%";
 });
+
+function confirm(message) {
+  Swal.fire({
+    title: "<strong>Sign Out</strong>",
+    icon: "info",
+    html: `
+    ${message}
+  `,
+    showCloseButton: true,
+    showCancelButton: true,
+    focusConfirm: false,
+    confirmButtonText: `
+    Yes
+  `,
+    confirmButtonAriaLabel: "Thumbs up, great!",
+    cancelButtonText: `
+    No
+  `,
+    cancelButtonAriaLabel: "Thumbs down",
+  });
+}

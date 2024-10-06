@@ -92,7 +92,6 @@ submitBtn.addEventListener("click", () => {
   } else if (!passwordRegex.test(password.value)) {
     alert("check password");
   } else {
-    alert("Success!!!");
     createUserWithEmailAndPassword(auth, email.value, password.value)
       .then((userCredential) => {
         sendEmailVerification(userCredential.user)
@@ -112,10 +111,7 @@ submitBtn.addEventListener("click", () => {
       })
       .catch((error) => {
         const errorCode = error.code;
-        const errorMessage = error.message;
-        console.table(errorCode);
-        console.table(errorMessage);
-        console.log(error);
+        showError(errorCode);
       });
   }
 });
@@ -137,10 +133,26 @@ googleBtn.addEventListener("click", () => {
       console.log(email);
       console.log(errorCode);
       console.log(errorMessage);
-      alert(errorMessage);
+      showError(errorMessage);
     });
 });
 
 function login() {
   window.location.href = document.refferer;
+}
+
+async function showError(message) {
+  Swal.fire({
+    background: "#DC3545",
+    borderRadius: "0px",
+    color: "#fff",
+    height: "fit-content",
+    padding: "0",
+    position: "top",
+    showConfirmButton: false,
+    text: `${message}`,
+    timer: 1500,
+    timerProgressBar: true,
+    width: "fit-content",
+  });
 }

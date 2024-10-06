@@ -40,6 +40,7 @@ const storage = getStorage();
 const formatter = Intl.NumberFormat("en-NG");
 const authDisplay = document.getElementById("authdisplay");
 const loginBtn = document.getElementById("login");
+const signupBtn = document.getElementById("signup");
 const productsContainer = document.getElementById("products-container");
 const searchBtns = document.querySelectorAll("#searchbtn");
 const categoryLinks = document.getElementById("categorylinks");
@@ -72,7 +73,6 @@ onAuthStateChanged(auth, (user) => {
     const signOutBtn = document.getElementById("signOut");
     signOutBtn.addEventListener("click", () => {
       confirm("Do you want to sign out?");
-
       const confirmButton = document.querySelector(".swal2-confirm");
       if (confirmButton) {
         confirmButton.addEventListener("click", () => {
@@ -150,11 +150,16 @@ function generateDate() {
 if (loginBtn) {
   loginBtn.addEventListener("click", (e) => {
     e.preventDefault();
-    console.log("clicked");
+    sessionStorage.setItem("prevUrl", window.location.href);
+    location.replace("login.html");
+  });
+}
 
-    window.location.href = `login.html?redirect=${encodeURIComponent(
-      window.location.pathname
-    )}`;
+if (signupBtn) {
+  signupBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    sessionStorage.setItem("prevUrl", window.location.href);
+    location.href = "signup.html";
   });
 }
 

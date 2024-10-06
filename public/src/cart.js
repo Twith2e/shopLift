@@ -51,6 +51,8 @@ const sideMenu = document.getElementById("sidemenu");
 const authWrapper = document.getElementById("auth");
 const searchBtn = document.getElementById("searchbtn");
 const searchIcon = document.getElementById("searchicon");
+const loginBtns = document.querySelectorAll("#login");
+const signupBtns = document.querySelectorAll("#signup");
 
 onAuthStateChanged(auth, (user) => {
   if (!user) {
@@ -83,10 +85,55 @@ onAuthStateChanged(auth, (user) => {
         isShown = false;
       }
     });
+    const signOutBtn = document.getElementById("signOut");
+    signOutBtn.addEventListener("click", () => {
+      confirm("Do you want to sign out?");
+      const confirmButton = document.querySelector(".swal2-confirm");
+      if (confirmButton) {
+        confirmButton.addEventListener("click", () => {
+          signOut(auth)
+            .then(() => {
+              Swal.fire({
+                text: "Sign out successful",
+                showConfirmButton: false,
+                timer: 1500,
+                position: "top",
+              }).then(() => {
+                location.reload();
+              });
+            })
+            .catch((error) => {
+              Swal.fire({
+                title: "Error!",
+                text: error.code,
+                icon: "error",
+                showConfirmButton: false,
+                timer: 1500,
+              });
+            });
+        });
+      }
+    });
     updateItemCount(auth.currentUser.uid);
     renderItems(auth.currentUser.uid);
     sessionStorage.setItem("mail", auth.currentUser.email);
   }
+});
+
+loginBtns.forEach((btn) => {
+  btn.addEventListener("click", (e) => {
+    e.preventDefault();
+    sessionStorage.setItem("prevUrl", window.location.href);
+    location.replace("login.html");
+  });
+});
+
+signupBtns.forEach((btn) => {
+  btn.addEventListener("click", (e) => {
+    e.preventDefault();
+    sessionStorage.setItem("prevUrl", window.location.href);
+    location.replace("signup.html");
+  });
 });
 
 searchIcon.addEventListener("click", () => {
@@ -339,3 +386,24 @@ menuBtn.addEventListener("click", () => {
 closeBtn.addEventListener("click", () => {
   sideMenu.style.left = "-100%";
 });
+
+function confirm(message) {
+  Swal.fire({
+    title: "<strong>Sign Out</strong>",
+    icon: "info",
+    html: `
+    ${message}
+  `,
+    showCloseButton: true,
+    showCancelButton: true,
+    focusConfirm: false,
+    confirmButtonText: `
+    Yes
+  `,
+    confirmButtonAriaLabel: "Thumbs up, great!",
+    cancelButtonText: `
+    No
+  `,
+    cancelButtonAriaLabel: "Thumbs down",
+  });
+}

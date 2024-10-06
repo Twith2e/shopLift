@@ -38,11 +38,14 @@ const storage = getStorage();
 const similarProducts = [];
 let isInCart = false;
 let isShown = false;
+let userInfo;
+let userEmail;
 const formatter = Intl.NumberFormat("en-NG");
 const productName = document.getElementById("productname");
 const productPrice = document.getElementById("productprice");
 const condition = document.getElementById("condition");
 const cartBtn = document.getElementById("cartbtn");
+const buyBtn = document.getElementById("buybtn");
 const searchBtn = document.getElementById("searchbtn");
 const searchInput = document.getElementById("search");
 const seller = document.getElementById("seller");
@@ -52,8 +55,16 @@ const similarItemsContainer = document.getElementById("s-i-tray");
 
 onAuthStateChanged(auth, (user) => {
   if (user) {
+    userInfo = user;
+    userEmail = user.email;
     cartBtn.addEventListener("click", (e) => {
       e.preventDefault();
+      cartBtn.style.position = "relative";
+      cartBtn.style.height = "3rem";
+      cartBtn.innerHTML = `<div class="loader-overlay">
+          <div class="loader"></div>
+        </div>`;
+
       addToCart();
     });
     checkCart();
@@ -145,8 +156,8 @@ async function renderProduct() {
         });
       });
 
-      initCarousel();
       await Promise.all(imagePromises);
+      initCarousel();
 
       const q = query(
         collection(database, "products"),
@@ -226,6 +237,22 @@ async function renderProduct() {
       });
       aboutItemGrid.innerHTML += `<div>Seller Note:</div>
             <div id="description" style="width: 80%; line-height: 25px">${product.description}</div>`;
+
+      buyBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        sessionStorage.setItem("price", product.price);
+        sessionStorage.setItem("mail", userEmail);
+        location.href = "checkout.html";
+        sessionStorage.setItem(
+          "productInfo",
+          JSON.stringify({
+            productID: product.productID,
+            qtyBought: 1,
+            owner: product.owner,
+            seller: user.userName,
+          })
+        );
+      });
 
       if (mdTemplate) {
         mdTemplate.remove();
@@ -316,10 +343,10 @@ async function addToCart() {
           console.log("product already in cart");
           return;
         } else {
-          isInCart = true;
           const cartRef = collection(database, "users/" + userId + "/cart");
+
           const cartItem = {
-            productId: productId,
+            productId,
             productName: product.productName,
             productPrice: product.price,
             productImg: product.productImages[0],
@@ -328,6 +355,8 @@ async function addToCart() {
           };
           addDoc(cartRef, cartItem)
             .then(() => {
+              isInCart = true;
+              cartBtn.innerHTML = "View in Cart";
               showSuccess("product added to cart").then(() => {
                 location.replace("cart.html");
               });
