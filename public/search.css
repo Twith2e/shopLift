@@ -102,6 +102,14 @@
   justify-content: space-between;
 }
 
+.error-message {
+  left: 0;
+  position: absolute;
+  text-align: center;
+  top: 20px;
+  width: 100%;
+}
+
 .cart {
   align-items: center;
   display: flex;
@@ -114,7 +122,7 @@
   background-color: #28a745;
   border-radius: 50%;
   color: #fff;
-  display: inline-flex;
+  display: none;
   height: 1em;
   justify-content: center;
   position: absolute;
@@ -211,8 +219,8 @@ button {
 
 .searched {
   display: flex;
+  flex-direction: column;
   height: 100vh;
-  justify-content: center;
   position: relative;
 }
 

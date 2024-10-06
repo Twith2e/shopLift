@@ -167,6 +167,12 @@ if (document.getElementById("sddmenu")) {
   });
 }
 
+for (let i = 0; i < 9; i++) {
+  document.querySelectorAll(".product-wrapper").forEach((wrapper) => {
+    wrapper.append(document.getElementById("cardTemplate").cloneNode(true));
+  });
+}
+
 async function renderLaptops() {
   try {
     const q = query(
@@ -175,6 +181,7 @@ async function renderLaptops() {
     );
     const querySnapshot = await getDocs(q);
     const productTray = document.createElement("div");
+    productTray.style.display = "none";
     productTray.className = "product-tray";
     const productCategoryWrapper = document.createElement("div");
     const productCategory = document.createElement("h1");
@@ -198,6 +205,10 @@ async function renderLaptops() {
         .then((ref) => {
           productImg.src = ref;
           productImg.loading = "lazy";
+          if (lTemplate) {
+            lTemplate.remove();
+            productTray.style.display = "flex";
+          }
         })
         .catch((error) => {
           console.log(error);
@@ -255,6 +266,7 @@ async function renderPhones() {
     );
     const querySnapshot = await getDocs(q);
     const productTray = document.createElement("div");
+    productTray.style.display = "none";
     productTray.className = "product-tray";
     const productCategoryWrapper = document.createElement("div");
     const productCategory = document.createElement("h1");
@@ -279,6 +291,10 @@ async function renderPhones() {
         .then((ref) => {
           productImg.src = ref;
           productImg.loading = "lazy";
+          if (mTemplate) {
+            mTemplate.remove();
+            productTray.style.display = "flex";
+          }
         })
         .catch((error) => {
           console.log(error);

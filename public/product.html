@@ -45,7 +45,7 @@
                   />
                 </svg>
                 <div class="cart-count">
-                  <span id="cartcount">1</span>
+                  <span id="cartcount"></span>
                 </div>
               </a>
             </div>
@@ -92,8 +92,8 @@
           </div>
           <button class="searchbtn" id="searchbtn">Search</button>
         </nav>
-        <a href="index.html" class="back-nav">
-          <div class="back">
+        <div class="back-nav">
+          <a href="index.html" class="back">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               height="24px"
@@ -103,9 +103,9 @@
             >
               <path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z" />
             </svg>
-          </div>
+          </a>
           <span>Back to Homepage</span>
-        </a>
+        </div>
       </header>
       <main>
         <div class="main-container">
@@ -232,17 +232,28 @@
             </div>
           </div>
         </div>
-        <div class="about-item">
+        <div class="about-item" id="aboutItem" style="display: none">
           <h1>About this item</h1>
-          <div class="grid">
+          <div id="aboutItemGrid" class="grid">
             <div>Condition:</div>
             <div>Used</div>
             <div>Quantity:</div>
             <div id="quantity">1 available</div>
             <div>Brand:</div>
             <div id="brand"></div>
-            <div>Seller Note</div>
-            <div id="description" style="width: 60%; line-height: 25px"></div>
+          </div>
+        </div>
+        <div class="about-item" id="aboutItemTemplate">
+          <h1 class="skeleton skeleton-header" style="width: 200px"></h1>
+          <div class="grid">
+            <div class="skeleton skeleton-text"></div>
+            <div class="skeleton skeleton-name"></div>
+            <div class="skeleton skeleton-text"></div>
+            <div class="skeleton skeleton-name"></div>
+            <div class="skeleton skeleton-text"></div>
+            <div class="skeleton skeleton-name"></div>
+            <div class="skeleton skeleton-text"></div>
+            <div class="skeleton skeleton-desc"></div>
           </div>
         </div>
       </main>

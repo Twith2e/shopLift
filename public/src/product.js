@@ -132,6 +132,8 @@ async function renderProduct() {
             const imgElement = document.createElement("img");
             imgElement.src = url;
             imgElement.style.height = "550px";
+            imgElement.style.width = "100%";
+            imgElement.style.objectFit = "cover";
             imgElement.classList.add("carousel-item");
             if (index === 0) imgElement.classList.add("active");
             carouselInner.appendChild(imgElement);
@@ -182,9 +184,8 @@ async function renderProduct() {
         price.textContent = `NGN ₦${formatter.format(similarProduct.price)}`;
         similarItem.appendChild(price);
         similarItem.addEventListener("click", () => {
-          location.replace(
-            `product.html?productId=${similarProduct.productID}`
-          );
+          console.log("Product clicked:", similarProduct.productID);
+          location.href = `product.html?productId=${similarProduct.productID.trim()}`;
         });
 
         similarItemsContainer.appendChild(similarItem);
@@ -198,8 +199,34 @@ async function renderProduct() {
       productPrice.textContent = `NGN ₦${formatter.format(product.price)}`;
       condition.textContent = product.condition;
       brand.textContent = product.brand;
-      description.textContent = product.description;
       quantity.textContent = `${product.quantity} available`;
+      console.log(product.additionalFeatures);
+
+      product.additionalFeatures.forEach((feature) => {
+        const featureTitle = document.createElement("div");
+        const featureDesc = document.createElement(
+          feature.desc.length > 1 ? "select" : "div"
+        );
+
+        featureTitle.textContent = `${feature.title}:`;
+
+        if (feature.desc.length > 1) {
+          feature.desc.forEach((desc) => {
+            const option = document.createElement("option");
+            option.value = desc;
+            option.classList.add("option");
+            option.textContent = desc;
+            featureDesc.appendChild(option);
+          });
+        } else {
+          featureDesc.textContent = feature.desc[0];
+        }
+        aboutItemGrid.appendChild(featureTitle);
+        aboutItemGrid.appendChild(featureDesc);
+      });
+      aboutItemGrid.innerHTML += `<div>Seller Note:</div>
+            <div id="description" style="width: 80%; line-height: 25px">${product.description}</div>`;
+
       if (mdTemplate) {
         mdTemplate.remove();
         mainData.style.display = "flex";
@@ -208,10 +235,14 @@ async function renderProduct() {
         pdTemplate.remove();
         addData.style.display = "grid";
       }
+
+      if (aboutItemTemplate) {
+        aboutItemTemplate.remove();
+        aboutItem.style.display = "grid";
+      }
     } else {
       showError("product does not exist").then(() => {
-        console.log(productId);
-        // window.location.href = "index.html";
+        window.location.href = "index.html";
       });
     }
   } catch (error) {

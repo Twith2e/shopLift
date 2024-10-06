@@ -38,6 +38,7 @@ main {
   display: flex;
   gap: 5px;
   padding-inline: 60px;
+  width: fit-content;
 }
 
 .back-nav span {
@@ -96,8 +97,14 @@ main {
   width: 80%;
 }
 
-.cat-nav-links::-webkit-scrollbar {
+::-webkit-scrollbar {
   display: none;
+  height: 0px;
+  width: 0px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: transparent;
 }
 
 .cat-nav-links a:hover {
@@ -263,14 +270,16 @@ select {
 .product-wrapper {
   border-radius: 10px;
   display: flex;
-  gap: 20px;
+  gap: 30px;
   overflow: scroll;
   padding-bottom: 20px;
+  width: 100%;
 }
 
 .product-img {
   border-radius: 10px;
   height: 250px;
+  object-fit: cover;
   width: 250px;
 }
 
@@ -289,6 +298,8 @@ select {
   flex-direction: column;
   gap: 10px;
   height: fit-content;
+  max-width: 250px;
+  min-height: 150px;
   width: 250px;
 }
 
