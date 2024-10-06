@@ -189,7 +189,7 @@ select {
 
 .searchbar {
   align-items: center;
-  border: 2px solid #000;
+  border: 2px solid #ccc;
   border-radius: 40px;
   display: flex;
   max-width: 100%;

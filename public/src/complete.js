@@ -449,26 +449,14 @@ const addProduct = async () => {
 
   const docRef = await addDoc(collection(database, "products"), productDetails);
   const newProductId = docRef.id;
-
-  // Update productDetails with the new ID
   productDetails.productID = newProductId;
-
-  // Update the document with the new productID field
   await updateDoc(docRef, { productID: newProductId });
 
   console.log("Document written with ID: ", newProductId);
-  showSuccess("Product added");
+  showSuccess("Product added").then(() => {
+    location.replace("index.html");
+  });
 };
-// async function test() {
-//   const docRef = doc(database, "users/" + auth.currentUser.uid);
-//   const docSnap = await getDoc(docRef);
-
-//   if (docSnap.data().sellerVerified) {
-//     console.log(true);
-//   } else {
-//     location.replace("sellerverification.html");
-//   }
-// }
 
 function unformat(formattedNum) {
   return parseFloat(formattedNum.replace(/[^\d.-]/g, ""));

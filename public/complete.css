@@ -66,9 +66,12 @@ main {
 .category,
 .specifics,
 .condition,
-.pricing,
 .description {
   border-bottom: 1px solid #777;
+  padding: 30px 0 60px 0;
+}
+
+.pricing {
   padding: 30px 0 60px 0;
 }
 
@@ -345,6 +348,21 @@ textarea {
   height: 250px;
   width: 23%; /* Adjust this value as needed */
   min-width: 0; /* Allows shrinking below content size */
+}
+
+.list-btn-wrapper {
+  text-align: center;
+}
+
+.list-btn {
+  background-color: #fb8d28;
+  border: none;
+  border-radius: 30px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 1.25rem;
+  padding: 10px;
+  width: 20%;
 }
 
 @media (max-width: 768px) {
