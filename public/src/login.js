@@ -27,14 +27,21 @@ const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const passwordRegex =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@$!%*?&])[A-Za-z0-9@$!%*?&]{8,}$/;
 
-const allowedRedirects = ["index.html", "dashboard.html", "profile.html"];
 const loggedInUser = sessionStorage.getItem("username");
-const urlParams = new URLSearchParams(window.location.search);
-const redirectParam = urlParams.get("redirect");
-const redirectUrl =
-  redirectParam && isValidRedirectUrl(redirectParam)
-    ? redirectParam
-    : "index.html";
+const passEye = document.getElementById("passeye");
+let showPassword = false;
+
+passEye.addEventListener("click", () => {
+  if (!showPassword) {
+    passEye.src = "assets/icons8-show-password-24.png";
+    password.type = "text";
+    showPassword = true;
+  } else {
+    passEye.src = "assets/icons8-hide-password-24.png";
+    password.type = "password";
+    showPassword = false;
+  }
+});
 
 submitBtn.addEventListener("click", () => {
   if (email.value === "" || password.value === "") {
@@ -59,7 +66,7 @@ submitBtn.addEventListener("click", () => {
               alert(error.message);
             });
           showSuccess("Email verified! You're now signed in.").then(() => {
-            location.replace("index.html"); // or login();
+            login();
           });
         } else {
           Swal.fire({
@@ -79,18 +86,8 @@ submitBtn.addEventListener("click", () => {
   }
 });
 
-function isValidRedirectUrl(url) {
-  try {
-    const redirectPath = new URL(url).pathname;
-    const allowedPaths = ["/checkout.html", "/index.html", "/sell.html"];
-    return allowedPaths.includes(redirectPath);
-  } catch (e) {
-    return false;
-  }
-}
-
 function login() {
-  window.location.href = redirectUrl;
+  window.location.href = document.referrer;
 }
 
 async function showSuccess(message) {

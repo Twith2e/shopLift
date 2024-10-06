@@ -30,17 +30,37 @@ const submitBtn = document.getElementById("submit");
 const errors = document.querySelectorAll("#err");
 const inputs = document.querySelectorAll(".field-wrapper");
 const googleBtn = document.getElementById("signwithgg");
-const urlParams = new URLSearchParams(window.location.search);
-const redirectParam = urlParams.get("redirect");
-const redirectUrl =
-  redirectParam && isValidRedirectUrl(redirectParam)
-    ? redirectParam
-    : "index.html";
+const passEyes = document.querySelectorAll("#passeye");
+let showPassword = false;
 
 const nameRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ]+(?:[-'\s][A-Za-zÀ-ÖØ-öø-ÿ]+)*$/;
 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const passwordRegex =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@$!%*?&])[A-Za-z0-9@$!%*?&]{8,}$/;
+
+passEyes[0].addEventListener("click", () => {
+  if (!showPassword) {
+    passEyes[0].src = "assets/icons8-show-password-24.png";
+    password.type = "text";
+    showPassword = true;
+  } else {
+    passEyes[0].src = "assets/icons8-hide-password-24.png";
+    password.type = "password";
+    showPassword = false;
+  }
+});
+
+passEyes[1].addEventListener("click", () => {
+  if (!showPassword) {
+    passEyes[1].src = "assets/icons8-show-password-24.png";
+    confirmPassword.type = "text";
+    showPassword = true;
+  } else {
+    passEyes[1].src = "assets/icons8-hide-password-24.png";
+    confirmPassword.type = "password";
+    showPassword = false;
+  }
+});
 
 submitBtn.addEventListener("click", () => {
   if (
@@ -121,19 +141,6 @@ googleBtn.addEventListener("click", () => {
     });
 });
 
-function isValidRedirectUrl(url) {
-  try {
-    const redirectPath = new URL(url).pathname;
-    const allowedPaths = ["/checkout.html", "/index.html", "/sell.html"];
-    return allowedPaths.includes(redirectPath);
-  } catch (e) {
-    return false;
-  }
-}
-
 function login() {
-  // Perform login logic here
-
-  // Redirect back to the originating page
-  window.location.href = redirectUrl;
+  window.location.href = document.refferer;
 }
