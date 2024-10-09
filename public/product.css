@@ -64,8 +64,8 @@ select {
 }
 
 .loader {
-  border: 2px solid #f3f3f3; /* Light gray */
-  border-top: 2px solid #fb8d28; /* Blue */
+  border: 2px solid #f3f3f3;
+  border-top: 2px solid #fb8d28;
   border-radius: 50%;
   width: 20px;
   height: 20px;

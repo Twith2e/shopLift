@@ -26,6 +26,11 @@ const firebaseConfig = {
   appId: CONFIG.appId,
 };
 
+const app = initializeApp(firebaseConfig);
+const storage = getStorage();
+const database = getFirestore();
+const auth = getAuth();
+
 console.log(sessionStorage.getItem("productDets"));
 let imgFile;
 let btnPress = 0;
@@ -40,38 +45,12 @@ const delBtn = document.querySelector(".delbtn");
 const wordCount = document.getElementById("wordcount");
 const titleInput = document.getElementById("titleinput");
 const categoryInput = document.getElementById("categoryinput");
-const brandInput = document.getElementById("brandinput");
-const brandContainer = document.getElementById("brandcontainer");
 const brandContainer1 = document.getElementById("brandcontainer1");
 const addFieldBtn = document.getElementById("addf");
 const addTileBtn = document.getElementById("addtile");
-// const list = document.getElementById("list");
 const digitInput = document.querySelectorAll("#digitinput");
 const listBtn = document.getElementById("listbtn");
 const priceInput = document.querySelector(".numberdigit");
-const url = "https://mobile-phone-specs-database.p.rapidapi.com/gsm/all-brands";
-const options = {
-  method: "GET",
-  headers: {
-    "x-rapidapi-key": "9be5614f0cmsh8c6a761a9a7f174p15c30djsn1da664e5dc36",
-    "x-rapidapi-host": "mobile-phone-specs-database.p.rapidapi.com",
-  },
-};
-
-const MAX_TITLE_LENGTH = 80;
-const MOBILE_PHONES_CATEGORY = "mobile phones";
-const LAPTOPS_CATEGORY = "laptops";
-
-// const svgNS = "http://www.w3.org/2000/svg";
-// const pathData = "M480-344 240-584l56-56 184 184 184-184 56 56-240 240Z";
-// const iconPath =
-//   "M 13 3 C 7.4889971 3 3 7.4889971 3 13 C 3 18.511003 7.4889971 23 13 23 C 15.396508 23 17.597385 22.148986 19.322266 20.736328 L 25.292969 26.707031 A 1.0001 1.0001 0 1 0 26.707031 25.292969 L 20.736328 19.322266 C 22.148986 17.597385 23 15.396508 23 13 C 23 7.4889971 18.511003 3 13 3 z M 13 5 C 17.430123 5 21 8.5698774 21 13 C 21 17.430123 17.430123 21 13 21 C 8.5698774 21 5 17.430123 5 13 C 5 8.5698774 8.5698774 5 13 5 z";
-// const icon = createIcon(iconPath);
-
-const app = initializeApp(firebaseConfig);
-const storage = getStorage();
-const database = getFirestore();
-const auth = getAuth();
 
 let picArray = [];
 let photoCounter = 0;
@@ -80,6 +59,12 @@ const formatter = Intl.NumberFormat("en-NG");
 
 titleInput.value = productDetails.productName;
 categoryInput.value = productDetails.category;
+
+onAuthStateChanged(auth, (user) => {
+  if (!user) {
+    location.replace("signup.html");
+  }
+});
 
 productImg.addEventListener("change", (e) => {
   let file = e.target.files[0];

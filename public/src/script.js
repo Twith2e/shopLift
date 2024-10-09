@@ -58,6 +58,8 @@ onAuthStateChanged(auth, (user) => {
     <p id="userDd">Hi ${user.displayName.split(" ")[0]}</p>
     <div class="sign-out">
       <button id="signOut">Sign out</button>
+      <button id="profile">Profile</button>
+      <button id="dashboard">Dashboard</button>
     </div>
     `;
     userDd.style.cursor = "pointer";
@@ -98,6 +100,14 @@ onAuthStateChanged(auth, (user) => {
             });
         });
       }
+    });
+    const profileBtn = document.getElementById("profile");
+    profileBtn.addEventListener("click", () => {
+      location.href = "profile.html";
+    });
+    const dashboardBtn = document.getElementById("dashboard");
+    dashboardBtn.addEventListener("click", () => {
+      location.href = "dashboard.html";
     });
   }
 });

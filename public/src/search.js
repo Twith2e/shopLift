@@ -63,6 +63,8 @@ onAuthStateChanged(auth, (user) => {
     }</button>
     <div class="sign-out">
       <button id="signOut">Sign out</button>
+      <button id="profile">Profile</button>
+      <button id="dashboard">Dashboard</button>
     </div>
     `;
     document.getElementById("signOut").addEventListener("click", () => {
