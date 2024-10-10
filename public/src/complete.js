@@ -562,9 +562,3 @@ document.querySelector(".remove-tile").addEventListener("click", () => {
     }
   }
 });
-
-// window.addEventListener("beforeunload", function (e) {
-//   // Display a confirmation dialog
-//   e.preventDefault();
-//   // e.returnValue = ""; // Chrome requires this for custom messages
-// });

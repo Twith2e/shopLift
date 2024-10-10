@@ -15,7 +15,7 @@
             <div>logo</div>
           </div>
           <div class="left-sm-nav">
-            <div class="search" id="searchbtn">
+            <div class="search" id="searchicon">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 x="0px"
@@ -30,21 +30,7 @@
                 ></path>
               </svg>
             </div>
-            <div class="notis" id="notis">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                x="0px"
-                y="0px"
-                width="25"
-                height="25"
-                viewBox="0 0 50 50"
-                fill="#fb8d28"
-              >
-                <path
-                  d="M 25 0 C 22.800781 0 21 1.800781 21 4 C 21 4.515625 21.101563 5.015625 21.28125 5.46875 C 15.65625 6.929688 12 11.816406 12 18 C 12 25.832031 10.078125 29.398438 8.25 31.40625 C 7.335938 32.410156 6.433594 33.019531 5.65625 33.59375 C 5.265625 33.878906 4.910156 34.164063 4.59375 34.53125 C 4.277344 34.898438 4 35.421875 4 36 C 4 37.375 4.84375 38.542969 6.03125 39.3125 C 7.21875 40.082031 8.777344 40.578125 10.65625 40.96875 C 13.09375 41.472656 16.101563 41.738281 19.40625 41.875 C 19.15625 42.539063 19 43.253906 19 44 C 19 47.300781 21.699219 50 25 50 C 28.300781 50 31 47.300781 31 44 C 31 43.25 30.847656 42.535156 30.59375 41.875 C 33.898438 41.738281 36.90625 41.472656 39.34375 40.96875 C 41.222656 40.578125 42.78125 40.082031 43.96875 39.3125 C 45.15625 38.542969 46 37.375 46 36 C 46 35.421875 45.722656 34.898438 45.40625 34.53125 C 45.089844 34.164063 44.734375 33.878906 44.34375 33.59375 C 43.566406 33.019531 42.664063 32.410156 41.75 31.40625 C 39.921875 29.398438 38 25.832031 38 18 C 38 11.820313 34.335938 6.9375 28.71875 5.46875 C 28.898438 5.015625 29 4.515625 29 4 C 29 1.800781 27.199219 0 25 0 Z M 25 2 C 26.117188 2 27 2.882813 27 4 C 27 5.117188 26.117188 6 25 6 C 23.882813 6 23 5.117188 23 4 C 23 2.882813 23.882813 2 25 2 Z M 27.34375 7.1875 C 32.675781 8.136719 36 12.257813 36 18 C 36 26.167969 38.078125 30.363281 40.25 32.75 C 41.335938 33.941406 42.433594 34.6875 43.15625 35.21875 C 43.515625 35.484375 43.785156 35.707031 43.90625 35.84375 C 44.027344 35.980469 44 35.96875 44 36 C 44 36.625 43.710938 37.082031 42.875 37.625 C 42.039063 38.167969 40.679688 38.671875 38.9375 39.03125 C 35.453125 39.753906 30.492188 40 25 40 C 19.507813 40 14.546875 39.753906 11.0625 39.03125 C 9.320313 38.671875 7.960938 38.167969 7.125 37.625 C 6.289063 37.082031 6 36.625 6 36 C 6 35.96875 5.972656 35.980469 6.09375 35.84375 C 6.214844 35.707031 6.484375 35.484375 6.84375 35.21875 C 7.566406 34.6875 8.664063 33.941406 9.75 32.75 C 11.921875 30.363281 14 26.167969 14 18 C 14 12.261719 17.328125 8.171875 22.65625 7.21875 C 23.320313 7.707031 24.121094 8 25 8 C 25.886719 8 26.679688 7.683594 27.34375 7.1875 Z M 21.5625 41.9375 C 22.683594 41.960938 23.824219 42 25 42 C 26.175781 42 27.316406 41.960938 28.4375 41.9375 C 28.792969 42.539063 29 43.25 29 44 C 29 46.222656 27.222656 48 25 48 C 22.777344 48 21 46.222656 21 44 C 21 43.242188 21.199219 42.539063 21.5625 41.9375 Z"
-                ></path>
-              </svg>
-            </div>
+            <a href="sell.html">Sell</a>
             <div class="profile" id="profilebtn">
               <img src="assets/icons8-male-user-40.png" alt="" />
             </div>
@@ -84,8 +70,9 @@
           </div>
           <div class="sm-search-bar" id="seachbar">
             <div class="searchbar">
-              <input placeholder="Search" type="text" />
+              <input id="searchinput" placeholder="Search" type="text" />
               <svg
+                id="searchbtn"
                 xmlns="http://www.w3.org/2000/svg"
                 x="0px"
                 y="0px"
@@ -101,12 +88,78 @@
             </div>
           </div>
         </nav>
+        <nav class="md-nav">
+          <div class="md-left-sm-nav">
+            <div>logo</div>
+            <div class="md-searchbar">
+              <input
+                class="md-search-input"
+                id="searchinput"
+                placeholder="Search"
+                type="text"
+              />
+              <svg
+                id="searchbtn"
+                xmlns="http://www.w3.org/2000/svg"
+                x="0px"
+                y="0px"
+                width="20"
+                height="20"
+                viewBox="0 0 30 30"
+                fill="#fb8d28"
+              >
+                <path
+                  d="M 13 3 C 7.4889971 3 3 7.4889971 3 13 C 3 18.511003 7.4889971 23 13 23 C 15.396508 23 17.597385 22.148986 19.322266 20.736328 L 25.292969 26.707031 A 1.0001 1.0001 0 1 0 26.707031 25.292969 L 20.736328 19.322266 C 22.148986 17.597385 23 15.396508 23 13 C 23 7.4889971 18.511003 3 13 3 z M 13 5 C 17.430123 5 21 8.5698774 21 13 C 21 17.430123 17.430123 21 13 21 C 8.5698774 21 5 17.430123 5 13 C 5 8.5698774 8.5698774 5 13 5 z"
+                ></path>
+              </svg>
+            </div>
+          </div>
+          <div class="md-right-sm-nav">
+            <a href="sell.html">Sell</a>
+            <div class="profile" id="profilebtn">
+              <img src="assets/icons8-male-user-40.png" alt="" />
+            </div>
+            <div class="profiledropdown" id="profiledropdown">
+              <div class="profile-info" id="profile-info">
+                <span id="username"></span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="18px"
+                  viewBox="0 -960 960 960"
+                  width="24px"
+                  fill="#fb8d28"
+                >
+                  <path
+                    d="m344-60-76-128-144-32 14-148-98-112 98-112-14-148 144-32 76-128 136 58 136-58 76 128 144 32-14 148 98 112-98 112 14 148-144 32-76 128-136-58-136 58Zm34-102 102-44 104 44 56-96 110-26-10-112 74-84-74-86 10-112-110-24-58-96-102 44-104-44-56 96-110 24 10 112-74 86 74 84-10 114 110 24 58 96Zm102-318Zm-42 142 226-226-56-58-170 170-86-84-56 56 142 142Z"
+                  />
+                </svg>
+              </div>
+              <ul class="dd-list" id="dd-list">
+                <li><a href="profile.html">My Profile</a></li>
+                <li class="signoutwrapper" id="signoutbtn">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="18"
+                    viewBox="0 -960 960 960"
+                    width="18"
+                    fill="#fb8d28"
+                  >
+                    <path
+                      d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z"
+                    />
+                  </svg>
+                  <span>Sign out</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
       </header>
       <main>
-        <div>
+        <div id="dashheader" style="display: none">
           <h2>Dashboard</h2>
         </div>
-        <div class="card-wrapper">
+        <div class="card-wrapper" id="cardwrapper">
           <div class="mini-card-wrapper">
             <div class="card sales-overview-wrapper">
               <span class="sales-overview">
@@ -125,7 +178,7 @@
                   >
                     <path
                       d="M2.23737 2.28845C1.84442 2.15746 1.41968 2.36983 1.28869 2.76279C1.15771 3.15575 1.37008 3.58049 1.76303 3.71147L2.02794 3.79978C2.70435 4.02524 3.15155 4.17551 3.481 4.32877C3.79296 4.47389 3.92784 4.59069 4.01426 4.71059C4.10068 4.83049 4.16883 4.99538 4.20785 5.33722C4.24907 5.69823 4.2502 6.17 4.2502 6.883L4.2502 9.55484C4.25018 10.9224 4.25017 12.0247 4.36673 12.8917C4.48774 13.7918 4.74664 14.5497 5.34855 15.1516C5.95047 15.7535 6.70834 16.0124 7.60845 16.1334C8.47542 16.25 9.57773 16.25 10.9453 16.25H18.0002C18.4144 16.25 18.7502 15.9142 18.7502 15.5C18.7502 15.0857 18.4144 14.75 18.0002 14.75H11.0002C9.56479 14.75 8.56367 14.7484 7.80832 14.6468C7.07455 14.5482 6.68598 14.3677 6.40921 14.091C6.17403 13.8558 6.00839 13.5398 5.9034 13H16.0222C16.9817 13 17.4614 13 17.8371 12.7522C18.2128 12.5045 18.4017 12.0636 18.7797 11.1817L19.2082 10.1817C20.0177 8.2929 20.4225 7.34849 19.9779 6.67422C19.5333 5.99996 18.5058 5.99996 16.4508 5.99996H5.74526C5.73936 5.69227 5.72644 5.41467 5.69817 5.16708C5.64282 4.68226 5.52222 4.2374 5.23112 3.83352C4.94002 3.42965 4.55613 3.17456 4.1137 2.96873C3.69746 2.7751 3.16814 2.59868 2.54176 2.38991L2.23737 2.28845Z"
-                      fill="#1C274C"
+                      fill="#fb8d28"
                     />
                     <path
                       d="M7.5 18C8.32843 18 9 18.6716 9 19.5C9 20.3284 8.32843 21 7.5 21C6.67157 21 6 20.3284 6 19.5C6 18.6716 6.67157 18 7.5 18Z"
@@ -137,7 +190,7 @@
                     />
                   </svg>
                 </div>
-                <span class="sales-count">124</span>
+                <span class="sales-count" id="salescount"></span>
               </div>
             </div>
             <div class="card revenue-overview-wrapper">
@@ -145,7 +198,7 @@
               <div class="ri-c">
                 <div class="currency">
                   <svg
-                    fill="#000000"
+                    fill="green"
                     width="35"
                     height="35"
                     viewBox="0 0 24 24"
@@ -159,7 +212,7 @@
                       points="7 21 7 3 17 21 17 3"
                       style="
                         fill: none;
-                        stroke: rgb(0, 0, 0);
+                        stroke: #008751;
                         stroke-linecap: round;
                         stroke-linejoin: round;
                         stroke-width: 2;
@@ -171,7 +224,7 @@
                       d="M4,10H20M4,14H20"
                       style="
                         fill: none;
-                        stroke: rgb(0, 0, 0);
+                        stroke: #008751;
                         stroke-linecap: round;
                         stroke-linejoin: round;
                         stroke-width: 2;
@@ -179,7 +232,7 @@
                     ></path>
                   </svg>
                 </div>
-                <span class="rev-count">3,400</span>
+                <span class="rev-count" id="revCount"></span>
               </div>
             </div>
           </div>
@@ -192,20 +245,20 @@
                   height="35"
                   viewBox="0 -960 960 960"
                   width="35"
-                  fill="#000"
+                  fill="#fb8d28"
                 >
                   <path
                     d="M40-160v-112q0-34 17.5-62.5T104-378q62-31 126-46.5T360-440q66 0 130 15.5T616-378q29 15 46.5 43.5T680-272v112H40Zm720 0v-120q0-44-24.5-84.5T666-434q51 6 96 20.5t84 35.5q36 20 55 44.5t19 53.5v120H760ZM360-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47Zm400-160q0 66-47 113t-113 47q-11 0-28-2.5t-28-5.5q27-32 41.5-71t14.5-81q0-42-14.5-81T544-792q14-5 28-6.5t28-1.5q66 0 113 47t47 113ZM120-240h480v-32q0-11-5.5-20T580-306q-54-27-109-40.5T360-360q-56 0-111 13.5T140-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T440-640q0-33-23.5-56.5T360-720q-33 0-56.5 23.5T280-640q0 33 23.5 56.5T360-560Zm0 320Zm0-400Z"
                   />
                 </svg>
               </div>
-              <span class="cust-count">1400</span>
+              <span class="cust-count" id="custCount"></span>
             </div>
           </div>
           <div class="card top-seller">
             <span class="top-seller">Top Seller</span>
             <div class="ts-c">
-              <table class="table">
+              <table class="table" id="table">
                 <tr>
                   <th>Preview</th>
                   <th>Product</th>
@@ -213,18 +266,35 @@
                   <th>Sold</th>
                   <th>Revenue</th>
                 </tr>
-                <tr>
-                  <td>Lorem ipsum dolor sit.</td>
-                  <td>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Vitae totam explicabo blanditiis ullam odit dolore? Unde
-                    nemo veritatis quae aliquid.
-                  </td>
-                  <td>Lorem.</td>
-                  <td>Lorem.</td>
-                  <td>Lorem amet.</td>
-                </tr>
               </table>
+            </div>
+          </div>
+        </div>
+        <div>
+          <h2
+            class="skeleton skeleton-name"
+            style="height: 30px"
+            id="dashheaderTemp"
+          ></h2>
+        </div>
+        <div class="card-wrapper" id="cardwrappertemp">
+          <div class="mini-card-wrapper">
+            <div
+              class="card sales-overview-wrapper skeleton"
+              style="height: 160px"
+            ></div>
+            <div
+              class="card revenue-overview-wrapper skeleton"
+              style="height: 160px"
+            ></div>
+          </div>
+          <div
+            class="card customer-overview-wrapper skeleton"
+            style="height: 160px"
+          ></div>
+          <div class="card top-seller skeleton" style="height: 400px">
+            <div class="ts-c">
+              <table class="table"></table>
             </div>
           </div>
         </div>

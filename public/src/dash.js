@@ -37,19 +37,28 @@ const storage = getStorage();
 const formatter = Intl.NumberFormat("en-NG");
 
 const searchBar = document.getElementById("seachbar");
-const searchBtn = document.getElementById("searchbtn");
-const profileBtn = document.getElementById("profilebtn");
-const profileDropdown = document.getElementById("profiledropdown");
-const userName = document.getElementById("username");
+const searchIcon = document.getElementById("searchicon");
+const searchBtns = document.querySelectorAll("#searchbtn");
+const searchInputs = document.querySelectorAll("#searchinput");
+const profileBtns = document.querySelectorAll("#profilebtn");
+const profileDropdowns = document.querySelectorAll("#profiledropdown");
+const userNames = document.querySelectorAll("#username");
 const signOutBtn = document.getElementById("signoutbtn");
 const profileInfo = document.getElementById("profile-info");
 const ddList = document.getElementById("dd-list");
+const cardwrapperTemp = document.getElementById("cardwrappertemp");
+const cardwrapper = document.getElementById("cardwrapper");
 let dropdownShown = false;
 let seeSearchBar = false;
 
 onAuthStateChanged(auth, (user) => {
   if (user) {
-    userName.textContent = user.displayName.split(" ")[0];
+    console.log(user.displayName);
+
+    renderInfo(user.displayName);
+    userNames.forEach((name) => {
+      name.textContent = user.displayName.split(" ")[0];
+    });
     signOutBtn.addEventListener("click", () => {
       confirm("Do you want to sign out?");
       const confirmButton = document.querySelector(".swal2-confirm");
@@ -97,21 +106,70 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
-profileBtn.addEventListener("click", () => {
-  if (!dropdownShown) {
-    if (seeSearchBar) {
-      searchBar.style.display = "none";
-      seeSearchBar = false;
-    }
-    profileDropdown.style.display = "block";
-    dropdownShown = true;
-  } else {
-    profileDropdown.style.display = "none";
-    dropdownShown = false;
+document.body.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    searchInputs.forEach((input) => {
+      const searchValue = input.value.trim();
+      searchProductsByInput(searchValue);
+    });
   }
 });
 
-searchBtn.addEventListener("click", () => {
+searchBtns.forEach((btn, index) => {
+  btn.addEventListener("click", () => {
+    const searchValue = searchInputs[index].value.trim();
+    searchProductsByInput(searchValue);
+  });
+});
+
+async function searchProductsByInput(searchTerm) {
+  const lowercaseSearchTerm = searchTerm.toLowerCase();
+
+  const productsRef = collection(database, "products");
+  const querySnapshot = await getDocs(productsRef);
+
+  const matchingProducts = [];
+
+  querySnapshot.forEach((doc) => {
+    const product = doc.data();
+    const productName = product.productName.toLowerCase();
+    const brand = product.brand.toLowerCase();
+    const category = product.category.toLowerCase();
+
+    if (
+      productName.includes(lowercaseSearchTerm) ||
+      brand.includes(lowercaseSearchTerm) ||
+      category.includes(lowercaseSearchTerm)
+    ) {
+      matchingProducts.push(doc.id);
+    }
+  });
+
+  localStorage.setItem("searchTerm", searchTerm);
+  console.log(searchTerm);
+
+  console.log(matchingProducts);
+  location.href = "search.html?searchTerm=" + matchingProducts;
+  return matchingProducts;
+}
+
+profileBtns.forEach((btn, index) => {
+  btn.addEventListener("click", () => {
+    if (!dropdownShown) {
+      if (seeSearchBar) {
+        searchBar.style.display = "none";
+        seeSearchBar = false;
+      }
+      profileDropdowns[index].style.display = "block";
+      dropdownShown = true;
+    } else {
+      profileDropdowns[index].style.display = "none";
+      dropdownShown = false;
+    }
+  });
+});
+
+searchIcon.addEventListener("click", () => {
   if (!seeSearchBar) {
     if (dropdownShown) {
       profileDropdown.style.display = "none";
@@ -124,6 +182,85 @@ searchBtn.addEventListener("click", () => {
     seeSearchBar = false;
   }
 });
+
+async function renderInfo(name) {
+  let customers = new Set();
+  let price = [];
+  let qtyBought = [];
+  let productIDs = [];
+  try {
+    const q = query(
+      collection(database, "orders"),
+      where("seller", "==", `${name}`)
+    );
+    const snap = await getDocs(q);
+
+    snap.forEach((s) => {
+      customers.add(s.data().owner);
+      price.push(s.data().price);
+      qtyBought.push(s.data().qtyBought);
+      productIDs.push(s.data().productID);
+    });
+    const customersArray = Array.from(customers);
+    salescount.textContent = price.length;
+    console.log(price);
+    const totalPrice = price.reduce((a, b) => +a + +b, 0);
+    console.log(totalPrice);
+    const totalQty = qtyBought.reduce((a, b) => a + b, 0);
+    console.log(totalQty);
+    const revenue = Number(totalPrice) * Number(totalQty);
+    revCount.textContent = `₦${formatter.format(revenue)}`;
+    custCount.textContent = customersArray.length;
+
+    const tableBody = document.querySelector("#table tbody");
+
+    productIDs.forEach(async (id, index) => {
+      const productRef = doc(database, "products/", id);
+      const productSnap = await getDoc(productRef);
+      const productData = productSnap.data();
+
+      const row = document.createElement("tr");
+      const imgCell = document.createElement("td");
+      const img = document.createElement("img");
+      const imgRef = ref(storage, productData.productImages[0]);
+      const imgUrl = await getDownloadURL(imgRef);
+      img.src = imgUrl;
+      img.style.width = "50px";
+      img.style.height = "50px";
+      img.style.borderRadius = "5px";
+      imgCell.appendChild(img);
+      row.appendChild(imgCell);
+
+      const nameCell = document.createElement("td");
+      nameCell.textContent = productData.productName;
+      row.appendChild(nameCell);
+
+      const priceCell = document.createElement("td");
+      priceCell.textContent = `₦${formatter.format(productData.price)}`;
+      row.appendChild(priceCell);
+
+      const qtyCell = document.createElement("td");
+      qtyCell.textContent = qtyBought[index];
+      row.appendChild(qtyCell);
+
+      const totalPriceCell = document.createElement("td");
+      totalPriceCell.textContent = `₦${formatter.format(
+        +price[index] * qtyBought[index]
+      )}`;
+      row.appendChild(totalPriceCell);
+
+      tableBody.appendChild(row);
+    });
+    cardwrapperTemp.style.display = "none";
+    dashheaderTemp.style.display = "none";
+    cardwrapper.style.display = "flex";
+    dashheader.style.display = "flex";
+  } catch (error) {
+    console.log(error);
+
+    showError(error.message);
+  }
+}
 
 function confirm(message) {
   Swal.fire({
@@ -143,5 +280,21 @@ function confirm(message) {
     No
   `,
     cancelButtonAriaLabel: "Thumbs down",
+  });
+}
+
+async function showError(message) {
+  Swal.fire({
+    background: "#DC3545",
+    borderRadius: "0px",
+    color: "#fff",
+    height: "fit-content",
+    padding: "0",
+    position: "top-end",
+    showConfirmButton: false,
+    text: `${message}`,
+    timer: 1500,
+    timerProgressBar: true,
+    width: "fit-content",
   });
 }

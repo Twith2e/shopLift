@@ -5,11 +5,11 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
 import {
   getFirestore,
-  collection,
-  addDoc,
+  setDoc,
   getDoc,
   updateDoc,
   doc,
+  collection,
 } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 import { CONFIG } from "../src/config.js";
 
@@ -84,15 +84,17 @@ function payWithPaystack() {
     currency: "NGN",
     callback: function (response) {
       try {
-        const orderRef = collection(database, "users/" + userId + "/order");
+        const orderRef = collection(database, `orders`);
+        const newOrderRef = doc(orderRef);
         const orderInfo = {
           productID: productInfo.productID,
           qtyBought: productInfo.qtyBought,
           owner: productInfo.owner,
           seller: productInfo.seller,
           date: new Date().toLocaleString(),
+          price,
         };
-        addDoc(orderRef, orderInfo)
+        setDoc(newOrderRef, orderInfo)
           .then(() => {
             // Update product quantity
             console.log(productInfo.productID);
@@ -141,20 +143,6 @@ function payWithPaystack() {
   handler.openIframe();
 }
 
-// async function updateProductQuantity(productID, qtyBought) {
-//   const productRef = doc(database, "products", productID);
-//   const productSnap = await getDoc(productRef);
-
-//   if (productSnap.exists()) {
-//     const currentQty = productSnap.data().quantity;
-//     const newQty = currentQty - qtyBought;
-
-//     await updateDoc(productRef, {
-//       quantity: newQty,
-//     });
-//   }
-// }
-
 function verifyTransaction(reference) {
   fetch("https://api.paystack.co/transaction/verify/" + reference, {
     method: "GET",
@@ -165,10 +153,9 @@ function verifyTransaction(reference) {
     .then((response) => response.json())
     .then((data) => {
       if (data.status) {
-        console.log("Transaction Details:", data.data);
         generateReceipt(data.data);
       } else {
-        console.error("Transaction verification failed:", data.message);
+        showError(data.message);
       }
     })
     .catch((error) => console.error("Error:", error));

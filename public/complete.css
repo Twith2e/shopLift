@@ -346,8 +346,8 @@ textarea {
   border: 1px dotted #777;
   border-radius: 30px;
   height: 250px;
-  width: 23%; /* Adjust this value as needed */
-  min-width: 0; /* Allows shrinking below content size */
+  width: 23%;
+  min-width: 0;
 }
 
 .list-btn-wrapper {
