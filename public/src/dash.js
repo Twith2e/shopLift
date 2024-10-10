@@ -233,6 +233,7 @@ async function renderInfo(name) {
 
       const nameCell = document.createElement("td");
       nameCell.textContent = productData.productName;
+      nameCell.style.color = "#fb8d28";
       row.appendChild(nameCell);
 
       const priceCell = document.createElement("td");
