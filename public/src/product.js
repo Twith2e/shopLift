@@ -181,36 +181,42 @@ async function renderProduct() {
         }
       });
 
-      similarProducts.forEach((similarProduct) => {
-        const similarItem = document.createElement("div");
-        similarItem.classList.add("product-card");
-        const img = document.createElement("img");
-        const imgRef = ref(storage, similarProduct.productImages[0]);
-        getDownloadURL(imgRef).then((url) => {
-          img.src = url;
-          img.className = "product-img";
-          const skeletonItem =
-            similarItemsContainer.querySelectorAll("#cardTemplate");
-          if (skeletonItem) {
-            skeletonItem.forEach((temp) => {
-              temp.remove();
-            });
-          }
-        });
-        similarItem.appendChild(img);
-        const name = document.createElement("p");
-        name.textContent = similarProduct.productName;
-        similarItem.appendChild(name);
-        const price = document.createElement("h4");
-        price.textContent = `NGN ₦${formatter.format(similarProduct.price)}`;
-        similarItem.appendChild(price);
-        similarItem.addEventListener("click", () => {
-          console.log("Product clicked:", similarProduct.productID);
-          location.href = `product.html?productId=${similarProduct.productID.trim()}`;
-        });
+      if (similarProducts.length > 0) {
+        similarProducts.forEach((similarProduct) => {
+          const similarItem = document.createElement("div");
+          similarItem.classList.add("product-card");
+          const img = document.createElement("img");
+          const imgRef = ref(storage, similarProduct.productImages[0]);
+          getDownloadURL(imgRef).then((url) => {
+            img.src = url;
+            img.className = "product-img";
+            const skeletonItem =
+              similarItemsContainer.querySelectorAll("#cardTemplate");
+            if (skeletonItem) {
+              skeletonItem.forEach((temp) => {
+                temp.remove();
+              });
+            }
+          });
+          similarItem.appendChild(img);
+          const name = document.createElement("p");
+          name.textContent = similarProduct.productName;
+          similarItem.appendChild(name);
+          const price = document.createElement("h4");
+          price.textContent = `NGN ₦${formatter.format(similarProduct.price)}`;
+          similarItem.appendChild(price);
+          similarItem.addEventListener("click", () => {
+            console.log("Product clicked:", similarProduct.productID);
+            location.href = `product.html?productId=${similarProduct.productID.trim()}`;
+          });
 
-        similarItemsContainer.appendChild(similarItem);
-      });
+          similarItemsContainer.appendChild(similarItem);
+        });
+      } else {
+        similarItemsContainer.innerHTML =
+          "<h1 style='width:50%; margin:auto'>No Similar Products Found</h1>";
+        similarItemsContainer.style.width = "100%";
+      }
 
       const userRef = doc(database, "users", product.owner);
       const userSnapshot = await getDoc(userRef);
@@ -368,7 +374,7 @@ async function addToCart() {
               isInCart = true;
               cartBtn.innerHTML = "View in Cart";
               showSuccess("product added to cart").then(() => {
-                location.replace("cart.html");
+                location.reload();
               });
             })
             .catch((error) => {
@@ -478,6 +484,10 @@ delivery.textContent =
   getEstimatedDeliveryDates().threeDays +
   " - " +
   getEstimatedDeliveryDates().fourDays;
+
+deliv.textContent = `Est. delivery ${getEstimatedDeliveryDates().threeDays} - ${
+  getEstimatedDeliveryDates().fourDays
+}`;
 
 async function showError(message) {
   return new Promise((resolve) => {

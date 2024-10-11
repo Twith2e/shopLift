@@ -138,7 +138,7 @@ googleBtn.addEventListener("click", () => {
 });
 
 function login() {
-  window.location.href = document.refferer;
+  window.location.href = sessionStorage.getItem("prevUrl");
 }
 
 async function showError(message) {

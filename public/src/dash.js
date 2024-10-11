@@ -119,6 +119,7 @@ searchBtns.forEach((btn, index) => {
   btn.addEventListener("click", () => {
     const searchValue = searchInputs[index].value.trim();
     searchProductsByInput(searchValue);
+    searchInputs[index].value = "";
   });
 });
 

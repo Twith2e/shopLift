@@ -51,6 +51,8 @@ const addTileBtn = document.getElementById("addtile");
 const digitInput = document.querySelectorAll("#digitinput");
 const listBtn = document.getElementById("listbtn");
 const priceInput = document.querySelector(".numberdigit");
+const brandInput = document.getElementById("brandinput");
+const qtyInput = document.getElementById("qty");
 
 let picArray = [];
 let photoCounter = 0;
@@ -238,116 +240,6 @@ titleInput.addEventListener("input", (e) => {
   }
 });
 
-// if (categoryInput.value.toLowerCase() === MOBILE_PHONES_CATEGORY) {
-//   const bSvg = createSvgElement(pathData);
-//   const brandWrapper = createWrapper("Brand", bSvg);
-//   brandContainer.appendChild(brandWrapper);
-
-//   const mSvg = createSvgElement(pathData);
-//   const modelWrapper = createWrapper("Model", mSvg);
-//   brandContainer.appendChild(modelWrapper);
-
-//   const sSvg = createSvgElement(pathData);
-//   const storageCapWrapper = createWrapper("Storage Capacity", sSvg);
-//   brandContainer.appendChild(storageCapWrapper);
-
-//   const cSvg = createSvgElement(pathData);
-//   const colorWrapper = createWrapper("Color", cSvg);
-//   brandContainer.appendChild(colorWrapper);
-// }
-
-// function createSvgElement(pathData) {
-//   const svg = document.createElementNS(svgNS, "svg");
-//   svg.setAttribute("height", "30px");
-//   svg.setAttribute("width", "30px");
-//   svg.setAttribute("viewBox", "0 -960 960 960");
-//   svg.setAttribute("fill", "#000");
-//   const path = document.createElementNS(svgNS, "path");
-//   path.setAttribute("d", pathData);
-//   svg.appendChild(path);
-//   return svg;
-// }
-
-// function createIcon(iconPath) {
-//   const svg = document.createElementNS(svgNS, "svg");
-//   svg.setAttribute("height", "15px");
-//   svg.setAttribute("width", "15px");
-//   svg.setAttribute("viewBox", "0 0 30 30");
-//   svg.setAttribute("fill", "#000");
-//   const path = document.createElementNS(svgNS, "path");
-//   path.setAttribute("d", iconPath);
-//   svg.appendChild(path);
-//   return svg;
-// }
-
-// function createWrapper(textContent, svg) {
-//   const wrapper = document.createElement("div");
-//   wrapper.className = "brandwrapper";
-//   const text = document.createElement("span");
-//   text.textContent = textContent;
-//   text.className = "brandtext";
-//   const button = document.createElement("button");
-//   button.className = "brandbtn";
-//   const btnText = document.createElement("span");
-//   button.appendChild(btnText);
-//   const buttonWrapper = document.createElement("div");
-//   buttonWrapper.className = "brandbtnwrapper";
-//   const brandOptions = document.createElement("div");
-//   brandOptions.className = "brandoptions";
-//   const brandInput = document.createElement("div");
-//   brandInput.className = "brandinput";
-//   brandInput.appendChild(icon);
-//   const input = document.createElement("input");
-//   brandInput.appendChild(input);
-//   brandOptions.appendChild(brandInput);
-//   const brandList = document.createElement("div");
-//   brandList.id = "list";
-//   brandOptions.appendChild(brandList);
-
-//   if (svg) button.appendChild(svg);
-//   wrapper.appendChild(text);
-//   buttonWrapper.appendChild(button);
-//   buttonWrapper.appendChild(brandOptions);
-//   wrapper.appendChild(buttonWrapper);
-//   return wrapper;
-// }
-
-// async function displayBrandList(list) {
-//   try {
-//     const response = await fetch(url, options);
-//     const result = await response.json();
-//     console.log(result);
-
-//     result.forEach((element) => {
-//       const listItem = document.createElement("button");
-//       listItem.textContent = element.brandValue;
-//       list.appendChild(listItem);
-//     });
-//   } catch (error) {
-//     console.error(error);
-//   }
-// }
-
-// if (document.querySelector(".brandbtn")) {
-//   const brandBtns = document.querySelectorAll(".brandbtn");
-//   brandBtns.forEach((btn, index) => {
-//     btn.addEventListener("click", () => {
-//       const lists = document.querySelectorAll(".brandoptions");
-//       lists.forEach((list, listIndex) => {
-//         if (index === listIndex) {
-//           console.log(index);
-//           if (index === 0) {
-//             displayBrandList(list.children[1]);
-//           }
-//           list.style.display = "block";
-//         } else {
-//           list.style.display = "none";
-//         }
-//       });
-//     });
-//   });
-// }
-
 digitInput.forEach((input) => {
   input.addEventListener("input", (e) => {
     e.target.value = e.target.value.replace(/[^0-9]/g, "");
@@ -381,7 +273,7 @@ listBtn.addEventListener("click", () => {
     showError("Please fill in the product description");
   } else if (!brandInput.value) {
     showError("Please fill the brand");
-  } else if (!qty.value) {
+  } else if (!qtyInput.value) {
     showError("please specify the quantity you are listing");
   } else {
     // Proceed with listing the product
@@ -395,6 +287,7 @@ listBtn.addEventListener("click", () => {
     productDetails.price = unformat(priceInput.value);
     productDetails.owner = auth.currentUser.uid;
     productDetails.description = descField.value;
+    productDetails.quantity = qtyInput.value;
     let tempStore = [];
     for (let i = 0; i <= btnPress; i++) {
       const div = document.getElementById(`incremental${i}`);
