@@ -374,7 +374,7 @@ async function addToCart() {
               isInCart = true;
               cartBtn.innerHTML = "View in Cart";
               showSuccess("product added to cart").then(() => {
-                location.reload();
+                checkCart();
               });
             })
             .catch((error) => {

@@ -9,11 +9,11 @@
       type="image/x-icon"
     />
     <link rel="stylesheet" href="general.css" />
-    <link rel="stylesheet" href="dashboard.css" />
-    <title>Dashboard | Shoplift</title>
+    <link rel="stylesheet" href="profile.css" />
+    <title>Profile | Shoplift</title>
   </head>
   <body>
-    <div class="body-wrapper">
+    <div class="body-container">
       <header>
         <nav class="sm-nav">
           <div class="right-sm-nav">
@@ -161,145 +161,108 @@
         </nav>
       </header>
       <main>
-        <div>
-          <h2
-            class="skeleton skeleton-name"
-            style="height: 30px"
-            id="dashheaderTemp"
-          ></h2>
-        </div>
-        <div class="card-wrapper" id="cardwrappertemp">
-          <div class="mini-card-wrapper">
-            <div
-              class="card sales-overview-wrapper skeleton"
-              style="height: 160px"
-            ></div>
-            <div
-              class="card revenue-overview-wrapper skeleton"
-              style="height: 160px"
-            ></div>
-          </div>
-          <div
-            class="card customer-overview-wrapper skeleton"
-            style="height: 160px"
-          ></div>
-          <div class="card top-seller skeleton" style="height: 400px">
-            <div class="ts-c">
-              <table class="table"></table>
-            </div>
-          </div>
-        </div>
-        <div id="dashheader" style="display: none">
-          <h2>Dashboard</h2>
-        </div>
-        <div class="card-wrapper" id="cardwrapper">
-          <div class="mini-card-wrapper">
-            <div class="card sales-overview-wrapper">
-              <span class="sales-overview">
-                <span class="sales">Sales</span>
-                <span class="v-divider"></span>
-                <span class="today">Today</span></span
+        <div class="grid">
+          <div class="profile-info-list">
+            <img src="" alt="" />
+            <div class="p-i-l">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="24px"
+                viewBox="0 -960 960 960"
+                width="24px"
+                fill="#fb8d28"
               >
-              <div class="si-c">
-                <div class="cart-wrapper">
-                  <svg
-                    width="50"
-                    height="50"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M2.23737 2.28845C1.84442 2.15746 1.41968 2.36983 1.28869 2.76279C1.15771 3.15575 1.37008 3.58049 1.76303 3.71147L2.02794 3.79978C2.70435 4.02524 3.15155 4.17551 3.481 4.32877C3.79296 4.47389 3.92784 4.59069 4.01426 4.71059C4.10068 4.83049 4.16883 4.99538 4.20785 5.33722C4.24907 5.69823 4.2502 6.17 4.2502 6.883L4.2502 9.55484C4.25018 10.9224 4.25017 12.0247 4.36673 12.8917C4.48774 13.7918 4.74664 14.5497 5.34855 15.1516C5.95047 15.7535 6.70834 16.0124 7.60845 16.1334C8.47542 16.25 9.57773 16.25 10.9453 16.25H18.0002C18.4144 16.25 18.7502 15.9142 18.7502 15.5C18.7502 15.0857 18.4144 14.75 18.0002 14.75H11.0002C9.56479 14.75 8.56367 14.7484 7.80832 14.6468C7.07455 14.5482 6.68598 14.3677 6.40921 14.091C6.17403 13.8558 6.00839 13.5398 5.9034 13H16.0222C16.9817 13 17.4614 13 17.8371 12.7522C18.2128 12.5045 18.4017 12.0636 18.7797 11.1817L19.2082 10.1817C20.0177 8.2929 20.4225 7.34849 19.9779 6.67422C19.5333 5.99996 18.5058 5.99996 16.4508 5.99996H5.74526C5.73936 5.69227 5.72644 5.41467 5.69817 5.16708C5.64282 4.68226 5.52222 4.2374 5.23112 3.83352C4.94002 3.42965 4.55613 3.17456 4.1137 2.96873C3.69746 2.7751 3.16814 2.59868 2.54176 2.38991L2.23737 2.28845Z"
-                      fill="#fb8d28"
-                    />
-                    <path
-                      d="M7.5 18C8.32843 18 9 18.6716 9 19.5C9 20.3284 8.32843 21 7.5 21C6.67157 21 6 20.3284 6 19.5C6 18.6716 6.67157 18 7.5 18Z"
-                      fill="#1C274C"
-                    />
-                    <path
-                      d="M16.5 18.0001C17.3284 18.0001 18 18.6716 18 19.5001C18 20.3285 17.3284 21.0001 16.5 21.0001C15.6716 21.0001 15 20.3285 15 19.5001C15 18.6716 15.6716 18.0001 16.5 18.0001Z"
-                      fill="#1C274C"
-                    />
-                  </svg>
-                </div>
-                <span class="sales-count" id="salescount"></span>
-              </div>
+                <path
+                  d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Zm80-80h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T560-640q0-33-23.5-56.5T480-720q-33 0-56.5 23.5T400-640q0 33 23.5 56.5T480-560Zm0-80Zm0 400Z"
+                />
+              </svg>
+              <span>Personal Information</span>
             </div>
-            <div class="card revenue-overview-wrapper">
-              <span class="revenue">Revenue</span>
-              <div class="ri-c">
-                <div class="currency">
-                  <svg
-                    fill="green"
-                    width="35"
-                    height="35"
-                    viewBox="0 0 24 24"
-                    id="naira"
-                    data-name="Flat Line"
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="icon flat-line"
-                  >
-                    <polyline
-                      id="primary"
-                      points="7 21 7 3 17 21 17 3"
-                      style="
-                        fill: none;
-                        stroke: #008751;
-                        stroke-linecap: round;
-                        stroke-linejoin: round;
-                        stroke-width: 2;
-                      "
-                    ></polyline>
-                    <path
-                      id="primary-2"
-                      data-name="primary"
-                      d="M4,10H20M4,14H20"
-                      style="
-                        fill: none;
-                        stroke: #008751;
-                        stroke-linecap: round;
-                        stroke-linejoin: round;
-                        stroke-width: 2;
-                      "
-                    ></path>
-                  </svg>
-                </div>
-                <span class="rev-count" id="revCount"></span>
-              </div>
+            <div class="p-i-l">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="24px"
+                viewBox="0 -960 960 960"
+                width="24px"
+                fill="#fb8d28"
+              >
+                <path
+                  d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z"
+                />
+              </svg>
+              <span>Login Information</span>
+            </div>
+            <div class="p-i-l">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="24px"
+                viewBox="0 -960 960 960"
+                width="24px"
+                fill="#fb8d28"
+              >
+                <path
+                  d="M560-440q-50 0-85-35t-35-85q0-50 35-85t85-35q50 0 85 35t35 85q0 50-35 85t-85 35ZM280-320q-33 0-56.5-23.5T200-400v-320q0-33 23.5-56.5T280-800h560q33 0 56.5 23.5T920-720v320q0 33-23.5 56.5T840-320H280Zm80-80h400q0-33 23.5-56.5T840-480v-160q-33 0-56.5-23.5T760-720H360q0 33-23.5 56.5T280-640v160q33 0 56.5 23.5T360-400Zm440 240H120q-33 0-56.5-23.5T40-240v-440h80v440h680v80ZM280-400v-320 320Z"
+                />
+              </svg>
+              <span>Payment Method</span>
+            </div>
+            <div class="p-i-l">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="24px"
+                viewBox="0 -960 960 960"
+                width="24px"
+                fill="#fb8d28"
+              >
+                <path
+                  d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h404q-4 20-4 40t4 40H160l320 200 146-91q14 13 30.5 22.5T691-572L480-440 160-640v400h640v-324q23-5 43-14t37-22v360q0 33-23.5 56.5T800-160H160Zm0-560v480-480Zm600 80q-50 0-85-35t-35-85q0-50 35-85t85-35q50 0 85 35t35 85q0 50-35 85t-85 35Z"
+                />
+              </svg>
+              <span>Notifications</span>
+            </div>
+            <div class="p-i-l">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="24px"
+                viewBox="0 -960 960 960"
+                width="24px"
+                fill="#fb8d28"
+              >
+                <path
+                  d="M440-120v-240h80v80h320v80H520v80h-80Zm-320-80v-80h240v80H120Zm160-160v-80H120v-80h160v-80h80v240h-80Zm160-80v-80h400v80H440Zm160-160v-240h80v80h160v80H680v80h-80Zm-480-80v-80h400v80H120Z"
+                />
+              </svg>
+              <span>Site Settings</span>
             </div>
           </div>
-          <div class="card customer-overview-wrapper">
-            <span class="customer">Customer</span>
-            <div class="ci-c">
-              <div class="user-group">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  height="35"
-                  viewBox="0 -960 960 960"
-                  width="35"
-                  fill="#fb8d28"
-                >
-                  <path
-                    d="M40-160v-112q0-34 17.5-62.5T104-378q62-31 126-46.5T360-440q66 0 130 15.5T616-378q29 15 46.5 43.5T680-272v112H40Zm720 0v-120q0-44-24.5-84.5T666-434q51 6 96 20.5t84 35.5q36 20 55 44.5t19 53.5v120H760ZM360-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47Zm400-160q0 66-47 113t-113 47q-11 0-28-2.5t-28-5.5q27-32 41.5-71t14.5-81q0-42-14.5-81T544-792q14-5 28-6.5t28-1.5q66 0 113 47t47 113ZM120-240h480v-32q0-11-5.5-20T580-306q-54-27-109-40.5T360-360q-56 0-111 13.5T140-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T440-640q0-33-23.5-56.5T360-720q-33 0-56.5 23.5T280-640q0 33 23.5 56.5T360-560Zm0 320Zm0-400Z"
-                  />
-                </svg>
+          <div class="personal-info">
+            <h2>Personal Information</h2>
+            <div class="personal-info-det">
+              <div class="info-det">
+                <h4>Full Name</h4>
+                <span id="profilename">Abu</span>
               </div>
-              <span class="cust-count" id="custCount"></span>
+              <button data-span-id="profilename" id="edit">Edit</button>
             </div>
-          </div>
-          <div class="card top-seller">
-            <span class="top-seller">Top Seller</span>
-            <div class="ts-c">
-              <table class="table" id="table">
-                <tr>
-                  <th class="thead">Preview</th>
-                  <th class="thead">Product</th>
-                  <th class="thead">Price</th>
-                  <th class="thead">Sold</th>
-                  <th class="thead">Revenue</th>
-                </tr>
-              </table>
+            <div class="personal-info-det">
+              <div class="info-det">
+                <h4>Business Name</h4>
+                <span id="profilename">Not Provided</span>
+              </div>
+              <button data-span-id="profilename" id="edit">Edit</button>
+            </div>
+            <div class="personal-info-det">
+              <div class="info-det">
+                <h4>Email</h4>
+                <span id="profilename">test@test.gmail.com</span>
+              </div>
+              <button data-span-id="profilename" id="edit">Edit</button>
+            </div>
+            <div class="personal-info-det">
+              <div class="info-det">
+                <h4>Date Joined</h4>
+                <span id="profilename">Abu</span>
+              </div>
             </div>
           </div>
         </div>
@@ -307,5 +270,5 @@
     </div>
   </body>
 </html>
-<script src="src/dash.js" type="module"></script>
+<script src="src/profile.js" type="module"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

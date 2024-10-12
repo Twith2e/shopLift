@@ -87,7 +87,7 @@ submitBtn.addEventListener("click", () => {
 });
 
 function login() {
-  window.location.href = sessionStorage.getItem("prevUrl");
+  window.location.href = sessionStorage.getItem("prevUrl") || "index.html";
 }
 
 async function showSuccess(message) {
