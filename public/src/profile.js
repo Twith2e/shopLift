@@ -12,6 +12,7 @@ import {
   doc,
   query,
   where,
+  updateDoc,
 } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 import {
   getStorage,
@@ -46,13 +47,34 @@ const userNames = document.querySelectorAll("#username");
 const signOutBtn = document.getElementById("signoutbtn");
 const profileInfo = document.getElementById("profile-info");
 const ddList = document.getElementById("dd-list");
+const infoInputs = document.querySelectorAll("#info-input");
+const editBtns = document.querySelectorAll("#edit");
+const doneBtn = document.getElementById("donebtn");
 const cardwrapperTemp = document.getElementById("cardwrappertemp");
 const cardwrapper = document.getElementById("cardwrapper");
 let dropdownShown = false;
 let seeSearchBar = false;
+let currentUser;
 
 onAuthStateChanged(auth, (user) => {
   if (user) {
+    currentUser = user;
+    console.log(user);
+    loadUserProfile(user);
+    doneBtn.addEventListener("click", () => {
+      doneBtn.disabled = true;
+      doneBtn.style.background = "#f3b17b";
+      document
+        .getElementById("businessname")
+        .setAttribute("readonly", "readonly");
+      document
+        .getElementById("profilename")
+        .setAttribute("readonly", "readonly");
+      document
+        .getElementById("profilemail")
+        .setAttribute("readonly", "readonly");
+      updateUserProfile(user);
+    });
     userNames.forEach((name) => {
       name.textContent = user.displayName.split(" ")[0];
     });
@@ -172,16 +194,70 @@ profileBtns.forEach((btn, index) => {
 searchIcon.addEventListener("click", () => {
   if (!seeSearchBar) {
     if (dropdownShown) {
-      profileDropdown.style.display = "none";
+      //   profileDropdowns[0].style.display = "none";
+      //   profileDropdowns[1].style.display = "none";
       dropdownShown = false;
     }
     searchBar.style.display = "block";
+    smiput && sminput.focus();
     seeSearchBar = true;
   } else {
     searchBar.style.display = "none";
     seeSearchBar = false;
   }
 });
+
+editBtns.forEach((editbtn) => {
+  editbtn.addEventListener("click", (e) => {
+    const dataAtrribute = e.target.getAttribute("data-span-id");
+    const currentInput = document.getElementById(dataAtrribute);
+    if (currentInput) {
+      currentInput.removeAttribute("readonly");
+      currentInput.focus();
+      currentInput.setSelectionRange(0, 20000);
+      currentInput.addEventListener("input", () => {
+        doneBtn.disabled = false;
+        doneBtn.style.background = "#fb8d28";
+        doneBtn.style.color = "#fff";
+      });
+    }
+  });
+});
+
+async function updateUserProfile(user) {
+  try {
+    const userProfileRef = doc(database, "users", user.uid);
+    const updateProfile = {
+      userName: profilename.value,
+      businessName: businessname.value,
+      userMail: profilemail.value,
+    };
+    await updateDoc(userProfileRef, updateProfile);
+    showSuccess("Profile Updated");
+  } catch (error) {
+    showError(error.message);
+    console.log(error.message);
+  }
+}
+
+async function loadUserProfile(user) {
+  try {
+    const userRef = doc(database, "users", user.uid);
+    const userSnap = await getDoc(userRef);
+    if (userSnap.exists()) {
+      const user = userSnap.data();
+      document.getElementById("businessname").value = user.businessName;
+      document.getElementById("profilename").value = user.userName;
+      document.getElementById("profilemail").value = user.userMail;
+      document.getElementById("datejoined").value = user.dateJoined;
+      return;
+    }
+    document.getElementById("businessname").value = "Not Provided";
+  } catch (error) {
+    showSuccess(error.message);
+    console.log(error.message);
+  }
+}
 
 function confirm(message) {
   Swal.fire({
@@ -201,6 +277,25 @@ function confirm(message) {
     No
   `,
     cancelButtonAriaLabel: "Thumbs down",
+  });
+}
+
+async function showSuccess(message) {
+  return new Promise((resolve) => {
+    Swal.fire({
+      background: "#28a745",
+      color: "#fff",
+      height: "fit-content",
+      padding: "0 0",
+      position: "top",
+      showConfirmButton: false,
+      text: `${message}`,
+      timer: 1500,
+      timerProgressBar: true,
+      width: "fit-content",
+    }).then(() => {
+      resolve();
+    });
   });
 }
 

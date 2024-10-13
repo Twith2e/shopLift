@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap");
 
 header {
-  background-color: #fff;
+  background-color: #fb8d28;
   height: 80px;
   left: 0;
   padding: 20px;
@@ -21,6 +21,15 @@ li {
   list-style: none;
   padding: 5px;
   width: fit-content;
+}
+
+input {
+  background: transparent;
+  color: #e0e0e0;
+}
+
+input::placeholder {
+  color: #fff;
 }
 
 a {
@@ -120,6 +129,7 @@ button {
 
 .searchbar input {
   border: none;
+  color: #000;
   outline: none;
   padding: 10px 0;
   width: 100%;

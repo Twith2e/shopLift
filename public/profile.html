@@ -28,7 +28,7 @@
                 width="25"
                 height="25"
                 viewBox="0 0 30 30"
-                fill="#fb8d28"
+                fill="#fff"
               >
                 <path
                   d="M 13 3 C 7.4889971 3 3 7.4889971 3 13 C 3 18.511003 7.4889971 23 13 23 C 15.396508 23 17.597385 22.148986 19.322266 20.736328 L 25.292969 26.707031 A 1.0001 1.0001 0 1 0 26.707031 25.292969 L 20.736328 19.322266 C 22.148986 17.597385 23 15.396508 23 13 C 23 7.4889971 18.511003 3 13 3 z M 13 5 C 17.430123 5 21 8.5698774 21 13 C 21 17.430123 17.430123 21 13 21 C 8.5698774 21 5 17.430123 5 13 C 5 8.5698774 8.5698774 5 13 5 z"
@@ -55,7 +55,7 @@
                 </svg>
               </div>
               <ul class="dd-list" id="dd-list">
-                <li><a href="profile.html">My Profile</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
                 <li class="signoutwrapper" id="signoutbtn">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -84,7 +84,7 @@
                 width="20"
                 height="20"
                 viewBox="0 0 30 30"
-                fill="#555"
+                fill="#fff"
               >
                 <path
                   d="M 13 3 C 7.4889971 3 3 7.4889971 3 13 C 3 18.511003 7.4889971 23 13 23 C 15.396508 23 17.597385 22.148986 19.322266 20.736328 L 25.292969 26.707031 A 1.0001 1.0001 0 1 0 26.707031 25.292969 L 20.736328 19.322266 C 22.148986 17.597385 23 15.396508 23 13 C 23 7.4889971 18.511003 3 13 3 z M 13 5 C 17.430123 5 21 8.5698774 21 13 C 21 17.430123 17.430123 21 13 21 C 8.5698774 21 5 17.430123 5 13 C 5 8.5698774 8.5698774 5 13 5 z"
@@ -111,7 +111,7 @@
                 width="20"
                 height="20"
                 viewBox="0 0 30 30"
-                fill="#fb8d28"
+                fill="#fff"
               >
                 <path
                   d="M 13 3 C 7.4889971 3 3 7.4889971 3 13 C 3 18.511003 7.4889971 23 13 23 C 15.396508 23 17.597385 22.148986 19.322266 20.736328 L 25.292969 26.707031 A 1.0001 1.0001 0 1 0 26.707031 25.292969 L 20.736328 19.322266 C 22.148986 17.597385 23 15.396508 23 13 C 23 7.4889971 18.511003 3 13 3 z M 13 5 C 17.430123 5 21 8.5698774 21 13 C 21 17.430123 17.430123 21 13 21 C 8.5698774 21 5 17.430123 5 13 C 5 8.5698774 8.5698774 5 13 5 z"
@@ -140,7 +140,7 @@
                 </svg>
               </div>
               <ul class="dd-list" id="dd-list">
-                <li><a href="profile.html">My Profile</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
                 <li class="signoutwrapper" id="signoutbtn">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -163,7 +163,28 @@
       <main>
         <div class="grid">
           <div class="profile-info-list">
-            <img src="" alt="" />
+            <div class="image-element">
+              <img src="assets/1.jpg" alt="" />
+              <label for="pickimage">
+                <input class="image-picker" type="file" id="pickimage" />
+                <div class="edit-element">
+                  <span>Edit</span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    x="0px"
+                    y="0px"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="#fb8d28"
+                  >
+                    <path
+                      d="M 19.171875 2 C 18.448125 2 17.724375 2.275625 17.171875 2.828125 L 16 4 L 20 8 L 21.171875 6.828125 C 22.275875 5.724125 22.275875 3.933125 21.171875 2.828125 C 20.619375 2.275625 19.895625 2 19.171875 2 z M 14.5 5.5 L 3 17 L 3 21 L 7 21 L 18.5 9.5 L 14.5 5.5 z"
+                    ></path>
+                  </svg>
+                </div>
+              </label>
+            </div>
             <div class="p-i-l">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -240,29 +261,33 @@
             <div class="personal-info-det">
               <div class="info-det">
                 <h4>Full Name</h4>
-                <span id="profilename">Abu</span>
+                <input id="profilename" readonly />
               </div>
               <button data-span-id="profilename" id="edit">Edit</button>
             </div>
             <div class="personal-info-det">
               <div class="info-det">
                 <h4>Business Name</h4>
-                <span id="profilename">Not Provided</span>
+                <input id="businessname" readonly />
               </div>
-              <button data-span-id="profilename" id="edit">Edit</button>
+              <button data-span-id="businessname" id="edit">Edit</button>
             </div>
             <div class="personal-info-det">
               <div class="info-det">
                 <h4>Email</h4>
-                <span id="profilename">test@test.gmail.com</span>
+                <input id="profilemail" readonly />
               </div>
-              <button data-span-id="profilename" id="edit">Edit</button>
+              <button data-span-id="profilemail" id="edit">Edit</button>
             </div>
             <div class="personal-info-det">
               <div class="info-det">
                 <h4>Date Joined</h4>
-                <span id="profilename">Abu</span>
+                <input id="datejoined" readonly />
               </div>
+            </div>
+            <div class="action-btn-wrapper">
+              <button class="cancel-btn" id="cancelbtn">Cancel</button
+              ><button class="done-btn" disabled id="donebtn">Done</button>
             </div>
           </div>
         </div>

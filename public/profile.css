@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap");
 
 header {
-  background-color: #fff;
+  background-color: #fb8d28;
   height: 80px;
   left: 0;
   padding: 20px;
@@ -31,6 +31,14 @@ button {
   background: none;
   border: none;
   cursor: pointer;
+}
+
+input {
+  background: transparent;
+}
+
+input::placeholder {
+  color: #fff;
 }
 
 .body-wrapper {
@@ -131,6 +139,30 @@ button {
   gap: 30px;
 }
 
+.profile-info-list img {
+  border-radius: 50%;
+  object-fit: contain;
+  width: 100px;
+}
+
+.edit-element {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+  width: fit-content;
+}
+
+.image-element {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.image-picker {
+  display: none;
+}
+
 .profile-info-list,
 .personal-info {
   display: flex;
@@ -172,6 +204,33 @@ button {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  width: 100%;
+}
+
+.info-det input {
+  border: none;
+  outline: none;
+  width: 100%;
+}
+
+#save {
+  display: none;
+}
+
+.action-btn-wrapper {
+  display: flex;
+  gap: 20px;
+  justify-content: end;
+}
+
+.cancel-btn {
+  border: 1px solid #fb8d28;
+  padding: 5px;
+}
+
+.done-btn {
+  background: #f3b17b;
+  padding: 5px;
 }
 
 @media (min-width: 64rem) {
