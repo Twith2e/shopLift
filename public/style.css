@@ -27,6 +27,26 @@ main {
   display: none;
 }
 
+.result-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+  padding: 10px;
+  text-align: left;
+  width: 100%;
+}
+
+.result-button:hover {
+  background-color: #fb8d28;
+}
+
+.error-message-wrapper {
+  display: flex;
+  font-weight: 700;
+  justify-content: center;
+}
+
 .cat-nav,
 .sell-nav,
 .back-nav {
@@ -196,7 +216,20 @@ select {
   margin: 0 auto;
   min-width: 200px;
   padding-inline: 20px;
+  position: relative;
   width: 70%;
+}
+
+.searchmatch {
+  background-color: #eee;
+  border-radius: 10px;
+  display: none;
+  left: 0;
+  padding-block: 20px;
+  position: absolute;
+  top: 110%;
+  width: 100%;
+  z-index: 99999;
 }
 
 .search {

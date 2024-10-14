@@ -72,6 +72,24 @@ select {
   animation: spin 1s linear infinite;
 }
 
+.result-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  text-align: left;
+  width: 100%;
+}
+
+.result-button:hover {
+  background-color: #fb8d28;
+}
+
+.error-message-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
 @keyframes spin {
   0% {
     transform: rotate(0deg);

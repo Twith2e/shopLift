@@ -18,6 +18,7 @@ import {
   getStorage,
   getDownloadURL,
   ref,
+  uploadBytes,
 } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-storage.js";
 import { CONFIG } from "./config.js";
 
@@ -47,7 +48,8 @@ const userNames = document.querySelectorAll("#username");
 const signOutBtn = document.getElementById("signoutbtn");
 const profileInfo = document.getElementById("profile-info");
 const ddList = document.getElementById("dd-list");
-const infoInputs = document.querySelectorAll("#info-input");
+const profileImg = document.getElementById("profileimg");
+const imgPickr = document.getElementById("imgpickr");
 const editBtns = document.querySelectorAll("#edit");
 const doneBtn = document.getElementById("donebtn");
 const cardwrapperTemp = document.getElementById("cardwrappertemp");
@@ -77,6 +79,19 @@ onAuthStateChanged(auth, (user) => {
     });
     userNames.forEach((name) => {
       name.textContent = user.displayName.split(" ")[0];
+    });
+    imgPickr.addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      const fileReader = new FileReader();
+      if (file) {
+        fileReader.readAsDataURL(file);
+      }
+
+      fileReader.addEventListener("load", (e) => {
+        let extractedData = e.target.result;
+        profileImg.src = extractedData;
+        saveProfileImg(user, file);
+      });
     });
     signOutBtn.addEventListener("click", () => {
       confirm("Do you want to sign out?");
@@ -250,6 +265,19 @@ async function loadUserProfile(user) {
       document.getElementById("profilename").value = user.userName;
       document.getElementById("profilemail").value = user.userMail;
       document.getElementById("datejoined").value = user.dateJoined;
+      const imgRef = ref(storage, `${user.userPic}`);
+      getDownloadURL(imgRef)
+        .then((ref) => {
+          profileImg.src = ref;
+          productImg.loading = "lazy";
+          // if (lTemplate) {
+          //   lTemplate.remove();
+          //   productTray.style.display = "flex";
+          // }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
       return;
     }
     document.getElementById("businessname").value = "Not Provided";
@@ -257,6 +285,26 @@ async function loadUserProfile(user) {
     showSuccess(error.message);
     console.log(error.message);
   }
+}
+
+async function saveProfileImg(user, file) {
+  try {
+    const userRef = doc(database, "users", user.uid);
+    const updateProfile = {
+      userPic: file.name,
+    };
+    await updateDoc(userRef, updateProfile).then(() => {
+      showSuccess("Profile image updated!");
+    });
+    const imageRef = ref(storage, `${file.name}`);
+    uploadBytes(imageRef, file)
+      .then((snapshot) => {
+        console.log("image uploaded");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  } catch (error) {}
 }
 
 function confirm(message) {

@@ -44,6 +44,8 @@ const signupBtn = document.getElementById("signup");
 const productsContainer = document.getElementById("products-container");
 const searchBtns = document.querySelectorAll("#searchbtn");
 const categoryLinks = document.getElementById("categorylinks");
+const searchInput = document.getElementById("search");
+const searchMatch = document.getElementById("searchmatch");
 
 let uid;
 let isDropped = false;
@@ -186,6 +188,65 @@ for (let i = 0; i < 9; i++) {
   document.querySelectorAll(".product-wrapper").forEach((wrapper) => {
     wrapper.append(document.getElementById("cardTemplate").cloneNode(true));
   });
+}
+
+searchInput.addEventListener("input", () => {
+  if (searchInput.value === "") {
+    searchMatch.style.display = "none";
+    return;
+  }
+  searchMatch.style.display = "block";
+  showSearchMatch(searchInput.value);
+});
+
+async function showSearchMatch(searchTerm) {
+  const lowercaseSearchTerm = searchTerm.toLowerCase();
+
+  const productsRef = collection(database, "products");
+  const querySnapshot = await getDocs(productsRef);
+
+  // const searchMatch = document.getElementById("searchMatch"); // Assuming searchMatch is the element ID
+  searchMatch.innerHTML = ""; // Clear previous results
+
+  const searchResults = [];
+
+  querySnapshot.forEach((doc) => {
+    const product = doc.data();
+    const productName = product.productName.toLowerCase();
+
+    // Check if the productName contains the searchTerm
+    if (productName.includes(lowercaseSearchTerm.trim())) {
+      searchResults.push({
+        name: productName,
+        id: doc.id,
+      });
+    }
+  });
+
+  // Display the matched results
+  if (searchResults.length > 0) {
+    searchResults.forEach((result) => {
+      const resultElement = document.createElement("div"); // Create a new element for each result
+      resultElement.classList.add("result");
+      const button = document.createElement("button");
+      button.classList.add("result-button");
+      button.textContent = result.name;
+      button.setAttribute("data-id", result.id);
+      button.addEventListener("click", (e) => {
+        const id = e.target.getAttribute("data-id");
+        location.href = `search.html?searchTerm=` + id;
+      });
+      resultElement.appendChild(button);
+      searchMatch.appendChild(resultElement);
+    });
+  } else {
+    const errorDiv = document.createElement("div");
+    errorDiv.classList.add("error-message-wrapper");
+    const errorMessage = document.createElement("p");
+    errorMessage.textContent = "No Match💔";
+    errorDiv.appendChild(errorMessage);
+    searchMatch.appendChild(errorDiv);
+  }
 }
 
 async function renderLaptops() {
