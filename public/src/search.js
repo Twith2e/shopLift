@@ -123,6 +123,14 @@ onAuthStateChanged(auth, (user) => {
           });
         });
     });
+    const profileBtn = document.getElementById("profile");
+    profileBtn.addEventListener("click", () => {
+      location.href = "profile.html";
+    });
+    const dashboardBtn = document.getElementById("dashboard");
+    dashboardBtn.addEventListener("click", () => {
+      location.href = "dashboard.html";
+    });
   }
 });
 

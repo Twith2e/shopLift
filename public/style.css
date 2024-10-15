@@ -127,6 +127,15 @@ main {
   background-color: transparent;
 }
 
+#profile:hover,
+#dashboard:hover {
+  color: #fb8d28;
+}
+
+#signOut:hover {
+  color: #e53935;
+}
+
 .cat-nav-links a:hover {
   color: #fb8d28;
   text-decoration: underline;
@@ -411,8 +420,8 @@ select {
   bottom: -110px;
   display: none;
   flex-direction: column;
-  gap: 15px;
-  padding: 5px;
+  gap: 10px;
+  padding: 5px 10px;
   position: absolute;
   width: 100%;
 }

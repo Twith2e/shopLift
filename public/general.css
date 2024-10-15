@@ -18,37 +18,75 @@ header {
 
 .skeleton {
   animation: skeleton-loading 1s linear infinite alternate;
-  border-radius: 20px;
 }
 
 .skeleton-img {
-  width: 100%;
+  border-radius: 20px;
   height: 250px;
   margin-bottom: 10px;
+  width: 100%;
 }
 
 .skeleton-text {
+  border-radius: 20px;
   height: 20px;
-  width: 100%;
   margin-bottom: 1px;
+  width: 100%;
+}
+
+.skeleton-btn {
+  height: 35px;
+  margin-bottom: 1px;
+  width: 55px;
+}
+
+.skeleton-small {
+  border-radius: 20px;
+  height: 20px;
+  margin-bottom: 1px;
+  width: 100px;
+}
+
+.skeleton-xsmall {
+  border-radius: 20px;
+  height: 20px;
+  margin-bottom: 1px;
+  width: 40px;
+}
+
+.skeleton-large {
+  border-radius: 20px;
+  height: 20px;
+  margin-bottom: 1px;
+  width: 300px;
+}
+
+.skeleton-xlarge {
+  border-radius: 20px;
+  height: 40px;
+  margin-bottom: 1px;
+  width: 300px;
 }
 
 .skeleton-header {
+  border-radius: 20px;
   height: 40px;
-  width: 100%;
   margin-bottom: 1px;
+  width: 100%;
 }
 
 .skeleton-name {
+  border-radius: 20px;
   height: 20px;
-  width: 200px;
   margin-bottom: 1px;
+  width: 200px;
 }
 
 .skeleton-desc {
+  border-radius: 20px;
   height: 200px;
-  width: 80%;
   margin-bottom: 1px;
+  width: 80%;
 }
 
 @keyframes skeleton-loading {

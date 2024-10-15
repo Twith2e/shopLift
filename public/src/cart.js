@@ -72,6 +72,8 @@ onAuthStateChanged(auth, (user) => {
     authDisplay.innerHTML = `
     <p id="userDd">Hi ${user.displayName.split(" ")[0]}</p>
     <div class="sign-out">
+      <button id="profile">Profile</button>
+      <button id="dashboard">Dashboard</button>
       <button id="signOut">Sign out</button>
     </div>
     `;
@@ -113,6 +115,14 @@ onAuthStateChanged(auth, (user) => {
             });
         });
       }
+    });
+    const profileBtn = document.getElementById("profile");
+    profileBtn.addEventListener("click", () => {
+      location.href = "profile.html";
+    });
+    const dashboardBtn = document.getElementById("dashboard");
+    dashboardBtn.addEventListener("click", () => {
+      location.href = "dashboard.html";
     });
     updateItemCount(auth.currentUser.uid);
     renderItems(auth.currentUser.uid);

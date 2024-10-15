@@ -255,12 +255,15 @@ li a {
   }
 
   .sign-out {
+    align-items: start;
     background: #fff;
     border-radius: 5px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
-    bottom: -40px;
+    bottom: -110px;
     display: none;
-    padding: 5px;
+    flex-direction: column;
+    gap: 10px;
+    padding: 5px 10px;
     position: absolute;
     width: 100%;
   }

@@ -73,9 +73,9 @@ onAuthStateChanged(auth, (user) => {
     authDisplay.innerHTML = `
     <p id="userDd">Hi ${user.displayName.split(" ")[0]}</p>
     <div class="sign-out">
-      <button id="signOut">Sign out</button>
       <button id="profile">Profile</button>
       <button id="dashboard">Dashboard</button>
+      <button id="signOut">Sign out</button>
     </div>
     `;
     userDd.style.cursor = "pointer";
@@ -390,7 +390,7 @@ async function addToCart() {
               isInCart = true;
               cartBtn.innerHTML = "View in Cart";
               showSuccess("product added to cart").then(() => {
-                checkCart();
+                cartIconCount(userId);
               });
             })
             .catch((error) => {
@@ -469,7 +469,7 @@ async function showSearchMatch(searchTerm) {
       button.setAttribute("data-id", result.id);
       button.addEventListener("click", (e) => {
         const id = e.target.getAttribute("data-id");
-        location.href = `search.html?searchTerm=` + id;
+        location.href = `product.html?productId=` + id;
       });
       resultElement.appendChild(button);
       searchMatch.appendChild(resultElement);

@@ -40,8 +40,10 @@ const formatter = Intl.NumberFormat("en-NG");
 
 const searchBar = document.getElementById("seachbar");
 const searchIcon = document.getElementById("searchicon");
-const searchBtns = document.querySelectorAll("#searchbtn");
-const searchInputs = document.querySelectorAll("#searchinput");
+const searchBtn = document.getElementById("searchbtn");
+const smSearchBtn = document.getElementById("smsearchbtn");
+const searchInput = document.getElementById("searchinput");
+const smSearchInput = document.getElementById("smsearchinput");
 const profileBtns = document.querySelectorAll("#profilebtn");
 const profileDropdowns = document.querySelectorAll("#profiledropdown");
 const userNames = document.querySelectorAll("#username");
@@ -52,6 +54,7 @@ const profileImg = document.getElementById("profileimg");
 const imgPickr = document.getElementById("imgpickr");
 const editBtns = document.querySelectorAll("#edit");
 const doneBtn = document.getElementById("donebtn");
+const searchMatch = document.getElementById("searchmatch");
 const cardwrapperTemp = document.getElementById("cardwrappertemp");
 const cardwrapper = document.getElementById("cardwrapper");
 let dropdownShown = false;
@@ -144,20 +147,33 @@ onAuthStateChanged(auth, (user) => {
 
 document.body.addEventListener("keydown", (e) => {
   if (e.key === "Enter") {
-    searchInputs.forEach((input) => {
-      const searchValue = input.value.trim();
+    if (smSearchInput) {
+      const searchValue = smSearchInput.value.trim();
       searchProductsByInput(searchValue);
-    });
+    } else if (searchInput) {
+      const searchValue = searchInput.value.trim();
+      searchProductsByInput(searchValue);
+    }
   }
 });
 
-searchBtns.forEach((btn, index) => {
-  btn.addEventListener("click", () => {
-    const searchValue = searchInputs[index].value.trim();
+if (searchBtn) {
+  searchBtn.addEventListener("click", () => {
+    console.log("searchBtn clicked");
+    const searchValue = searchInput.value.trim();
     searchProductsByInput(searchValue);
-    searchInputs[index].value = "";
+    searchInput.value = "";
   });
-});
+}
+
+if (smSearchBtn) {
+  smSearchBtn.addEventListener("click", () => {
+    console.log("smSearchBtn clicked");
+    const searchValue = smSearchInput.value.trim();
+    searchProductsByInput(searchValue);
+    smSearchInput.value = "";
+  });
+}
 
 async function searchProductsByInput(searchTerm) {
   const lowercaseSearchTerm = searchTerm.toLowerCase();
@@ -214,7 +230,7 @@ searchIcon.addEventListener("click", () => {
       dropdownShown = false;
     }
     searchBar.style.display = "block";
-    smiput && sminput.focus();
+    smSearchInput && smSearchInput.focus();
     seeSearchBar = true;
   } else {
     searchBar.style.display = "none";
@@ -269,11 +285,14 @@ async function loadUserProfile(user) {
       getDownloadURL(imgRef)
         .then((ref) => {
           profileImg.src = ref;
-          productImg.loading = "lazy";
-          // if (lTemplate) {
-          //   lTemplate.remove();
-          //   productTray.style.display = "flex";
-          // }
+          profileImg.loading = "lazy";
+          topprofile.src = ref;
+          if (profileTemplate && pfpTemplate) {
+            profileTemplate.remove();
+            pfpTemplate.remove();
+            mainProfile.style.display = "grid";
+            topprofile.style.display = "block";
+          }
         })
         .catch((error) => {
           console.log(error);
@@ -284,6 +303,69 @@ async function loadUserProfile(user) {
   } catch (error) {
     showSuccess(error.message);
     console.log(error.message);
+  }
+}
+
+if (searchInput) {
+  searchInput.addEventListener("input", () => {
+    console.log(searchInput.value);
+
+    if (searchInput.value === "") {
+      searchMatch.style.display = "none";
+      return;
+    }
+    searchMatch.style.display = "block";
+    showSearchMatch(searchInput.value);
+  });
+}
+
+async function showSearchMatch(searchTerm) {
+  const lowercaseSearchTerm = searchTerm.toLowerCase();
+
+  const productsRef = collection(database, "products");
+  const querySnapshot = await getDocs(productsRef);
+
+  const searchMatch = document.getElementById("searchmatch"); // Assuming searchMatch is the element ID
+  searchMatch.innerHTML = ""; // Clear previous results
+
+  const searchResults = [];
+
+  querySnapshot.forEach((doc) => {
+    const product = doc.data();
+    const productName = product.productName.toLowerCase();
+
+    // Check if the productName contains the searchTerm
+    if (productName.includes(lowercaseSearchTerm.trim())) {
+      searchResults.push({
+        name: productName,
+        id: doc.id,
+      });
+    }
+  });
+
+  // Display the matched results
+  if (searchResults.length > 0) {
+    searchResults.forEach((result) => {
+      const resultElement = document.createElement("div"); // Create a new element for each result
+      resultElement.classList.add("result");
+      const button = document.createElement("button");
+      button.classList.add("result-button");
+      button.textContent = result.name;
+      button.setAttribute("data-id", result.id);
+      button.addEventListener("click", (e) => {
+        const id = e.target.getAttribute("data-id");
+        location.href = `product.html?productId=` + id;
+      });
+      resultElement.appendChild(button);
+      searchMatch.appendChild(resultElement);
+    });
+  } else {
+    const errorDiv = document.createElement("div");
+    errorDiv.classList.add("error-message-wrapper");
+    const errorMessage = document.createElement("p");
+    errorMessage.textContent = "No Match💔";
+    errorDiv.appendChild(errorMessage);
+    searchMatch.appendChild(errorDiv);
   }
 }
 

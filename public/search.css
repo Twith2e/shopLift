@@ -33,6 +33,18 @@
   padding-block: 10px;
 }
 
+.authlinkwrapper {
+  align-items: center;
+  display: flex;
+  gap: 30px;
+  position: relative;
+}
+
+.authlinkwrapper a {
+  color: #fb8d28;
+  font-size: 0.875rem;
+}
+
 .search-wrapper {
   border: 1px solid #777;
   display: flex;
@@ -145,6 +157,20 @@
 
 .price {
   font-family: priceFont, sans-serif;
+}
+
+.sign-out {
+  align-items: start;
+  background: #fff;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+  bottom: -110px;
+  display: none;
+  flex-direction: column;
+  gap: 10px;
+  padding: 5px 10px;
+  position: absolute;
+  width: 100%;
 }
 
 .sign-out-btn {

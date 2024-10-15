@@ -17,7 +17,7 @@
       <header>
         <nav class="sm-nav">
           <div class="right-sm-nav">
-            <div>logo</div>
+            <div><a href="index.html">logo</a></div>
           </div>
           <div class="left-sm-nav">
             <div class="search" id="searchicon">
@@ -75,54 +75,73 @@
           </div>
           <div class="sm-search-bar" id="seachbar">
             <div class="searchbar">
-              <input id="searchinput" placeholder="Search" type="text" />
+              <input
+                autocomplete="off"
+                id="smsearchinput"
+                placeholder="Search"
+                type="text"
+              />
               <svg
-                id="searchbtn"
+                id="smsearchbtn"
                 xmlns="http://www.w3.org/2000/svg"
                 x="0px"
                 y="0px"
                 width="20"
                 height="20"
                 viewBox="0 0 30 30"
-                fill="#fff"
+                fill="green"
               >
                 <path
                   d="M 13 3 C 7.4889971 3 3 7.4889971 3 13 C 3 18.511003 7.4889971 23 13 23 C 15.396508 23 17.597385 22.148986 19.322266 20.736328 L 25.292969 26.707031 A 1.0001 1.0001 0 1 0 26.707031 25.292969 L 20.736328 19.322266 C 22.148986 17.597385 23 15.396508 23 13 C 23 7.4889971 18.511003 3 13 3 z M 13 5 C 17.430123 5 21 8.5698774 21 13 C 21 17.430123 17.430123 21 13 21 C 8.5698774 21 5 17.430123 5 13 C 5 8.5698774 8.5698774 5 13 5 z"
                 ></path>
               </svg>
+              <div class="searchmatch" id="searchmatch"></div>
             </div>
           </div>
         </nav>
         <nav class="md-nav">
           <div class="md-left-sm-nav">
-            <div>logo</div>
+            <div><a href="index.html">logo</a></div>
             <div class="md-searchbar">
               <input
+                autocomplete="off"
                 class="md-search-input"
                 id="searchinput"
                 placeholder="Search"
                 type="text"
               />
-              <svg
-                id="searchbtn"
-                xmlns="http://www.w3.org/2000/svg"
-                x="0px"
-                y="0px"
-                width="20"
-                height="20"
-                viewBox="0 0 30 30"
-                fill="#fff"
-              >
-                <path
-                  d="M 13 3 C 7.4889971 3 3 7.4889971 3 13 C 3 18.511003 7.4889971 23 13 23 C 15.396508 23 17.597385 22.148986 19.322266 20.736328 L 25.292969 26.707031 A 1.0001 1.0001 0 1 0 26.707031 25.292969 L 20.736328 19.322266 C 22.148986 17.597385 23 15.396508 23 13 C 23 7.4889971 18.511003 3 13 3 z M 13 5 C 17.430123 5 21 8.5698774 21 13 C 21 17.430123 17.430123 21 13 21 C 8.5698774 21 5 17.430123 5 13 C 5 8.5698774 8.5698774 5 13 5 z"
-                ></path>
-              </svg>
+              <div id="searchbtn">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  x="0px"
+                  y="0px"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 30 30"
+                  fill="#fff"
+                >
+                  <path
+                    d="M 13 3 C 7.4889971 3 3 7.4889971 3 13 C 3 18.511003 7.4889971 23 13 23 C 15.396508 23 17.597385 22.148986 19.322266 20.736328 L 25.292969 26.707031 A 1.0001 1.0001 0 1 0 26.707031 25.292969 L 20.736328 19.322266 C 22.148986 17.597385 23 15.396508 23 13 C 23 7.4889971 18.511003 3 13 3 z M 13 5 C 17.430123 5 21 8.5698774 21 13 C 21 17.430123 17.430123 21 13 21 C 8.5698774 21 5 17.430123 5 13 C 5 8.5698774 8.5698774 5 13 5 z"
+                  ></path>
+                </svg>
+              </div>
             </div>
+            <div class="searchmatch" id="searchmatch">ggg</div>
           </div>
           <div class="md-right-sm-nav">
             <a href="sell.html">Sell</a>
             <div class="profile" id="profilebtn">
-              <img src="assets/icons8-male-user-40.png" alt="" />
+              <img
+                style="display: none"
+                id="topprofile"
+                src="assets/icons8-male-user-40.png"
+                alt=""
+              />
+              <div
+                class="skeleton"
+                id="pfpTemplate"
+                style="height: 40px; width: 40px; border-radius: 50%"
+              ></div>
             </div>
             <div class="profiledropdown" id="profiledropdown">
               <div class="profile-info" id="profile-info">
@@ -161,10 +180,14 @@
         </nav>
       </header>
       <main>
-        <div class="grid">
+        <div class="grid" id="mainProfile" style="display: none">
           <div class="profile-info-list">
             <div class="image-element">
-              <img id="profileimg" alt="" />
+              <img
+                id="profileimg"
+                src="assets/icons8-male-user-40.png"
+                alt=""
+              />
               <label id="" for="imgpickr">
                 <input class="image-picker" type="file" id="imgpickr" />
                 <div class="edit-element">
@@ -288,6 +311,71 @@
             <div class="action-btn-wrapper">
               <button class="cancel-btn" id="cancelbtn">Cancel</button
               ><button class="done-btn" disabled id="donebtn">Done</button>
+            </div>
+          </div>
+        </div>
+        <div class="grid" id="profileTemplate">
+          <div class="profile-info-list">
+            <div class="image-element">
+              <div
+                class="skeleton"
+                style="height: 100px; width: 100px; border-radius: 50%"
+              ></div>
+              <label id="" for="imgpickr">
+                <input class="image-picker" type="file" id="imgpickr" />
+                <div class="edit-element">
+                  <span class="skeleton skeleton-small"></span>
+                </div>
+              </label>
+            </div>
+            <div class="p-i-l skeleton">
+              <div class="skeleton-name"></div>
+            </div>
+            <div class="p-i-l skeleton">
+              <div class="skeleton-name"></div>
+            </div>
+            <div class="p-i-l skeleton">
+              <div class="skeleton-name"></div>
+            </div>
+            <div class="p-i-l skeleton">
+              <div class="skeleton-name"></div>
+            </div>
+            <div class="p-i-l skeleton">
+              <div class="skeleton-name"></div>
+            </div>
+          </div>
+          <div class="personal-info">
+            <div class="skeleton skeleton-xlarge"></div>
+            <div class="personal-info-det">
+              <div class="info-det">
+                <div class="skeleton skeleton-large"></div>
+                <div class="skeleton skeleton-name"></div>
+              </div>
+              <button class="skeleton skeleton-xsmall"></button>
+            </div>
+            <div class="personal-info-det">
+              <div class="info-det">
+                <div class="skeleton skeleton-large"></div>
+                <div class="skeleton skeleton-name"></div>
+              </div>
+              <button class="skeleton skeleton-xsmall"></button>
+            </div>
+            <div class="personal-info-det">
+              <div class="info-det">
+                <div class="skeleton skeleton-large"></div>
+                <div class="skeleton skeleton-name"></div>
+              </div>
+              <button class="skeleton skeleton-xsmall"></button>
+            </div>
+            <div class="personal-info-det">
+              <div class="info-det">
+                <div class="skeleton skeleton-large"></div>
+                <div class="skeleton skeleton-name"></div>
+              </div>
+            </div>
+            <div class="action-btn-wrapper">
+              <button class="skeleton skeleton-btn"></button
+              ><button class="skeleton skeleton-btn"></button>
             </div>
           </div>
         </div>

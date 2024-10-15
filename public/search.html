@@ -19,7 +19,7 @@
     <div class="body-wrapper">
       <header>
         <nav class="sm-nav">
-          <div>logo</div>
+          <div><a href="index.html">logo</a></div>
           <div class="right-sm-nav">
             <div id="user" class="user">
               <svg
@@ -84,11 +84,13 @@
             </div>
             <ul>
               <li>Categories</li>
+              <li><a href="profile.html">Profile</a></li>
+              <li><a href="dashboard.html">Dashboard</a></li>
               <li>Deals</li>
               <li><a href="sell.html">Sell</a></li>
               <li>Help</li>
             </ul>
-            <div id="auth" style="margin-top: 20px">
+            <div class="auth" id="auth" style="margin-top: 20px">
               <a id="signup" href="">Create Account</a>
               <span>or</span>
               <a id="login" href="">Login</a>
@@ -97,7 +99,7 @@
         </nav>
         <nav class="sm-search-nav">
           <div class="search-wrapper">
-            <input id="search" type="text" />
+            <input autocomplete="off" id="search" type="text" />
             <div class="search-icon" id="searchbtn">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -116,10 +118,7 @@
           </div>
         </nav>
         <nav class="md-nav">
-          <div
-            id="authlinkwrapper"
-            style="display: flex; gap: 20px; position: relative"
-          >
+          <div class="authlinkwrapper" id="authlinkwrapper">
             <a style="color: #fb8d28" href="" id="signup">Create Account</a>
             <a style="color: #fb8d28" href="" id="login">Login</a>
           </div>
@@ -146,7 +145,7 @@
           </div>
         </nav>
         <nav class="sb-nav sb">
-          <div>logo</div>
+          <div><a href="index.html">logo</a></div>
           <div class="searchbar">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -161,6 +160,7 @@
               ></path>
             </svg>
             <input
+              autocomplete="off"
               class="search"
               id="search"
               placeholder="Search for anything"
