@@ -54,6 +54,7 @@ const profileImg = document.getElementById("profileimg");
 const imgPickr = document.getElementById("imgpickr");
 const editBtns = document.querySelectorAll("#edit");
 const doneBtn = document.getElementById("donebtn");
+const cancelBtn = document.getElementById("cancelbtn");
 const searchMatch = document.getElementById("searchmatch");
 const cardwrapperTemp = document.getElementById("cardwrappertemp");
 const cardwrapper = document.getElementById("cardwrapper");

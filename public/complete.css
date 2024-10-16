@@ -116,7 +116,16 @@ main {
 .editbtn2 {
   background-color: #191919;
   display: none;
+  height: 100%;
   position: relative;
+}
+
+.editbtn img,
+.editbtn0 img,
+.editbtn1 img,
+.editbtn2 img {
+  object-fit: cover;
+  height: 100%;
 }
 
 .delbtn,

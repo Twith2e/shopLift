@@ -117,16 +117,6 @@ main {
   width: 80%;
 }
 
-::-webkit-scrollbar {
-  display: none;
-  height: 0px;
-  width: 0px;
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: transparent;
-}
-
 #profile:hover,
 #dashboard:hover {
   color: #fb8d28;
@@ -424,6 +414,7 @@ select {
   padding: 5px 10px;
   position: absolute;
   width: 100%;
+  z-index: 99999;
 }
 
 .sign-out button {

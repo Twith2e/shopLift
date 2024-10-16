@@ -42,10 +42,11 @@ const searchTerm = localStorage.getItem("searchTerm");
 const searchedItems = document.getElementById("searcheditems");
 const searchParams = getProductIdFromUrl();
 const menuBtn = document.getElementById("menubtn");
+const searchInput = document.getElementById("search");
 const sideMenu = document.getElementById("sidemenu");
 const closeBtn = document.getElementById("closebtn");
 const authWrapper = document.getElementById("auth");
-const searchBtn = document.getElementById("searchbtn");
+const searchBtns = document.querySelectorAll("#searchbtn");
 const loginBtns = document.querySelectorAll("#login");
 const signupBtns = document.querySelectorAll("#signup");
 
@@ -213,28 +214,25 @@ function fetchItems(productID) {
           location.href = `product.html?productId=${productRef.id}`;
         });
         const imgDiv = document.createElement("div");
-        imgDiv.style.height = "250px";
+        imgDiv.style.height = "150px";
         imgDiv.style.borderRadius = "5px";
-
         const descDiv = document.createElement("div");
         descDiv.style.display = "flex";
         descDiv.style.flexDirection = "column";
         descDiv.style.gap = "20px";
         const header = document.createElement("p");
-        header.style.fontSize = "1rem";
+        header.classList.add("product-name");
         const features = document.createElement("span");
         features.style.display = "flex";
         features.style.gap = "10px";
         const price = document.createElement("p");
-        price.style.fontSize = "1.5rem";
-        price.style.fontWeight = "700";
         price.classList.add("price");
 
         const img = document.createElement("img");
         img.style.width = "100%";
         img.style.height = "100%";
         img.style.borderRadius = "10px";
-        img.style.objectFit = "cover";
+        // img.style.objectFit = "contain";
         const imgRef = ref(storage, `${docSnap.data().productImages[0]}`);
         getDownloadURL(imgRef)
           .then((ref) => {
@@ -272,6 +270,40 @@ function fetchItems(productID) {
     });
 }
 
+function renderCategories() {
+  try {
+    const categoryRef = collection(database, "categories");
+    getDocs(categoryRef)
+      .then((snapshot) => {
+        const head = document.createElement("h2");
+        head.textContent = "Categories";
+        head.className = "category-heading";
+        document.getElementById("sidecats").appendChild(head);
+        snapshot.forEach((doc) => {
+          const div = document.createElement("div");
+          div.classList.add("category-link");
+          const link = document.createElement("a");
+          link.href = `search.html?category=${doc.data().name}`;
+          link.textContent = doc.data().name;
+          link.style.color = "#fb8d28";
+          div.appendChild(link);
+          document.getElementById("sidecats").appendChild(div);
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+if (sidecats) {
+  renderCategories();
+} else {
+  console.log("not found");
+}
+
 function fetchCategory(category) {
   const q = query(
     collection(database, "products"),
@@ -299,14 +331,15 @@ function fetchCategory(category) {
           location.href = `product.html?productId=${doc.id}`;
         });
         const imgDiv = document.createElement("div");
-        imgDiv.style.height = "150px";
+        imgDiv.style.height = "200px";
         imgDiv.style.borderRadius = "5px";
         const descDiv = document.createElement("div");
-        const header = document.createElement("h2");
+        const header = document.createElement("p");
         const features = document.createElement("span");
         features.style.display = "flex";
         features.style.gap = "10px";
-        const price = document.createElement("h1");
+        const price = document.createElement("p");
+        price.classList.add("price");
 
         const img = document.createElement("img");
         img.style.width = "100%";
@@ -342,20 +375,25 @@ function fetchCategory(category) {
 
 document.body.addEventListener("keypress", (e) => {
   if (e.key === "Enter") {
-    const searchInput = document.getElementById("search");
     const searchValue = searchInput.value.trim();
     searchProductsByInput(searchValue);
   }
 });
 
-searchBtn.addEventListener("click", () => {
-  const searchInput = document.getElementById("search");
-  const searchValue = searchInput.value.trim();
-  searchProductsByInput(searchValue);
+searchBtns.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const searchValue = searchInput.value.trim();
+    searchProductsByInput(searchValue);
+  });
 });
 
 async function searchProductsByInput(searchTerm) {
   const lowercaseSearchTerm = searchTerm.toLowerCase();
+
+  if (searchTerm === "") {
+    showError("Please enter a search term.");
+    return;
+  }
 
   const productsRef = collection(database, "products");
   const querySnapshot = await getDocs(productsRef);
@@ -411,5 +449,55 @@ function confirm(message) {
     No
   `,
     cancelButtonAriaLabel: "Thumbs down",
+  });
+}
+
+async function showSuccess(message) {
+  return new Promise((resolve) => {
+    Swal.fire({
+      background: "#28a745",
+      color: "#fff",
+      height: "fit-content",
+      padding: "0 0",
+      position: "top",
+      showConfirmButton: false,
+      text: `${message}`,
+      timer: 1500,
+      timerProgressBar: true,
+    }).then(() => {
+      resolve();
+    });
+  });
+}
+
+async function showCanceled(message) {
+  Swal.fire({
+    background: "#DC3545",
+    borderRadius: "0px",
+    color: "#fff",
+    height: "fit-content",
+    padding: "0",
+    position: "top",
+    showConfirmButton: false,
+    text: `${message}`,
+    timer: 1500,
+    timerProgressBar: true,
+    width: "fit-content",
+  });
+}
+
+async function showError(message) {
+  Swal.fire({
+    background: "#DC3545",
+    borderRadius: "0px",
+    color: "#fff",
+    height: "fit-content",
+    padding: "0",
+    position: "top-end",
+    showConfirmButton: false,
+    text: `${message}`,
+    timer: 1500,
+    timerProgressBar: true,
+    width: "fit-content",
   });
 }

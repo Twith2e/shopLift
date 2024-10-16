@@ -7,9 +7,12 @@ import {
   getFirestore,
   setDoc,
   getDoc,
+  getDocs,
+  deleteDoc,
   updateDoc,
   doc,
   collection,
+  query,
 } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 import { CONFIG } from "../src/config.js";
 
@@ -26,6 +29,8 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 const database = getFirestore();
+const user = auth.currentUser;
+console.log(user);
 
 (function () {
   emailjs.init({ publicKey: "pZeVBA8Xt9mOrjobf" });
@@ -37,6 +42,8 @@ const radio = document.getElementById("radio");
 const prices = document.querySelectorAll("#price");
 const formatter = Intl.NumberFormat("en-NG");
 let userId;
+console.log(userId);
+
 let tempRef;
 
 function checkStorage() {
@@ -56,14 +63,14 @@ onAuthStateChanged(auth, (user) => {
   if (!user) {
     window.location.href = "login.html";
   } else {
-    userId = user.uid;
+    console.log(user.uid);
+
+    paymentBtn.addEventListener("click", payWithPaystack, false);
   }
 });
 
 console.log("Quantity Bought:", productInfo.qtyBought);
 console.log("Product ID:", productInfo.productID);
-
-paymentBtn.addEventListener("click", payWithPaystack, false);
 
 function payWithPaystack() {
   if (!radio.checked) {
@@ -86,48 +93,54 @@ function payWithPaystack() {
       try {
         const orderRef = collection(database, `orders`);
         const newOrderRef = doc(orderRef);
-        const orderInfo = {
-          productID: productInfo.productID,
-          qtyBought: productInfo.qtyBought,
-          owner: productInfo.owner,
-          seller: productInfo.seller,
-          date: new Date().toLocaleString(),
-          price,
-        };
-        setDoc(newOrderRef, orderInfo)
-          .then(() => {
-            // Update product quantity
-            console.log(productInfo.productID);
+        const productPromises = productInfo.map((product) => {
+          const orderInfo = {
+            productID: product.productID,
+            qtyBought: product.qtyBought,
+            owner: product.owner,
+            seller: product.seller,
+            date: new Date().toLocaleString(),
+            price,
+          };
 
-            const productRef = doc(
-              database,
-              "products/",
-              productInfo.productID
-            );
-            tempRef = doc(database, "products/", productInfo.productID);
-            return getDoc(productRef);
-          })
-          .then((productSnap) => {
-            if (productSnap.exists()) {
-              const currentQty = productSnap.data().quantity;
-              console.log("Current Quantity:", currentQty);
-              const newQty = Math.max(0, currentQty - productInfo.qtyBought);
-              console.log("New Quantity:", newQty);
-              return updateDoc(tempRef, { quantity: newQty });
-            } else {
-              showError("Product does not exist");
-              return;
-            }
-          })
+          const newOrderRef = doc(database, "orders", product.productID); // Unique order ref for each product
+          const productRef = doc(database, "products", product.productID); // Unique product ref
+
+          // Return the promise chain for each product
+          return setDoc(newOrderRef, orderInfo)
+            .then(() => {
+              return getDoc(productRef);
+            })
+            .then((productSnap) => {
+              if (productSnap.exists()) {
+                const currentQty = productSnap.data().quantity;
+                const newQty = Math.max(0, currentQty - product.qtyBought);
+                return updateDoc(productRef, { quantity: newQty });
+              } else {
+                throw new Error("Product does not exist");
+              }
+            });
+        });
+
+        // Use Promise.all() to wait for all product promises to complete
+        Promise.all(productPromises)
           .then(() => {
+            // Show success message once after all promises are resolved
             showSuccess("Order placed successfully").then(() => {
-              location.href = "index.html";
+              clearCartAfterPurchase()
+                .then(() => {
+                  location.href = "index.html";
+                })
+                .catch((error) => {
+                  showError(error.message);
+                  console.log(error.message);
+                });
             });
             verifyTransaction(response.reference);
           })
           .catch((error) => {
+            // Handle errors from any of the promises
             console.log(error.message);
-
             showError(error.message);
           });
       } catch (error) {
@@ -180,6 +193,31 @@ function generateReceipt(transactionData) {
   sendReceiptByEmail(transactionData.customer.email, pdfData);
 }
 
+async function clearCartAfterPurchase() {
+  const user = auth.currentUser;
+  const cartRef = collection(database, "users/" + user.uid + "/cart");
+  const cartQuery = query(cartRef);
+
+  try {
+    // Get all items in the cart
+    const cartSnapshot = await getDocs(cartQuery);
+
+    // Create an array of promises to delete all items in the cart
+    const deletePromises = cartSnapshot.docs.map((cartDoc) => {
+      return deleteDoc(
+        doc(database, "users/" + user.uid + "/cart", cartDoc.id)
+      );
+    });
+
+    // Wait for all delete operations to complete
+    await Promise.all(deletePromises);
+    console.log("Cart cleared successfully.");
+  } catch (error) {
+    console.error("Error clearing cart: ", error);
+    showError(error.message); // Use your existing error handling
+  }
+}
+
 function sendReceiptByEmail(email, pdfData) {
   emailjs
     .send("service_zfwgbmf", "template_pfuor4j", {
@@ -191,7 +229,6 @@ function sendReceiptByEmail(email, pdfData) {
     .then(
       function (response) {
         showSuccess("Receipt sent successfully to " + email);
-        location.href = "index.html";
       },
       function (error) {
         console.error("Failed to send email:", error);

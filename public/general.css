@@ -89,6 +89,16 @@ header {
   width: 80%;
 }
 
+::-webkit-scrollbar {
+  display: none;
+  height: 0px;
+  width: 0px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: transparent;
+}
+
 @keyframes skeleton-loading {
   0% {
     background-color: hsl(200, 20%, 80%);

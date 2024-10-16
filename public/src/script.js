@@ -145,6 +145,7 @@ async function saveUser() {
         userMail: auth.currentUser.email,
         userId: uid,
         dateJoined: generateDate(),
+        businessName: "null",
       };
       await setDoc(userRef, users);
       console.log("Document written with ID: ", uid);
@@ -419,6 +420,11 @@ searchBtns.forEach((btn) => {
 async function searchProductsByInput(searchTerm) {
   const lowercaseSearchTerm = searchTerm.toLowerCase();
 
+  if (searchTerm === "") {
+    showErrorMessage("Please enter a search term.");
+    return;
+  }
+
   const productsRef = collection(database, "products");
   const querySnapshot = await getDocs(productsRef);
 
@@ -464,5 +470,55 @@ function confirm(message) {
     No
   `,
     cancelButtonAriaLabel: "Thumbs down",
+  });
+}
+
+async function showSuccess(message) {
+  return new Promise((resolve) => {
+    Swal.fire({
+      background: "#28a745",
+      color: "#fff",
+      height: "fit-content",
+      padding: "0 0",
+      position: "top",
+      showConfirmButton: false,
+      text: `${message}`,
+      timer: 1500,
+      timerProgressBar: true,
+    }).then(() => {
+      resolve();
+    });
+  });
+}
+
+async function showCanceled(message) {
+  Swal.fire({
+    background: "#DC3545",
+    borderRadius: "0px",
+    color: "#fff",
+    height: "fit-content",
+    padding: "0",
+    position: "top",
+    showConfirmButton: false,
+    text: `${message}`,
+    timer: 1500,
+    timerProgressBar: true,
+    width: "fit-content",
+  });
+}
+
+async function showError(message) {
+  Swal.fire({
+    background: "#DC3545",
+    borderRadius: "0px",
+    color: "#fff",
+    height: "fit-content",
+    padding: "0",
+    position: "top-end",
+    showConfirmButton: false,
+    text: `${message}`,
+    timer: 1500,
+    timerProgressBar: true,
+    width: "fit-content",
   });
 }

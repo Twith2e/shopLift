@@ -138,7 +138,11 @@ googleBtn.addEventListener("click", () => {
 });
 
 function login() {
-  window.location.href = sessionStorage.getItem("prevUrl");
+  const prevUrl = sessionStorage.getItem("prevUrl");
+  if (prevUrl) {
+    sessionStorage.removeItem("prevUrl");
+  }
+  window.location.href = prevUrl || "index.html";
 }
 
 async function showError(message) {

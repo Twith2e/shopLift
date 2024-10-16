@@ -3,6 +3,7 @@ import {
   getAuth,
   signInWithEmailAndPassword,
   updateProfile,
+  GoogleAuthProvider,
 } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
 import { CONFIG } from "../src/config.js";
 
@@ -18,10 +19,12 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth();
+const gProvider = new GoogleAuthProvider();
 
 const password = document.getElementById("password");
 const email = document.getElementById("email");
 const submitBtn = document.getElementById("submit");
+const googleBtn = document.getElementById("signwithgg");
 
 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const passwordRegex =
@@ -86,8 +89,31 @@ submitBtn.addEventListener("click", () => {
   }
 });
 
+googleBtn.addEventListener("click", () => {
+  signInWithPopup(auth, gProvider)
+    .then((result) => {
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+      const token = credential.accessToken;
+      const user = result.user;
+      login();
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      const email = error.customData.email;
+      const credential = GoogleAuthProvider.credentialFromError(error);
+      console.log(credential);
+      console.log(email);
+      console.log(errorCode);
+      console.log(errorMessage);
+      showError(errorMessage);
+    });
+});
+
 function login() {
-  window.location.href = sessionStorage.getItem("prevUrl") || "index.html";
+  const prevUrl = sessionStorage.getItem("prevUrl");
+  sessionStorage.removeItem("prevUrl");
+  window.location.href = prevUrl || "index.html";
 }
 
 async function showSuccess(message) {

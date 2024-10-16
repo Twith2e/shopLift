@@ -223,7 +223,7 @@ async function renderProduct() {
       const userRef = doc(database, "users", product.owner);
       const userSnapshot = await getDoc(userRef);
       const user = userSnapshot.data();
-      if (user.businessName !== "null") {
+      if (user.businessName !== null) {
         businessName = user.businessName;
       } else {
         businessName = user.userName;
@@ -275,14 +275,17 @@ async function renderProduct() {
         sessionStorage.setItem("price", product.price);
         sessionStorage.setItem("mail", userEmail);
         location.href = "checkout.html";
+        const user = auth.currentUser;
         sessionStorage.setItem(
           "productInfo",
-          JSON.stringify({
-            productID: product.productID,
-            qtyBought: 1,
-            owner: product.owner,
-            seller: user.userName,
-          })
+          JSON.stringify([
+            {
+              productID: product.productID,
+              qtyBought: 1,
+              owner: user.displayName,
+              seller: product.owner,
+            },
+          ])
         );
       });
 
@@ -384,6 +387,8 @@ async function addToCart() {
             productImg: product.productImages[0],
             condition: product.condition,
             quantity: product.quantity,
+            seller: product.owner,
+            owner: user.displayName,
           };
           addDoc(cartRef, cartItem)
             .then(() => {

@@ -40,6 +40,8 @@ const storage = getStorage();
 let isShown = false;
 let itemCount = 0;
 let priceArray = [];
+let productArray = [];
+let productObject;
 let total = 0;
 const formatter = Intl.NumberFormat("en-NG");
 const aIC = document.getElementById("aic");
@@ -58,16 +60,6 @@ onAuthStateChanged(auth, (user) => {
   if (!user) {
     location.href = "signup.html";
   } else {
-    checkoutBtns.forEach((btn) => {
-      btn.addEventListener("click", (e) => {
-        e.preventDefault();
-        if (user) {
-          location.replace("checkout.html");
-        } else {
-          location.replace("login.html");
-        }
-      });
-    });
     authWrapper.innerHTML = `<button id="signoutbtn" class="sign-out-btn">Sign Out</button>`;
     authDisplay.innerHTML = `
     <p id="userDd">Hi ${user.displayName.split(" ")[0]}</p>
@@ -229,7 +221,7 @@ async function renderItems(uid) {
     console.log(items);
     console.log(querySnapshot);
 
-    if (items) {
+    if (items.length > 0) {
       let totalDesiredQty = 1;
       items.forEach((doc) => {
         console.log(doc.data());
@@ -242,6 +234,17 @@ async function renderItems(uid) {
         getDownloadURL(imgRef).then((url) => {
           itemImg.src = url;
         });
+        console.log("product-id", doc.data().productId);
+
+        const user = auth.currentUser;
+        productObject = {
+          productID: doc.data().productId,
+          qtyBought: 1,
+          owner: user.displayName,
+          seller: doc.data().seller,
+        };
+        productArray.push(productObject);
+
         itemWrapper.appendChild(itemImg);
         const div = document.createElement("div");
         div.className = "item-details";
@@ -381,6 +384,23 @@ async function renderItems(uid) {
         aIC.appendChild(mainWrapper);
         updateTotalCartPrice();
       });
+
+      checkoutBtns.forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+          e.preventDefault();
+          location.href = "checkout.html";
+          sessionStorage.setItem("productInfo", JSON.stringify(productArray));
+        });
+      });
+    } else {
+      console.log("empty");
+      const tag = document.createElement("h1");
+      tag.textContent = "Your cart is empty";
+      tag.style.display = "flex";
+      tag.style.justifyContent = "center";
+      tag.style.alignItems = "center";
+      tag.style.height = "500px";
+      aIC.appendChild(tag);
     }
   } catch (error) {
     console.log(error);

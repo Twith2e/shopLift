@@ -175,7 +175,6 @@ document.querySelector(".editbtn2").addEventListener("mouseleave", () => {
 });
 
 delBtn.addEventListener("click", () => {
-  photoCounter--;
   photoCount.innerText = `${photoCounter} of 4 photo`;
   inputimg.src = "";
   uploadLabel.style.display = "flex";
@@ -183,46 +182,42 @@ delBtn.addEventListener("click", () => {
 });
 
 document.querySelector(".delbtn0").addEventListener("click", () => {
-  photoCounter--;
   photoCount.innerText = `${photoCounter} of 4 photo`;
   inputimg0.src = "";
-  document.querySelector(".editbtn0").style.display = "none";
   document.querySelector(".uploadlabel0").style.display = "flex";
+  document.querySelector(".editbtn0").style.display = "none";
 });
 
 document.querySelector(".delbtn1").addEventListener("click", () => {
-  photoCounter--;
   photoCount.innerText = `${photoCounter} of 4 photo`;
   inputimg1.src = "";
-  document.querySelector(".editbtn1").style.display = "none";
   document.querySelector(".uploadlabel1").style.display = "flex";
+  document.querySelector(".editbtn1").style.display = "none";
 });
 
 document.querySelector(".delbtn2").addEventListener("click", () => {
-  photoCounter--;
   photoCount.innerText = `${photoCounter} of 4 photo`;
   inputimg2.src = "";
-  document.querySelector(".editbtn2").style.display = "none";
   document.querySelector(".uploadlabel2").style.display = "flex";
+  document.querySelector(".editbtn2").style.display = "none";
 });
 
 document.getElementById("delall").addEventListener("click", () => {
-  photoCounter--;
   photoCount.innerText = `${photoCounter} of 4 photo`;
   inputimg.src = "";
   uploadLabel.style.display = "flex";
   editBtnWrapper.style.display = "none";
-  photoCounter--;
+
   photoCount.innerText = `${photoCounter} of 4 photo`;
   inputimg0.src = "";
   document.querySelector(".editbtn0").style.display = "none";
   document.querySelector(".uploadlabel0").style.display = "flex";
-  photoCounter--;
+
   photoCount.innerText = `${photoCounter} of 4 photo`;
   inputimg1.src = "";
   document.querySelector(".editbtn1").style.display = "none";
   document.querySelector(".uploadlabel1").style.display = "flex";
-  photoCounter--;
+
   photoCount.innerText = `${photoCounter} of 4 photo`;
   inputimg2.src = "";
   document.querySelector(".editbtn2").style.display = "none";
