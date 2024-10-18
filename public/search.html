@@ -22,17 +22,18 @@
           <div><a href="index.html">logo</a></div>
           <div class="right-sm-nav">
             <div id="user" class="user">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                height="24px"
-                viewBox="0 -960 960 960"
-                width="24px"
-                fill="#000"
-              >
-                <path
-                  d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Zm80-80h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T560-640q0-33-23.5-56.5T480-720q-33 0-56.5 23.5T400-640q0 33 23.5 56.5T480-560Zm0-80Zm0 400Z"
-                />
-              </svg>
+              <a href="profile.html"
+                ><svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="24px"
+                  viewBox="0 -960 960 960"
+                  width="24px"
+                  fill="#000"
+                >
+                  <path
+                    d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Zm80-80h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T560-640q0-33-23.5-56.5T480-720q-33 0-56.5 23.5T400-640q0 33 23.5 56.5T480-560Zm0-80Zm0 400Z"
+                  /></svg
+              ></a>
             </div>
             <div class="cart">
               <a href="cart.html"
@@ -81,15 +82,29 @@
                   d="M 4.7070312 3.2929688 L 3.2929688 4.7070312 L 10.585938 12 L 3.2929688 19.292969 L 4.7070312 20.707031 L 12 13.414062 L 19.292969 20.707031 L 20.707031 19.292969 L 13.414062 12 L 20.707031 4.7070312 L 19.292969 3.2929688 L 12 10.585938 L 4.7070312 3.2929688 z"
                 ></path>
               </svg>
+              <svg
+                id="back"
+                style="display: none"
+                xmlns="http://www.w3.org/2000/svg"
+                height="24px"
+                viewBox="0 -960 960 960"
+                width="24px"
+                fill="#555"
+              >
+                <path
+                  d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z"
+                />
+              </svg>
             </div>
-            <ul>
-              <li>Categories</li>
+            <ul id="sidemenu-list">
+              <li id="cats">Categories</li>
               <li><a href="profile.html">Profile</a></li>
               <li><a href="dashboard.html">Dashboard</a></li>
               <li>Deals</li>
               <li><a href="sell.html">Sell</a></li>
               <li>Help</li>
             </ul>
+            <ul id="searchresults"></ul>
             <div class="auth" id="auth" style="margin-top: 20px">
               <a id="signup" href="">Create Account</a>
               <span>or</span>
@@ -196,8 +211,79 @@
           </div>
         </div>
       </main>
+      <footer>
+        <div class="footer-container">
+          <ul>
+            <li><span>Buy</span></li>
+            <li><a href="">Registration</a></li>
+            <li><a href="">Shoplift Money Back Guarantee</a></li>
+            <li><a href="">Bidding & buying help</a></li>
+            <li><a href="">Stores</a></li>
+          </ul>
+          <div class="footer-sections">
+            <ul>
+              <li><span>Sell</span></li>
+              <li><a href="">Start selling</a></li>
+              <li><a href="">Learn to sell</a></li>
+              <li><a href="">Affliates</a></li>
+            </ul>
+            <ul>
+              <li><span>Tools & Apps</span></li>
+              <li><a href="">Developers</a></li>
+              <li><a href="">Security center</a></li>
+              <li><a href="">Site map</a></li>
+            </ul>
+          </div>
+          <ul>
+            <li><span>Stay connected</span></li>
+            <li><a href="">Shoplift's Blogs</a></li>
+            <li><a href="">Twitter</a></li>
+            <li><a href="https://github.com/Twith2e">Github</a></li>
+          </ul>
+          <ul>
+            <li><span>About Shoplift</span></li>
+            <li><a href="">Company info</a></li>
+            <li><a href="">News</a></li>
+            <li><a href="">Investors</a></li>
+            <li><a href="">Careers</a></li>
+            <li><a href="">Government relations</a></li>
+            <li><a href="">Advertise with us</a></li>
+            <li><a href="">Policies</a></li>
+            <li><a href="">Verified Rights Owners(VeRO)Program</a></li>
+          </ul>
+          <div class="footer-sections">
+            <ul>
+              <li><span>Help & Contact</span></li>
+              <li><a href="">Seller information center</a></li>
+              <li><a href="">Contact us</a></li>
+            </ul>
+            <ul>
+              <li><span>Community</span></li>
+              <li><a href="">Announcements</a></li>
+              <li><a href="">Discussion boards</a></li>
+              <li><a href="">Shoplift Giving Works</a></li>
+            </ul>
+            <span>Shoplift sites</span>
+            <div class="country">
+              <img src="assets/icons8-nigeria-24.png" alt="" />
+              <p>Nigeria</p>
+            </div>
+          </div>
+        </div>
+        <div class="sm-fc">
+          <a href="">About Shoplift</a>
+          <a href="">Announcements</a>
+          <a href="">Community</a>
+          <a href="">Security Center</a>
+          <a href="">Seller Information Center</a>
+          <a href="">Policies</a>
+          <a href="">Affliates</a>
+          <a href="">Help & Contact</a>
+          <a href="">Site Map</a>
+        </div>
+      </footer>
     </div>
   </body>
 </html>
-<script src="src/search.js" type="module"></script>
+<script defer src="src/search.js" type="module"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

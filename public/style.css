@@ -109,8 +109,9 @@ main {
   display: flex;
   gap: 20px;
   justify-content: center;
-  overflow: auto;
+  overflow: scroll;
   margin: auto;
+  padding-left: 40px;
   white-space: nowrap;
   scrollbar-width: none;
   -ms-overflow-style: none;

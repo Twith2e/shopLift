@@ -49,6 +49,10 @@ const authWrapper = document.getElementById("auth");
 const searchBtns = document.querySelectorAll("#searchbtn");
 const loginBtns = document.querySelectorAll("#login");
 const signupBtns = document.querySelectorAll("#signup");
+const cats = document.getElementById("cats");
+const backBtn = document.getElementById("back");
+const smList = document.getElementById("sidemenu-list");
+const profileBtn = document.getElementById("user");
 
 sideMenu.style.transition = "left 0.5s ease";
 
@@ -270,7 +274,7 @@ function fetchItems(productID) {
     });
 }
 
-function renderCategories() {
+function renderCategories(element) {
   try {
     const categoryRef = collection(database, "categories");
     getDocs(categoryRef)
@@ -278,7 +282,7 @@ function renderCategories() {
         const head = document.createElement("h2");
         head.textContent = "Categories";
         head.className = "category-heading";
-        document.getElementById("sidecats").appendChild(head);
+        element.appendChild(head);
         snapshot.forEach((doc) => {
           const div = document.createElement("div");
           div.classList.add("category-link");
@@ -287,7 +291,9 @@ function renderCategories() {
           link.textContent = doc.data().name;
           link.style.color = "#fb8d28";
           div.appendChild(link);
-          document.getElementById("sidecats").appendChild(div);
+          if (element) {
+            element.appendChild(div);
+          }
         });
       })
       .catch((error) => {
@@ -298,11 +304,24 @@ function renderCategories() {
   }
 }
 
-if (sidecats) {
-  renderCategories();
-} else {
-  console.log("not found");
-}
+renderCategories(searchresults);
+renderCategories(sidecats);
+
+cats.addEventListener("click", () => {
+  searchresults.style.display = "flex";
+  smList.style.display = "none";
+  closeBtn.querySelector("svg").style.display = "none";
+  backBtn.style.display = "block";
+  closeBtn.style.display = "flex";
+  closeBtn.style.justifyContent = "flex-end";
+});
+
+backBtn.addEventListener("click", () => {
+  searchresults.style.display = "none";
+  smList.style.display = "flex";
+  closeBtn.querySelector("svg").style.display = "block";
+  backBtn.style.display = "none";
+});
 
 function fetchCategory(category) {
   const q = query(
@@ -375,16 +394,29 @@ function fetchCategory(category) {
 
 document.body.addEventListener("keypress", (e) => {
   if (e.key === "Enter") {
-    const searchValue = searchInput.value.trim();
-    searchProductsByInput(searchValue);
+    const searchValue = searchInput.value.trim(); // Trim here to remove spaces
+    if (searchValue) {
+      searchProductsByInput(searchValue); // Only search if the input is not empty
+    } else {
+      showError("Please enter a valid search term."); // Error message for empty input
+    }
   }
 });
 
+console.log(searchInput);
+console.log(searchBtns);
+
 searchBtns.forEach((btn) => {
-  btn.addEventListener("click", () => {
-    const searchValue = searchInput.value.trim();
-    searchProductsByInput(searchValue);
-  });
+  if (btn) {
+    btn.addEventListener("click", () => {
+      const searchValue = searchInput.value.trim(); // Trim input spaces
+      if (searchValue) {
+        searchProductsByInput(searchValue); // Only search if input is valid
+      } else {
+        showError("Please enter a valid search term."); // Error for empty search term
+      }
+    });
+  }
 });
 
 async function searchProductsByInput(searchTerm) {
@@ -427,7 +459,7 @@ menuBtn.addEventListener("click", () => {
   sideMenu.style.left = "0";
 });
 
-closeBtn.addEventListener("click", () => {
+closeBtn.querySelector("svg").addEventListener("click", () => {
   sideMenu.style.left = "-100%";
 });
 

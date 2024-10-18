@@ -56,7 +56,36 @@
               />
               <span class="errortag" id="err"></span>
             </div>
-            <button id="submit">Login</button>
+            <div>
+              <button class="submit-btn" id="submit">Login</button>
+              <button class="forgot-btn" id="openDialogBtn">
+                Forgot Password?
+              </button>
+            </div>
+            <dialog id="myDialog">
+              <h2>Recover your account</h2>
+              <form method="dialog">
+                <div class="field-wrapper">
+                  <img src="assets/icons8-email-24.png" alt="" />
+                  <input id="resetemail" placeholder="Email" type="email" />
+                </div>
+                <button type="button" id="forgotbtn">Send link</button>
+                <button class="close-btn" type="submit">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    x="0px"
+                    y="0px"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M 4.7070312 3.2929688 L 3.2929688 4.7070312 L 10.585938 12 L 3.2929688 19.292969 L 4.7070312 20.707031 L 12 13.414062 L 19.292969 20.707031 L 20.707031 19.292969 L 13.414062 12 L 20.707031 4.7070312 L 19.292969 3.2929688 L 12 10.585938 L 4.7070312 3.2929688 z"
+                    ></path>
+                  </svg>
+                </button>
+              </form>
+            </dialog>
             <div class="login-rd">
               <p>Don't have an account?</p>
               <a href="signup.html">Sign Up</a>
@@ -141,5 +170,5 @@
     </div>
   </body>
 </html>
-<script src="src/login.js" type="module"></script>
+<script defer src="src/login.js" type="module"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

@@ -288,11 +288,16 @@ async function loadUserProfile(user) {
           profileImg.src = ref;
           profileImg.loading = "lazy";
           topprofile.src = ref;
-          if (profileTemplate && pfpTemplate) {
+          topprofile1.src = ref;
+
+          if (profileTemplate && pfpTemplate && pfpTemplate1) {
             profileTemplate.remove();
             pfpTemplate.remove();
+            pfpTemplate1.remove();
             mainProfile.style.display = "grid";
-            topprofile.style.display = "block";
+            profileBtns.forEach((btn) => {
+              btn.style.display = "flex";
+            });
           }
         })
         .catch((error) => {

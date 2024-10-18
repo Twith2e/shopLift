@@ -4,6 +4,8 @@ import {
   signInWithEmailAndPassword,
   updateProfile,
   GoogleAuthProvider,
+  sendPasswordResetEmail,
+  signInWithPopup,
 } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
 import { CONFIG } from "../src/config.js";
 
@@ -25,6 +27,9 @@ const password = document.getElementById("password");
 const email = document.getElementById("email");
 const submitBtn = document.getElementById("submit");
 const googleBtn = document.getElementById("signwithgg");
+const openDialogBtn = document.getElementById("openDialogBtn");
+const dialog = document.getElementById("myDialog");
+const forgotBtn = document.getElementById("forgotbtn");
 
 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const passwordRegex =
@@ -110,6 +115,42 @@ googleBtn.addEventListener("click", () => {
     });
 });
 
+openDialogBtn.addEventListener("click", () => {
+  dialog.showModal();
+});
+
+// dialog.addEventListener("close", () => {
+//   dialog.close();
+// });
+
+dialog.addEventListener("click", (e) => {
+  if (e.target.tagName === "DIALOG") {
+    dialog.close();
+  }
+});
+
+forgotBtn.addEventListener("click", () => {
+  const resetEmail = document.getElementById("resetemail");
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  if (resetEmail.value === "") {
+    showError("Email field can't be empty");
+  } else if (!emailRegex.test(resetEmail.value)) {
+    showError("check mail");
+  } else {
+    sendPasswordResetEmail(auth, resetEmail.value)
+      .then(() => {
+        showSuccess("Password reset email sent. Please check your email.");
+        location.reload();
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode);
+        console.log(errorMessage);
+      });
+  }
+});
+
 function login() {
   const prevUrl = sessionStorage.getItem("prevUrl");
   sessionStorage.removeItem("prevUrl");
@@ -131,5 +172,21 @@ async function showSuccess(message) {
     }).then(() => {
       resolve();
     });
+  });
+}
+
+async function showError(message) {
+  Swal.fire({
+    background: "#DC3545",
+    borderRadius: "0px",
+    color: "#fff",
+    height: "fit-content",
+    padding: "0",
+    position: "top",
+    showConfirmButton: false,
+    text: `${message}`,
+    timer: 1500,
+    timerProgressBar: true,
+    width: "fit-content",
   });
 }

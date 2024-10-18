@@ -51,6 +51,90 @@ main {
   top: 100%;
 }
 
+.submit-btn {
+  width: 100%;
+}
+
+dialog {
+  width: 400px;
+  height: 300px; /* Increase the height */
+  padding: 20px;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  justify-content: center; /* Center the form vertically */
+  align-items: center; /* Center the form horizontally */
+  position: relative;
+  text-align: center;
+}
+
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.4); /* Optional: Adds a background blur */
+}
+
+/* Center the dialog on the screen */
+dialog[open] {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Style the form */
+form {
+  align-items: center;
+  display: flex;
+  flex-direction: column; /* Stack input and button vertically */
+  gap: 15px;
+  height: 100%;
+  justify-content: center; /* Center the form vertically */
+  width: 100%;
+}
+
+form input,
+form button {
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+#forgotbtn {
+  background-color: #fb8d28;
+  color: white;
+  border: none;
+  cursor: pointer;
+  width: fit-content;
+}
+
+#forgotbtn:hover {
+  background-color: #ef7707;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 5px;
+  background: none;
+  border: none;
+  font-size: 0.875rem;
+  cursor: pointer;
+  color: #555;
+}
+
+.close-btn:hover {
+  fill: #f00;
+}
+
+.forgot-btn {
+  border: none;
+  background-color: transparent;
+  color: #fb8d28;
+  cursor: pointer;
+  float: right;
+  margin-top: 10px;
+}
+
 .field-wrapper input {
   border: none;
   font-size: 16px;
