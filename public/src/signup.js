@@ -63,6 +63,11 @@ passEyes[1].addEventListener("click", () => {
 });
 
 submitBtn.addEventListener("click", () => {
+  submitBtn.style.position = "relative";
+  submitBtn.style.height = "3rem";
+  submitBtn.innerHTML = `<div class="loader-overlay">
+          <div class="loader"></div>
+        </div>`;
   if (
     theName.value === "" ||
     email.value === "" ||
@@ -84,24 +89,34 @@ submitBtn.addEventListener("click", () => {
       });
     }, 2000);
   } else if (!nameRegex.test(theName.value)) {
-    alert("check name");
+    showError("check name").then(() => {
+      submitBtn.innerHTML = "Sign up";
+    });
   } else if (!emailRegex.test(email.value)) {
-    alert("check mail");
+    showError("check mail").then(() => {
+      submitBtn.innerHTML = "Sign up";
+    });
   } else if (password.value !== confirmPassword.value) {
-    alert("passwords do not match");
+    showError("passwords do not match").then(() => {
+      submitBtn.innerHTML = "Sign up";
+    });
   } else if (!passwordRegex.test(password.value)) {
-    alert("check password");
+    showError("check password").then(() => {
+      submitBtn.innerHTML = "Sign up";
+    });
   } else {
     createUserWithEmailAndPassword(auth, email.value, password.value)
       .then((userCredential) => {
         sendEmailVerification(userCredential.user)
           .then(() => {
-            alert(
+            showSuccess(
               "Verification email sent. Please verify your email before proceeding."
-            );
-            auth.signOut();
-            sessionStorage.setItem("username", `${theName.value}`);
-            location.replace("login.html");
+            ).then(() => {
+              submitBtn.innerHTML = "Sign up";
+              auth.signOut();
+              sessionStorage.setItem("username", `${theName.value}`);
+              location.replace("login.html");
+            });
           })
           .catch((error) => {
             console.error("Error sending verification email:", error);
@@ -143,6 +158,24 @@ function login() {
     sessionStorage.removeItem("prevUrl");
   }
   window.location.href = prevUrl || "index.html";
+}
+
+async function showSuccess(message) {
+  return new Promise((resolve) => {
+    Swal.fire({
+      background: "#28a745",
+      color: "#fff",
+      height: "fit-content",
+      padding: "0 0",
+      position: "top",
+      showConfirmButton: false,
+      text: `${message}`,
+      timer: 1500,
+      timerProgressBar: true,
+    }).then(() => {
+      resolve();
+    });
+  });
 }
 
 async function showError(message) {

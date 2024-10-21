@@ -10,8 +10,6 @@ import {
   getDoc,
   getDocs,
   doc,
-  query,
-  where,
   updateDoc,
 } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 import {
@@ -36,7 +34,6 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 const database = getFirestore();
 const storage = getStorage();
-const formatter = Intl.NumberFormat("en-NG");
 
 const searchBar = document.getElementById("seachbar");
 const searchIcon = document.getElementById("searchicon");
@@ -56,8 +53,6 @@ const editBtns = document.querySelectorAll("#edit");
 const doneBtn = document.getElementById("donebtn");
 const cancelBtn = document.getElementById("cancelbtn");
 const searchMatch = document.getElementById("searchmatch");
-const cardwrapperTemp = document.getElementById("cardwrappertemp");
-const cardwrapper = document.getElementById("cardwrapper");
 let dropdownShown = false;
 let seeSearchBar = false;
 let currentUser;
@@ -241,19 +236,39 @@ searchIcon.addEventListener("click", () => {
 
 editBtns.forEach((editbtn) => {
   editbtn.addEventListener("click", (e) => {
-    const dataAtrribute = e.target.getAttribute("data-span-id");
+    editInfo(e);
+  });
+});
+
+function editInfo(event) {
+  const dataAtrribute = event.target.getAttribute("data-span-id");
+  const currentInput = document.getElementById(dataAtrribute);
+  if (currentInput) {
+    currentInput.removeAttribute("readonly");
+    currentInput.focus();
+    currentInput.setSelectionRange(0, 20000);
+    currentInput.addEventListener("input", () => {
+      doneBtn.disabled = false;
+      doneBtn.style.background = "#fb8d28";
+      doneBtn.style.color = "#fff";
+    });
+  }
+}
+
+function cancelEdit() {
+  editBtns.forEach((editbtn) => {
+    const dataAtrribute = editbtn.getAttribute("data-span-id");
     const currentInput = document.getElementById(dataAtrribute);
     if (currentInput) {
-      currentInput.removeAttribute("readonly");
-      currentInput.focus();
-      currentInput.setSelectionRange(0, 20000);
-      currentInput.addEventListener("input", () => {
-        doneBtn.disabled = false;
-        doneBtn.style.background = "#fb8d28";
-        doneBtn.style.color = "#fff";
-      });
+      currentInput.setAttribute("readonly", true);
+      doneBtn.disabled = true;
+      doneBtn.style.background = "#f3b17b";
     }
   });
+}
+
+cancelBtn.addEventListener("click", () => {
+  cancelEdit();
 });
 
 async function updateUserProfile(user) {
@@ -331,8 +346,8 @@ async function showSearchMatch(searchTerm) {
   const productsRef = collection(database, "products");
   const querySnapshot = await getDocs(productsRef);
 
-  const searchMatch = document.getElementById("searchmatch"); // Assuming searchMatch is the element ID
-  searchMatch.innerHTML = ""; // Clear previous results
+  const searchMatch = document.getElementById("searchmatch");
+  searchMatch.innerHTML = "";
 
   const searchResults = [];
 

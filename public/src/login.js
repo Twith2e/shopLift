@@ -52,12 +52,23 @@ passEye.addEventListener("click", () => {
 });
 
 submitBtn.addEventListener("click", () => {
+  submitBtn.style.position = "relative";
+  submitBtn.style.height = "3rem";
+  submitBtn.innerHTML = `<div class="loader-overlay">
+          <div class="loader"></div>
+        </div>`;
   if (email.value === "" || password.value === "") {
-    alert("Fill all inputs!!!");
+    showError("Fill all inputs!!!").then(() => {
+      submitBtn.innerHTML = "Login";
+    });
   } else if (!emailRegex.test(email.value)) {
-    alert("check mail");
+    showError("check mail").then(() => {
+      submitBtn.innerHTML = "Login";
+    });
   } else if (!passwordRegex.test(password.value)) {
-    alert("check password");
+    showError("check password").then(() => {
+      submitBtn.innerHTML = "Login";
+    });
   } else {
     signInWithEmailAndPassword(auth, email.value, password.value)
       .then((userCredential) => {
@@ -71,7 +82,7 @@ submitBtn.addEventListener("click", () => {
               console.log(res);
             })
             .catch((error) => {
-              alert(error.message);
+              showError(error.message);
             });
           showSuccess("Email verified! You're now signed in.").then(() => {
             login();
@@ -86,10 +97,16 @@ submitBtn.addEventListener("click", () => {
         }
       })
       .catch((error) => {
+        submitBtn.innerHTML = "Login";
         const errorCode = error.code;
         const errorMessage = error.message;
         console.log(errorCode);
         console.log(errorMessage);
+        if (errorCode === "auth/invalid-credential") {
+          showError("Incorrect Email or Password");
+        } else if (errorCode === "auth/too-many-requests") {
+          showError("Too many failed requests, please try again later");
+        }
       });
   }
 });

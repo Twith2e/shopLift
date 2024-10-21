@@ -242,9 +242,13 @@ async function renderProduct() {
       productPrice.textContent = `NGN ₦${formatter.format(product.price)}`;
       condition.textContent = product.condition;
       brand.textContent = product.brand;
-      quantity.textContent = `${product.quantity} available`;
-      console.log(product.additionalFeatures);
-
+      if (product.quantity === 0) {
+        quantity.textContent = "Out of Stock";
+        quantity.style.color = "red";
+      } else {
+        quantity.textContent = `${product.quantity} available`;
+        console.log(product.additionalFeatures);
+      }
       product.additionalFeatures.forEach((feature) => {
         const featureTitle = document.createElement("div");
         const featureDesc = document.createElement(
@@ -373,8 +377,13 @@ async function addToCart() {
           where("productId", "==", productId)
         );
         const querySnapshot = await getDocs(q);
-        console.log(querySnapshot);
-        if (!querySnapshot.empty) {
+        console.log(product);
+
+        if (product.quantity < 1) {
+          showError("Product is out of stock").then(() => {
+            window.location.href = "index.html";
+          });
+        } else if (!querySnapshot.empty) {
           console.log("product already in cart");
           return;
         } else {

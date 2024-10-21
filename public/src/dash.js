@@ -48,12 +48,13 @@ const profileInfo = document.getElementById("profile-info");
 const ddList = document.getElementById("dd-list");
 const cardwrapperTemp = document.getElementById("cardwrappertemp");
 const cardwrapper = document.getElementById("cardwrapper");
+const myProducts = document.getElementById("myproducts");
+
 let dropdownShown = false;
 let seeSearchBar = false;
 
 onAuthStateChanged(auth, (user) => {
   if (user) {
-    console.log(user.displayName);
     loadProfilePic(user);
     renderInfo(user.displayName);
     userNames.forEach((name) => {

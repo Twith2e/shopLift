@@ -44,6 +44,10 @@ const formatter = Intl.NumberFormat("en-NG");
 let userId;
 console.log(userId);
 
+payinput.addEventListener("click", () => {
+  radio.checked = "true";
+});
+
 let tempRef;
 
 function checkStorage() {
