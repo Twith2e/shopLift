@@ -98,10 +98,11 @@ function payWithPaystack() {
         const orderRef = collection(database, `orders`);
         const newOrderRef = doc(orderRef);
         const productPromises = productInfo.map((product) => {
+          const user = auth.currentUser;
           const orderInfo = {
             productID: product.productID,
             qtyBought: product.qtyBought,
-            owner: product.owner,
+            owner: user.uid,
             seller: product.seller,
             date: new Date().toLocaleString(),
             price,

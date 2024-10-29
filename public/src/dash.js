@@ -198,8 +198,7 @@ async function renderInfo(user) {
   try {
     const q = query(
       collection(database, "orders"),
-      where("seller", "==", businessName),
-      where("userDisplayName", "==", user.displayName)
+      where("seller", "==", userId)
     );
     const snap = await getDocs(q);
 
@@ -214,9 +213,17 @@ async function renderInfo(user) {
     console.log(price);
     const totalPrice = price.reduce((a, b) => +a + +b, 0);
     console.log(totalPrice);
-    const totalQty = qtyBought.reduce((a, b) => a + b, 0);
+    const totalQty = qtyBought.reduce((a, b) => +a + +b, 0);
     console.log(totalQty);
-    const revenue = Number(totalPrice) * Number(totalQty);
+
+    console.log(qtyBought);
+
+    const calcRevenue = price.map((price, index) => {
+      return Number(price) * Number(qtyBought[index]);
+    });
+
+    const revenue = calcRevenue.reduce((a, b) => +a + +b, 0);
+
     revCount.textContent = `₦${formatter.format(revenue)}`;
     custCount.textContent = customersArray.length;
 
