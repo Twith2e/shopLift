@@ -69,6 +69,26 @@ footer a:hover {
   gap: 5px;
 }
 
+#profile:hover,
+#dashboard:hover,
+#myprod:hover {
+  color: #fb8d28;
+}
+
+.logged-user {
+  position: relative;
+}
+
+.logged-user::after {
+  bottom: 0;
+  content: "";
+  background-color: #fb8d28;
+  height: 2px;
+  left: 0;
+  position: absolute;
+  width: 100%;
+}
+
 .skeleton {
   animation: skeleton-loading 1s linear infinite alternate;
 }

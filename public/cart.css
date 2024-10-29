@@ -4,6 +4,11 @@ nav {
   justify-content: space-between;
 }
 
+i {
+  color: #fb8d28;
+  font-size: 0.75rem;
+}
+
 .sm-search-nav {
   background-color: #fff;
   display: none;

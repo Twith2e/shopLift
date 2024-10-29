@@ -63,7 +63,9 @@ header {
   cursor: pointer;
   display: flex;
   justify-content: center;
-  padding: 15px 40px;
+  min-width: 55px;
+  padding-block: 15px;
+  width: 10%;
 }
 
 .list-body {
@@ -80,7 +82,3 @@ header {
   margin: auto;
   width: 75%;
 }
-
-/* @media (max-width: 42.1875rem) {
-  
-} */

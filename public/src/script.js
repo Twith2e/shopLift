@@ -57,13 +57,18 @@ onAuthStateChanged(auth, (user) => {
     cartIconCount(uid);
     saveUser();
     authDisplay.innerHTML = `
-    <p id="userDd">Hi ${user.displayName.split(" ")[0]}</p>
+    <p id="userDd">Hi <span class="logged-user">${
+      user.displayName.split(" ")[0]
+    }</span></p><i class="fa-solid fa-chevron-down"></i>
     <div class="sign-out">
       <button id="profile">Profile</button>
+      <button id="myprod" style="white-space: nowrap;">My Products</button>
       <button id="dashboard">Dashboard</button>
       <button id="signOut">Sign out</button>
     </div>
     `;
+
+    document.querySelector(".authlinkwrapper").style.gap = "10px";
     userDd.style.cursor = "pointer";
     userDd.addEventListener("click", () => {
       if (!isShown) {
@@ -110,6 +115,10 @@ onAuthStateChanged(auth, (user) => {
     const dashboardBtn = document.getElementById("dashboard");
     dashboardBtn.addEventListener("click", () => {
       location.href = "dashboard.html";
+    });
+    const myProdBtn = document.getElementById("myprod");
+    myProdBtn.addEventListener("click", () => {
+      location.href = "listedProducts.html";
     });
   }
 });

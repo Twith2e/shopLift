@@ -62,13 +62,17 @@ onAuthStateChanged(auth, (user) => {
   } else {
     authWrapper.innerHTML = `<button id="signoutbtn" class="sign-out-btn">Sign Out</button>`;
     authDisplay.innerHTML = `
-    <p id="userDd">Hi ${user.displayName.split(" ")[0]}</p>
+    <p id="userDd">Hi <span class="logged-user">${
+      user.displayName.split(" ")[0]
+    }</span></p><i class="fa-solid fa-chevron-down"></i>
     <div class="sign-out">
       <button id="profile">Profile</button>
       <button id="dashboard">Dashboard</button>
       <button id="signOut">Sign out</button>
     </div>
     `;
+
+    document.querySelector(".authlinkwrapper").style.gap = "10px";
     userDd.style.cursor = "pointer";
     userDd.addEventListener("click", () => {
       if (!isShown) {
@@ -266,6 +270,9 @@ async function renderItems(uid) {
         const desiredQty = qty.querySelector("#dqty");
         const plus = qty.querySelector("#plus");
         const minus = qty.querySelector("#minus");
+
+        plus.style.cursor = "pointer";
+        minus.style.cursor = "pointer";
 
         plus.disabled = false; // Enable the plus button initially
 

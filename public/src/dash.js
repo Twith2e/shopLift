@@ -56,7 +56,7 @@ let seeSearchBar = false;
 onAuthStateChanged(auth, (user) => {
   if (user) {
     loadProfilePic(user);
-    renderInfo(user.displayName);
+    renderInfo(user);
     userNames.forEach((name) => {
       name.textContent = user.displayName.split(" ")[0];
     });
@@ -185,7 +185,12 @@ searchIcon.addEventListener("click", () => {
   }
 });
 
-async function renderInfo(name) {
+async function renderInfo(user) {
+  const userId = user.uid;
+  const userRef = doc(database, "users", userId);
+  const userDoc = await getDoc(userRef);
+  const userData = userDoc.data();
+  const businessName = userData.businessName;
   let customers = new Set();
   let price = [];
   let qtyBought = [];
@@ -193,7 +198,8 @@ async function renderInfo(name) {
   try {
     const q = query(
       collection(database, "orders"),
-      where("seller", "==", `${name}`)
+      where("seller", "==", businessName),
+      where("userDisplayName", "==", user.displayName)
     );
     const snap = await getDocs(q);
 

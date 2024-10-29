@@ -63,13 +63,14 @@ onAuthStateChanged(auth, (user) => {
     const uid = user.uid;
     cartIconCount(uid);
     authWrapper.innerHTML = `<button id="signoutbtn" class="sign-out-btn">Sign Out</button>`;
-    authlinkwrapper.innerHTML = `<button id="userDd">Hi ${
+    authlinkwrapper.innerHTML = `<p id="userDd">Hi <span class="logged-user">${
       user.displayName.split(" ")[0]
-    }</button>
+    }</span></p>
     <div class="sign-out">
-      <button id="signOut">Sign out</button>
       <button id="profile">Profile</button>
+      <button id="myprod" style="white-space: nowrap;">My Products</button>
       <button id="dashboard">Dashboard</button>
+      <button id="signOut">Sign out</button>
     </div>
     `;
     document.getElementById("signOut").addEventListener("click", () => {
@@ -135,6 +136,10 @@ onAuthStateChanged(auth, (user) => {
     const dashboardBtn = document.getElementById("dashboard");
     dashboardBtn.addEventListener("click", () => {
       location.href = "dashboard.html";
+    });
+    const myProdBtn = document.getElementById("myprod");
+    myProdBtn.addEventListener("click", () => {
+      location.href = "listedProducts.html";
     });
   }
 });
@@ -220,6 +225,7 @@ function fetchItems(productID) {
         const imgDiv = document.createElement("div");
         imgDiv.style.height = "150px";
         imgDiv.style.borderRadius = "5px";
+        imgDiv.style.boxShadow = "0.5px 0.5px 10px #000";
         const descDiv = document.createElement("div");
         descDiv.style.display = "flex";
         descDiv.style.flexDirection = "column";
@@ -236,6 +242,8 @@ function fetchItems(productID) {
         img.style.width = "100%";
         img.style.height = "100%";
         img.style.borderRadius = "10px";
+        img.style.boxShadow = "0.5px 0.5px 10px #000";
+
         // img.style.objectFit = "contain";
         const imgRef = ref(storage, `${docSnap.data().productImages[0]}`);
         getDownloadURL(imgRef)
@@ -352,6 +360,7 @@ function fetchCategory(category) {
         const imgDiv = document.createElement("div");
         imgDiv.style.height = "200px";
         imgDiv.style.borderRadius = "5px";
+        imgDiv.style.boxShadow = "0.5px 0.5px 10px #000";
         const descDiv = document.createElement("div");
         const header = document.createElement("p");
         const features = document.createElement("span");
@@ -521,7 +530,7 @@ async function showCanceled(message) {
 async function showError(message) {
   Swal.fire({
     background: "#DC3545",
-    borderRadius: "0px",
+    borderRadius: "none",
     color: "#fff",
     height: "fit-content",
     padding: "0",

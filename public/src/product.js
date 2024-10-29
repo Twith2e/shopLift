@@ -71,13 +71,18 @@ onAuthStateChanged(auth, (user) => {
     checkCart();
     cartIconCount(user.uid);
     authDisplay.innerHTML = `
-    <p id="userDd">Hi ${user.displayName.split(" ")[0]}</p>
+    <p id="userDd">Hi <span class="logged-user">${
+      user.displayName.split(" ")[0]
+    }</span></p><i class="fa-solid fa-chevron-down"></i>
     <div class="sign-out">
       <button id="profile">Profile</button>
+      <button id="myprod" style="white-space: nowrap;">My Products</button>
       <button id="dashboard">Dashboard</button>
       <button id="signOut">Sign out</button>
     </div>
     `;
+
+    document.querySelector(".authlinkwrapper").style.gap = "10px";
     userDd.style.cursor = "pointer";
     userDd.addEventListener("click", () => {
       if (!isShown) {
@@ -126,6 +131,10 @@ onAuthStateChanged(auth, (user) => {
     dashboardBtn.addEventListener("click", () => {
       location.href = "dashboard.html";
     });
+    const myProdBtn = document.getElementById("myprod");
+    myProdBtn.addEventListener("click", () => {
+      location.href = "listedProducts.html";
+    });
   }
 });
 
@@ -167,9 +176,22 @@ async function renderProduct() {
         });
       });
 
+      if (product.quantity < 1) {
+        const option = document.createElement("option");
+        option.value = 0;
+        option.textContent = "Out of Stock";
+        qty.appendChild(option);
+      } else {
+        for (let i = 0; i < product.quantity; i++) {
+          const option = document.createElement("option");
+          option.value = i + 1;
+          option.textContent = i + 1;
+          qty.appendChild(option);
+        }
+      }
+
       await Promise.all(imagePromises);
       initCarousel();
-
       const q = query(
         collection(database, "products"),
         where("category", "==", `${product.category}`)
@@ -242,7 +264,7 @@ async function renderProduct() {
       productPrice.textContent = `NGN ₦${formatter.format(product.price)}`;
       condition.textContent = product.condition;
       brand.textContent = product.brand;
-      if (product.quantity === 0) {
+      if (product.quantity == 0) {
         quantity.textContent = "Out of Stock";
         quantity.style.color = "red";
       } else {
@@ -276,21 +298,30 @@ async function renderProduct() {
 
       buyBtn.addEventListener("click", (e) => {
         e.preventDefault();
-        sessionStorage.setItem("price", product.price);
+        if (product.quantity == 0) {
+          showError("Product is out of Stock").then(() => {
+            location.replace("index.html");
+          });
+          return;
+        }
+        sessionStorage.setItem(
+          "price",
+          Number(product.price) * Number(qty.value)
+        );
         sessionStorage.setItem("mail", userEmail);
-        location.href = "checkout.html";
         const user = auth.currentUser;
         sessionStorage.setItem(
           "productInfo",
           JSON.stringify([
             {
               productID: product.productID,
-              qtyBought: 1,
+              qtyBought: document.getElementById("qty").value,
               owner: user.displayName,
               seller: product.owner,
             },
           ])
         );
+        location.href = "checkout.html";
       });
 
       if (mdTemplate) {
@@ -315,6 +346,10 @@ async function renderProduct() {
     console.log(error.message);
   }
 }
+
+qty.addEventListener("change", () => {
+  console.log(qty.value);
+});
 
 function initCarousel() {
   const carousel = document.getElementById("productCarousel");

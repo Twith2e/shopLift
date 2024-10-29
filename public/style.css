@@ -119,7 +119,8 @@ main {
 }
 
 #profile:hover,
-#dashboard:hover {
+#dashboard:hover,
+#myprod:hover {
   color: #fb8d28;
 }
 
@@ -165,6 +166,11 @@ select {
   display: flex;
   gap: 30px;
   position: relative;
+}
+
+i {
+  color: #fb8d28;
+  font-size: 12px;
 }
 
 .authlinkwrapper a {
@@ -408,13 +414,13 @@ select {
   background: #fff;
   border-radius: 5px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
-  bottom: -110px;
+  bottom: -140px;
   display: none;
   flex-direction: column;
   gap: 10px;
   padding: 5px 10px;
   position: absolute;
-  width: 100%;
+  width: fit-content;
   z-index: 99999;
 }
 

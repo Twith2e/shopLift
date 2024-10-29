@@ -72,6 +72,20 @@ select {
   width: 100%;
 }
 
+.qty-container {
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+}
+
+.qty-container select {
+  outline: none;
+  width: 100%;
+}
+
 .result-button:hover {
   background-color: #fb8d28;
 }
