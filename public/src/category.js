@@ -64,6 +64,11 @@ onAuthStateChanged(auth, (user) => {
       }
       categoryInput.value = "";
     });
+  } else {
+    showError("Login bitch").then(() => {
+      sessionStorage.setItem("prevUrl", window.location.href);
+      location.replace("login.html");
+    });
   }
 });
 
@@ -140,4 +145,20 @@ function toTitleCase(str) {
       return word.charAt(0).toUpperCase() + word.slice(1);
     })
     .join(" ");
+}
+
+async function showError(message) {
+  return new Promise((resolve) => {
+    Swal.fire({
+      background: "#dc3",
+      color: "#fff",
+      position: "top",
+      showConfirmButton: false,
+      text: `${message}`,
+      timer: 1500,
+      timerProgressBar: true,
+    }).then(() => {
+      resolve();
+    });
+  });
 }

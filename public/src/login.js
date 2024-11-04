@@ -84,7 +84,7 @@ submitBtn.addEventListener("click", () => {
             .catch((error) => {
               showError(error.message);
             });
-          showSuccess("Email verified! You're now signed in.").then(() => {
+          showSuccess("Login Successful").then(() => {
             login();
           });
         } else {

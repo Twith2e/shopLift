@@ -58,16 +58,7 @@ onAuthStateChanged(auth, (user) => {
   if (user) {
     userInfo = user;
     userEmail = user.email;
-    cartBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      cartBtn.style.position = "relative";
-      cartBtn.style.height = "3rem";
-      cartBtn.innerHTML = `<div class="loader-overlay">
-          <div class="loader"></div>
-        </div>`;
 
-      addToCart();
-    });
     checkCart();
     cartIconCount(user.uid);
     authDisplay.innerHTML = `
@@ -136,6 +127,17 @@ onAuthStateChanged(auth, (user) => {
       location.href = "listedProducts.html";
     });
   }
+});
+
+cartBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  cartBtn.style.position = "relative";
+  cartBtn.style.height = "3rem";
+  cartBtn.innerHTML = `<div class="loader-overlay">
+          <div class="loader"></div>
+        </div>`;
+
+  addToCart(e);
 });
 
 renderProduct();
@@ -397,7 +399,7 @@ async function checkCart() {
   }
 }
 
-async function addToCart() {
+async function addToCart(event) {
   const user = auth.currentUser;
   if (!isInCart) {
     if (user) {
@@ -449,11 +451,14 @@ async function addToCart() {
             });
         }
       } catch (error) {
-        console.log(error);
+        showError(error.message);
       }
     } else {
+      console.log("user not logged in");
       showError("please login to add to cart").then(() => {
-        location.replace("index.html");
+        sessionStorage.setItem("prevUrl", window.location.href);
+        event.target.innerHTML = "Add to Cart";
+        location.replace("login.html");
       });
     }
   } else {

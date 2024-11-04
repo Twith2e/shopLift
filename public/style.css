@@ -377,6 +377,13 @@ i {
   text-decoration: none;
 }
 
+.sell-btn-container button {
+  border-radius: 25px;
+  padding: 15px;
+  text-align: center;
+  text-decoration: none;
+}
+
 .sell-btn-container div {
   border-radius: 25px;
   padding: 15px;
