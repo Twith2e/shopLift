@@ -1,3 +1,7 @@
+main {
+  margin-top: 40px;
+}
+
 nav {
   display: flex;
   gap: 5px;
@@ -73,10 +77,33 @@ button span {
   font-size: 1rem;
 }
 
+.shipping-address {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  /* width: 70%; */
+}
+
+.shipping-address input {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+  padding: 10px 20px 10px 10px;
+}
+
+.shipping-address button {
+  padding: 10px 20px;
+  width: 80px;
+}
+
 @media (min-width: 48rem) {
   .main-container {
     display: grid;
     grid-template-columns: 55% 1fr;
+  }
+
+  .shipping-address {
+    width: 100%;
   }
 }
 
@@ -84,5 +111,9 @@ button span {
   .body-container {
     margin: auto;
     width: 70%;
+  }
+
+  .shipping-address {
+    width: 100%;
   }
 }

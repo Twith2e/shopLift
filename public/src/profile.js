@@ -304,22 +304,22 @@ async function loadUserProfile(user) {
           profileImg.loading = "lazy";
           topprofile.src = ref;
           topprofile1.src = ref;
-
-          if (profileTemplate && pfpTemplate && pfpTemplate1) {
-            profileTemplate.remove();
-            pfpTemplate.remove();
-            pfpTemplate1.remove();
-            mainProfile.style.display = "grid";
-            profileBtns.forEach((btn) => {
-              btn.style.display = "flex";
-            });
-          }
         })
         .catch((error) => {
           console.log(error);
         });
+      if (profileTemplate && pfpTemplate && pfpTemplate1) {
+        profileTemplate.remove();
+        pfpTemplate.remove();
+        pfpTemplate1.remove();
+        mainProfile.style.display = "grid";
+        profileBtns.forEach((btn) => {
+          btn.style.display = "flex";
+        });
+      }
       return;
     }
+
     document.getElementById("businessname").value = "Not Provided";
   } catch (error) {
     showSuccess(error.message);

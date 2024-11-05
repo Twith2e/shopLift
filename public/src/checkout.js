@@ -30,7 +30,6 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 const database = getFirestore();
 const user = auth.currentUser;
-console.log(user);
 
 (function () {
   emailjs.init({ publicKey: "pZeVBA8Xt9mOrjobf" });
@@ -42,7 +41,8 @@ const radio = document.getElementById("radio");
 const prices = document.querySelectorAll("#price");
 const formatter = Intl.NumberFormat("en-NG");
 let userId;
-console.log(userId);
+const addressBtn = document.getElementById("addressbtn");
+const address = document.getElementById("address");
 
 payinput.addEventListener("click", () => {
   radio.checked = "true";
@@ -68,7 +68,6 @@ onAuthStateChanged(auth, (user) => {
     window.location.href = "login.html";
   } else {
     console.log(user.uid);
-
     paymentBtn.addEventListener("click", payWithPaystack, false);
   }
 });
@@ -81,13 +80,36 @@ function payWithPaystack() {
     showError("Please select a payment method");
     return;
   }
+
+  if (!address.value.trim()) {
+    showError("Please fill in the field for the shipping address.");
+    return;
+  }
+
   const email = sessionStorage.getItem("mail");
   const price = sessionStorage.getItem("price");
   const productInfo = JSON.parse(sessionStorage.getItem("productInfo"));
+
   if (!email || !price || !productInfo) {
     showError("Invalid session data");
     return;
   }
+
+  const user = auth.currentUser;
+  if (!user) {
+    showError("User is not authenticated.");
+    return;
+  }
+
+  // Update user's shipping address if needed
+  const userRef = doc(database, "users", user.uid);
+  updateDoc(userRef, { shippingAddress: address.value.trim() }).catch(
+    (error) => {
+      showError(`Failed to update shipping address: ${error.message}`);
+      return;
+    }
+  );
+
   let handler = PaystackPop.setup({
     key: "pk_test_c05702e7cf1cdedcdf4044fd7b97642551aaabb0",
     email: email,
@@ -95,10 +117,9 @@ function payWithPaystack() {
     currency: "NGN",
     callback: function (response) {
       try {
-        const orderRef = collection(database, `orders`);
-        const newOrderRef = doc(orderRef);
+        const orderRef = collection(database, "orders");
+
         const productPromises = productInfo.map((product) => {
-          const user = auth.currentUser;
           const orderInfo = {
             productID: product.productID,
             qtyBought: product.qtyBought,
@@ -108,14 +129,11 @@ function payWithPaystack() {
             price,
           };
 
-          const newOrderRef = doc(database, "orders", product.productID); // Unique order ref for each product
-          const productRef = doc(database, "products", product.productID); // Unique product ref
+          const newOrderRef = doc(orderRef, product.productID);
+          const productRef = doc(database, "products", product.productID);
 
-          // Return the promise chain for each product
           return setDoc(newOrderRef, orderInfo)
-            .then(() => {
-              return getDoc(productRef);
-            })
+            .then(() => getDoc(productRef))
             .then((productSnap) => {
               if (productSnap.exists()) {
                 const currentQty = productSnap.data().quantity;
@@ -127,30 +145,23 @@ function payWithPaystack() {
             });
         });
 
-        // Use Promise.all() to wait for all product promises to complete
         Promise.all(productPromises)
           .then(() => {
-            // Show success message once after all promises are resolved
             showSuccess("Order placed successfully").then(() => {
               clearCartAfterPurchase()
                 .then(() => {
-                  location.href = "index.html";
+                  location.replace("index.html");
                 })
                 .catch((error) => {
                   showError(error.message);
-                  console.log(error.message);
                 });
             });
             verifyTransaction(response.reference);
           })
           .catch((error) => {
-            // Handle errors from any of the promises
-            console.log(error.message);
             showError(error.message);
           });
       } catch (error) {
-        console.log(error.message);
-
         showError(error.message);
       }
     },
@@ -158,6 +169,7 @@ function payWithPaystack() {
       showCanceled("Transaction was not completed, window closed.");
     },
   });
+
   handler.openIframe();
 }
 
@@ -195,7 +207,7 @@ function generateReceipt(transactionData) {
 
   const pdfData = doc.output("datauristring");
 
-  sendReceiptByEmail(transactionData.customer.email, pdfData);
+  sendReceiptByEmail(transactionData.customer.email, pdfData, address.value);
 }
 
 async function clearCartAfterPurchase() {
@@ -224,16 +236,25 @@ async function clearCartAfterPurchase() {
 }
 
 function sendReceiptByEmail(email, pdfData) {
+  // Create HTML content for the email message
+  const message = `
+  Dear Customer,\n\n
+  Thank you for your purchase. Here are the details:\n
+  Order Date: ${getTodayDate()}\n
+  Total Amount: ₦${formatter.format(sessionStorage.getItem("price"))}\n\n
+  Thank you for shopping with us!
+`;
+
+  // Send email with HTML content using EmailJS
   emailjs
     .send("service_zfwgbmf", "template_pfuor4j", {
       user_email: email,
-      message:
-        "Thank you for your purchase! Please find your receipt attached.",
+      message: message, // Pass the message content as HTML
       attachment: pdfData,
     })
     .then(
       function (response) {
-        showSuccess("Receipt sent successfully to " + email);
+        console.log(response);
       },
       function (error) {
         console.error("Failed to send email:", error);
@@ -294,4 +315,12 @@ async function showError(message) {
     timerProgressBar: true,
     width: "fit-content",
   });
+}
+
+function getTodayDate() {
+  const today = new Date();
+  const day = String(today.getDate()).padStart(2, "0"); // Day with leading zero
+  const month = String(today.getMonth() + 1).padStart(2, "0"); // Month with leading zero
+  const year = String(today.getFullYear()).slice(-2); // Last two digits of the year
+  return `${day}/${month}/${year}`;
 }

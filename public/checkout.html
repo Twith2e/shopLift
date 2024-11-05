@@ -14,18 +14,6 @@
     <link rel="stylesheet" href="general.css" />
     <link rel="stylesheet" href="checkout.css" />
     <title>Paystack Payment with Receipt and Email</title>
-    <script src="https://js.paystack.co/v1/inline.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script
-      type="text/javascript"
-      src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"
-    ></script>
-    <script src="https://js.paystack.co/v1/inline.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script
-      type="text/javascript"
-      src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"
-    ></script>
   </head>
   <body>
     <div class="body-container">
@@ -36,6 +24,14 @@
         </nav>
       </header>
       <main>
+        <div class="shipping-address">
+          <label for="address"><h2>Ship your shoplifts</h2></label>
+          <input
+            id="address"
+            placeholder="e.g. 15 Olufemi Street, Flat 2 Ikeja Lagos State 100271 Nigeria"
+            type="text"
+          />
+        </div>
         <div class="main-container">
           <div class="payment-method">
             <div class="pay-head">
@@ -141,3 +137,9 @@
 </html>
 <script src="src/checkout.js" type="module"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://js.paystack.co/v1/inline.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script
+  type="text/javascript"
+  src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"
+></script>
