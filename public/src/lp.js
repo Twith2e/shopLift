@@ -20,6 +20,7 @@ import {
   ref,
 } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-storage.js";
 import { CONFIG } from "./config.js";
+import { setupNetworkMonitoring } from "./utils/networkUtils.js";
 
 const firebaseConfig = {
   apiKey: CONFIG.apiKey,
@@ -36,12 +37,14 @@ const auth = getAuth();
 const database = getFirestore();
 const storage = getStorage();
 
+setupNetworkMonitoring(app);
+
 const loadingTemps = document.querySelectorAll("#loadingTemp");
 const mainContainer = document.getElementById("main");
 const profileBtns = document.querySelectorAll("#profilebtn");
 const searchIcon = document.getElementById("searchicon");
 const profileDropdowns = document.querySelectorAll("#profiledropdown");
-const signOutBtns = document.getElementById("signoutbtn");
+const signOutBtns = document.querySelectorAll("#signoutbtn");
 const userNames = document.querySelectorAll("#username");
 const searchBar = document.getElementById("seachbar");
 const searchBtns = document.querySelectorAll("#searchbtn");
@@ -59,33 +62,35 @@ onAuthStateChanged(auth, (user) => {
     });
     loadProfilePic(user);
     loadProducts(user.uid);
-    signOutBtn.addEventListener("click", () => {
-      confirm("Do you want to sign out?");
-      const confirmButton = document.querySelector(".swal2-confirm");
-      if (confirmButton) {
-        confirmButton.addEventListener("click", () => {
-          signOut(auth)
-            .then(() => {
-              Swal.fire({
-                text: "Sign out successful",
-                showConfirmButton: false,
-                timer: 1500,
-                position: "top",
-              }).then(() => {
-                location.reload();
+    signOutBtns.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        confirm("Do you want to sign out?");
+        const confirmButton = document.querySelector(".swal2-confirm");
+        if (confirmButton) {
+          confirmButton.addEventListener("click", () => {
+            signOut(auth)
+              .then(() => {
+                Swal.fire({
+                  text: "Sign out successful",
+                  showConfirmButton: false,
+                  timer: 1500,
+                  position: "top",
+                }).then(() => {
+                  location.reload();
+                });
+              })
+              .catch((error) => {
+                Swal.fire({
+                  title: "Error!",
+                  text: error.message,
+                  icon: "error",
+                  showConfirmButton: false,
+                  timer: 1500,
+                });
               });
-            })
-            .catch((error) => {
-              Swal.fire({
-                title: "Error!",
-                text: error.message,
-                icon: "error",
-                showConfirmButton: false,
-                timer: 1500,
-              });
-            });
-        });
-      }
+          });
+        }
+      });
     });
   }
 });
@@ -342,55 +347,67 @@ async function loadProducts(uid) {
 
 async function showError(message) {
   Swal.fire({
+    icon: "error",
+    title: "Error",
+    text: message,
     background: "#DC3545",
-    borderRadius: "0px",
     color: "#fff",
-    height: "fit-content",
-    padding: "0",
-    position: "top",
+    toast: true,
+    position: "top-end",
     showConfirmButton: false,
-    text: `${message}`,
     timer: 1500,
     timerProgressBar: true,
-    width: "fit-content",
+    customClass: {
+      popup: "animated fadeInDown swal-wide",
+      title: "swal-title",
+      content: "swal-text",
+    },
   });
 }
 
 async function showSuccess(message) {
   return new Promise((resolve) => {
     Swal.fire({
+      icon: "success",
+      title: "Success!",
+      text: message,
       background: "#28a745",
       color: "#fff",
-      height: "fit-content",
-      padding: "0 0",
-      position: "top",
+      toast: true,
+      position: "top-end",
       showConfirmButton: false,
-      text: `${message}`,
       timer: 1500,
       timerProgressBar: true,
-    }).then(() => {
-      resolve();
-    });
+      customClass: {
+        popup: "animated fadeInDown swal-wide",
+        title: "swal-title",
+        content: "swal-text",
+      },
+    }).then(() => resolve());
   });
 }
 
-function confirm(message) {
-  Swal.fire({
-    title: "<strong>Sign Out</strong>",
-    icon: "info",
-    html: `
-    ${message}
-  `,
-    showCloseButton: true,
-    showCancelButton: true,
-    focusConfirm: false,
-    confirmButtonText: `
-    Yes
-  `,
-    confirmButtonAriaLabel: "Thumbs up, great!",
-    cancelButtonText: `
-    No
-  `,
-    cancelButtonAriaLabel: "Thumbs down",
+function confirm(message = "Confirmation", icon = "question") {
+  return new Promise((resolve) => {
+    Swal.fire({
+      text: message,
+      icon: icon,
+      showCancelButton: true,
+      confirmButtonText: "Yes",
+      cancelButtonText: "No",
+      confirmButtonColor: "#4CAF50",
+      cancelButtonColor: "#f44336",
+      reverseButtons: true,
+      width: "300px",
+      toast: true,
+      position: "top",
+      background: "#2b2b2b",
+      color: "#ffffff",
+      customClass: {
+        popup: "animated fadeInDown",
+      },
+    }).then((result) => {
+      resolve(result.isConfirmed);
+    });
   });
 }

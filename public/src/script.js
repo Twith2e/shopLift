@@ -33,6 +33,7 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+setupNetworkMonitoring(app);
 const auth = getAuth();
 const database = getFirestore();
 const storage = getStorage();
@@ -157,7 +158,6 @@ async function saveUser() {
         businessName: "null",
       };
       await setDoc(userRef, users);
-      console.log("Document written with ID: ", uid);
     }
   } catch (e) {
     console.error("Error checking or adding document: ", e);
@@ -455,48 +455,54 @@ async function searchProductsByInput(searchTerm) {
   });
 
   localStorage.setItem("searchTerm", searchTerm);
-  console.log(searchTerm);
-
-  console.log(matchingProducts);
   location.href = "search.html?searchTerm=" + matchingProducts;
   return matchingProducts;
 }
-function confirm(message) {
-  Swal.fire({
-    title: "<strong>Sign Out</strong>",
-    icon: "info",
-    html: `
-    ${message}
-  `,
-    showCloseButton: true,
-    showCancelButton: true,
-    focusConfirm: false,
-    confirmButtonText: `
-    Yes
-  `,
-    confirmButtonAriaLabel: "Thumbs up, great!",
-    cancelButtonText: `
-    No
-  `,
-    cancelButtonAriaLabel: "Thumbs down",
+
+function confirm(message = "Confirmation", icon = "question") {
+  return new Promise((resolve) => {
+    Swal.fire({
+      text: message,
+      icon: icon,
+      showCancelButton: true,
+      confirmButtonText: "Yes",
+      cancelButtonText: "No",
+      confirmButtonColor: "#4CAF50",
+      cancelButtonColor: "#f44336",
+      reverseButtons: true,
+      width: "300px",
+      toast: true,
+      position: "top",
+      background: "#2b2b2b",
+      color: "#ffffff",
+      customClass: {
+        popup: "animated fadeInDown",
+      },
+    }).then((result) => {
+      resolve(result.isConfirmed);
+    });
   });
 }
 
 async function showSuccess(message) {
   return new Promise((resolve) => {
     Swal.fire({
+      icon: "success",
+      title: "Success!",
+      text: message,
       background: "#28a745",
       color: "#fff",
-      height: "fit-content",
-      padding: "0 0",
-      position: "top",
+      toast: true,
+      position: "top-end",
       showConfirmButton: false,
-      text: `${message}`,
       timer: 1500,
       timerProgressBar: true,
-    }).then(() => {
-      resolve();
-    });
+      customClass: {
+        popup: "animated fadeInDown swal-wide",
+        title: "swal-title",
+        content: "swal-text",
+      },
+    }).then(() => resolve());
   });
 }
 
@@ -518,16 +524,20 @@ async function showCanceled(message) {
 
 async function showError(message) {
   Swal.fire({
+    icon: "error",
+    title: "Error",
+    text: message,
     background: "#DC3545",
-    borderRadius: "0px",
     color: "#fff",
-    height: "fit-content",
-    padding: "0",
+    toast: true,
     position: "top-end",
     showConfirmButton: false,
-    text: `${message}`,
     timer: 1500,
     timerProgressBar: true,
-    width: "fit-content",
+    customClass: {
+      popup: "animated fadeInDown swal-wide",
+      title: "swal-title",
+      content: "swal-text",
+    },
   });
 }

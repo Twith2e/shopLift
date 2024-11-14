@@ -19,6 +19,7 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+
 const auth = getAuth();
 const gProvider = new GoogleAuthProvider();
 
@@ -142,10 +143,6 @@ googleBtn.addEventListener("click", () => {
     .catch((error) => {
       const errorCode = error.code;
       const errorMessage = error.message;
-      const email = error.customData.email;
-      const credential = GoogleAuthProvider.credentialFromError(error);
-      console.log(credential);
-      console.log(email);
       console.log(errorCode);
       console.log(errorMessage);
       showError(errorMessage);
@@ -163,33 +160,41 @@ function login() {
 async function showSuccess(message) {
   return new Promise((resolve) => {
     Swal.fire({
+      icon: "success",
+      title: "Success!",
+      text: message,
       background: "#28a745",
       color: "#fff",
-      height: "fit-content",
-      padding: "0 0",
-      position: "top",
+      toast: true,
+      position: "top-end",
       showConfirmButton: false,
-      text: `${message}`,
       timer: 1500,
       timerProgressBar: true,
-    }).then(() => {
-      resolve();
-    });
+      customClass: {
+        popup: "animated fadeInDown swal-wide",
+        title: "swal-title",
+        content: "swal-text",
+      },
+    }).then(() => resolve());
   });
 }
 
 async function showError(message) {
   Swal.fire({
+    icon: "error",
+    title: "Error",
+    text: message,
     background: "#DC3545",
-    borderRadius: "0px",
     color: "#fff",
-    height: "fit-content",
-    padding: "0",
-    position: "top",
+    toast: true,
+    position: "top-end",
     showConfirmButton: false,
-    text: `${message}`,
     timer: 1500,
     timerProgressBar: true,
-    width: "fit-content",
+    customClass: {
+      popup: "animated fadeInDown swal-wide",
+      title: "swal-title",
+      content: "swal-text",
+    },
   });
 }

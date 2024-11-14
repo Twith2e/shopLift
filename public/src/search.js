@@ -472,73 +472,47 @@ closeBtn.querySelector("svg").addEventListener("click", () => {
   sideMenu.style.left = "-100%";
 });
 
-function confirm(message) {
-  Swal.fire({
-    title: "<strong>Sign Out</strong>",
-    icon: "info",
-    html: `
-    ${message}
-  `,
-    showCloseButton: true,
-    showCancelButton: true,
-    focusConfirm: false,
-    confirmButtonText: `
-    Yes
-  `,
-    confirmButtonAriaLabel: "Thumbs up, great!",
-    cancelButtonText: `
-    No
-  `,
-    cancelButtonAriaLabel: "Thumbs down",
-  });
-}
-
-async function showSuccess(message) {
+function confirm(message = "Confirmation", icon = "question") {
   return new Promise((resolve) => {
     Swal.fire({
-      background: "#28a745",
-      color: "#fff",
-      height: "fit-content",
-      padding: "0 0",
+      text: message,
+      icon: icon,
+      showCancelButton: true,
+      confirmButtonText: "Yes",
+      cancelButtonText: "No",
+      confirmButtonColor: "#4CAF50",
+      cancelButtonColor: "#f44336",
+      reverseButtons: true,
+      width: "300px",
+      toast: true,
       position: "top",
-      showConfirmButton: false,
-      text: `${message}`,
-      timer: 1500,
-      timerProgressBar: true,
-    }).then(() => {
-      resolve();
+      background: "#2b2b2b",
+      color: "#ffffff",
+      customClass: {
+        popup: "animated fadeInDown",
+      },
+    }).then((result) => {
+      resolve(result.isConfirmed);
     });
-  });
-}
-
-async function showCanceled(message) {
-  Swal.fire({
-    background: "#DC3545",
-    borderRadius: "0px",
-    color: "#fff",
-    height: "fit-content",
-    padding: "0",
-    position: "top",
-    showConfirmButton: false,
-    text: `${message}`,
-    timer: 1500,
-    timerProgressBar: true,
-    width: "fit-content",
   });
 }
 
 async function showError(message) {
   Swal.fire({
+    icon: "error",
+    title: "Error",
+    text: message,
     background: "#DC3545",
-    borderRadius: "none",
     color: "#fff",
-    height: "fit-content",
-    padding: "0",
+    toast: true,
     position: "top-end",
     showConfirmButton: false,
-    text: `${message}`,
     timer: 1500,
     timerProgressBar: true,
-    width: "fit-content",
+    customClass: {
+      popup: "animated fadeInDown swal-wide",
+      title: "swal-title",
+      content: "swal-text",
+    },
   });
 }

@@ -31,6 +31,7 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+setupNetworkMonitoring(app);
 const auth = getAuth();
 const database = getFirestore();
 const storage = getStorage();
@@ -231,7 +232,6 @@ async function renderProduct() {
           price.textContent = `NGN ₦${formatter.format(similarProduct.price)}`;
           similarItem.appendChild(price);
           similarItem.addEventListener("click", () => {
-            console.log("Product clicked:", similarProduct.productID);
             location.href = `product.html?productId=${similarProduct.productID.trim()}`;
           });
 
@@ -260,6 +260,7 @@ async function renderProduct() {
           sellerimg.loading = "lazy";
         })
         .catch((error) => {
+          showError(error.message);
           console.log(error);
         });
       productName.textContent = product.productName;
@@ -271,7 +272,6 @@ async function renderProduct() {
         quantity.style.color = "red";
       } else {
         quantity.textContent = `${product.quantity} available`;
-        console.log(product.additionalFeatures);
       }
       product.additionalFeatures.forEach((feature) => {
         const featureTitle = document.createElement("div");
@@ -345,13 +345,12 @@ async function renderProduct() {
       });
     }
   } catch (error) {
+    showError(error.message);
     console.log(error.message);
   }
 }
 
-qty.addEventListener("change", () => {
-  console.log(qty.value);
-});
+// qty.addEventListener("change", () => {});
 
 function initCarousel() {
   const carousel = document.getElementById("productCarousel");
@@ -395,6 +394,7 @@ async function checkCart() {
       isInCart = true;
     }
   } catch (error) {
+    showError(error.message);
     console.log(error);
   }
 }
@@ -414,14 +414,12 @@ async function addToCart(event) {
           where("productId", "==", productId)
         );
         const querySnapshot = await getDocs(q);
-        console.log(product);
 
         if (product.quantity < 1) {
           showError("Product is out of stock").then(() => {
             window.location.href = "index.html";
           });
         } else if (!querySnapshot.empty) {
-          console.log("product already in cart");
           return;
         } else {
           const cartRef = collection(database, "users/" + userId + "/cart");
@@ -454,7 +452,6 @@ async function addToCart(event) {
         showError(error.message);
       }
     } else {
-      console.log("user not logged in");
       showError("please login to add to cart").then(() => {
         sessionStorage.setItem("prevUrl", window.location.href);
         event.target.innerHTML = "Add to Cart";
@@ -562,9 +559,6 @@ async function searchProductsByInput(searchTerm) {
   });
 
   localStorage.setItem("searchTerm", searchTerm);
-  console.log(searchTerm);
-
-  console.log(matchingProducts);
   location.href = "search.html?searchTerm=" + matchingProducts;
   return matchingProducts;
 }
@@ -590,6 +584,7 @@ async function cartIconCount(uid) {
       return;
     }
   } catch (error) {
+    showError(error.message);
     console.log(error);
   }
 }
@@ -619,53 +614,68 @@ deliv.textContent = `Est. delivery ${getEstimatedDeliveryDates().threeDays} - ${
 }`;
 
 async function showError(message) {
-  return new Promise((resolve) => {
-    Swal.fire({
-      background: "#dc3",
-      color: "#fff",
-      position: "top",
-      showConfirmButton: false,
-      text: `${message}`,
-      timer: 1500,
-      timerProgressBar: true,
-    }).then(() => {
-      resolve();
-    });
+  Swal.fire({
+    icon: "error",
+    title: "Error",
+    text: message,
+    background: "#DC3545",
+    color: "#fff",
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    timer: 2500,
+    timerProgressBar: true,
+    customClass: {
+      popup: "animated fadeInDown swal-wide",
+      title: "swal-title",
+      content: "swal-text",
+    },
   });
 }
 
 async function showSuccess(message) {
   return new Promise((resolve) => {
     Swal.fire({
+      icon: "success",
+      title: "Success!",
+      text: message,
       background: "#28a745",
       color: "#fff",
-      position: "top",
+      toast: true,
+      position: "top-end",
       showConfirmButton: false,
-      text: `${message}`,
       timer: 1500,
       timerProgressBar: true,
-    }).then(() => {
-      resolve();
-    });
+      customClass: {
+        popup: "animated fadeInDown swal-wide",
+        title: "swal-title",
+        content: "swal-text",
+      },
+    }).then(() => resolve());
   });
 }
-function confirm(message) {
-  Swal.fire({
-    title: "<strong>Sign Out</strong>",
-    icon: "info",
-    html: `
-    ${message}
-  `,
-    showCloseButton: true,
-    showCancelButton: true,
-    focusConfirm: false,
-    confirmButtonText: `
-    Yes
-  `,
-    confirmButtonAriaLabel: "Thumbs up, great!",
-    cancelButtonText: `
-    No
-  `,
-    cancelButtonAriaLabel: "Thumbs down",
+
+function confirm(message = "Confirmation", icon = "question") {
+  return new Promise((resolve) => {
+    Swal.fire({
+      text: message,
+      icon: icon,
+      showCancelButton: true,
+      confirmButtonText: "Yes",
+      cancelButtonText: "No",
+      confirmButtonColor: "#4CAF50",
+      cancelButtonColor: "#f44336",
+      reverseButtons: true,
+      width: "300px",
+      toast: true,
+      position: "top",
+      background: "#2b2b2b",
+      color: "#ffffff",
+      customClass: {
+        popup: "animated fadeInDown",
+      },
+    }).then((result) => {
+      resolve(result.isConfirmed);
+    });
   });
 }

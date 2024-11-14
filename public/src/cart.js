@@ -33,6 +33,7 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+setupNetworkMonitoring(app);
 const auth = getAuth();
 const database = getFirestore();
 const storage = getStorage();
@@ -155,7 +156,6 @@ async function updateItemCount(uid) {
     const q = query(collection(database, "users/" + uid + "/cart"));
     const querySnapshot = await getDocs(q);
     const items = querySnapshot.docs;
-    console.log(querySnapshot);
 
     if (items) {
       for (let index = 0; index < items.length; index++) {
@@ -209,9 +209,6 @@ async function searchProductsByInput(searchTerm) {
   });
 
   localStorage.setItem("searchTerm", searchTerm);
-  console.log(searchTerm);
-
-  console.log(matchingProducts);
   location.href = "search.html?searchTerm=" + matchingProducts;
   return matchingProducts;
 }
@@ -222,13 +219,9 @@ async function renderItems(uid) {
     const querySnapshot = await getDocs(q);
     const items = querySnapshot.docs;
 
-    console.log(items);
-    console.log(querySnapshot);
-
     if (items.length > 0) {
       let totalDesiredQty = 1;
       items.forEach((doc) => {
-        console.log(doc.data());
         const mainWrapper = document.createElement("div");
         mainWrapper.className = "main-wrapper";
         const itemWrapper = document.createElement("div");
@@ -238,8 +231,6 @@ async function renderItems(uid) {
         getDownloadURL(imgRef).then((url) => {
           itemImg.src = url;
         });
-        console.log("product-id", doc.data().productId);
-
         const user = auth.currentUser;
         productObject = {
           productID: doc.data().productId,
@@ -325,8 +316,6 @@ async function renderItems(uid) {
           document.getElementById("price").innerHTML = `NGN ₦${formatter.format(
             total
           )}`;
-          console.log(total);
-          console.log(cartitemtotalprice);
         }
         const price = document.createElement("span");
         updatePrice();
@@ -344,7 +333,6 @@ async function renderItems(uid) {
         remove.addEventListener("click", async (event) => {
           const productId = event.target.getAttribute("data-doc-id");
           const uid = auth.currentUser.uid;
-          console.log(productId);
 
           try {
             const q = query(
@@ -400,7 +388,6 @@ async function renderItems(uid) {
         });
       });
     } else {
-      console.log("empty");
       const tag = document.createElement("h1");
       tag.textContent = "Your cart is empty";
       tag.style.display = "flex";
@@ -424,23 +411,27 @@ closeBtn.addEventListener("click", () => {
   sideMenu.style.left = "-100%";
 });
 
-function confirm(message) {
-  Swal.fire({
-    title: "<strong>Sign Out</strong>",
-    icon: "info",
-    html: `
-    ${message}
-  `,
-    showCloseButton: true,
-    showCancelButton: true,
-    focusConfirm: false,
-    confirmButtonText: `
-    Yes
-  `,
-    confirmButtonAriaLabel: "Thumbs up, great!",
-    cancelButtonText: `
-    No
-  `,
-    cancelButtonAriaLabel: "Thumbs down",
+function confirm(message = "Confirmation", icon = "question") {
+  return new Promise((resolve) => {
+    Swal.fire({
+      text: message,
+      icon: icon,
+      showCancelButton: true,
+      confirmButtonText: "Yes",
+      cancelButtonText: "No",
+      confirmButtonColor: "#4CAF50",
+      cancelButtonColor: "#f44336",
+      reverseButtons: true,
+      width: "300px",
+      toast: true,
+      position: "top",
+      background: "#2b2b2b",
+      color: "#ffffff",
+      customClass: {
+        popup: "animated fadeInDown",
+      },
+    }).then((result) => {
+      resolve(result.isConfirmed);
+    });
   });
 }

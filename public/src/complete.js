@@ -27,11 +27,11 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+setupNetworkMonitoring(app);
 const storage = getStorage();
 const database = getFirestore();
 const auth = getAuth();
 
-console.log(sessionStorage.getItem("productDets"));
 let imgFile;
 let btnPress = 0;
 let btnPress1 = 0;
@@ -81,13 +81,10 @@ productImg.addEventListener("change", (e) => {
     editBtnWrapper.style.display = "block";
     uploadLabel.style.display = "none";
     inputimg.src = extractedFile;
-    console.log(extractedFile);
 
     const imageRef = ref(storage, `${file.name}`);
     uploadBytes(imageRef, file)
-      .then((snapshot) => {
-        console.log("image uploaded");
-      })
+      .then((snapshot) => {})
       .catch((error) => {
         console.log(error);
       });
@@ -130,9 +127,7 @@ function addImg(e, index) {
     }
     const imageRef = ref(storage, `${file.name}`);
     uploadBytes(imageRef, file)
-      .then((snapshot) => {
-        console.log("image uploaded");
-      })
+      .then((snapshot) => {})
       .catch((error) => {
         console.log(error);
       });
@@ -225,9 +220,6 @@ document.getElementById("delall").addEventListener("click", () => {
 });
 
 titleInput.addEventListener("input", (e) => {
-  console.log(e.key);
-  console.log(titleInput.value);
-
   wordCount.innerText = `${titleInput.value.length}/80`;
 
   if (titleInput.value.length === 80) {
@@ -311,21 +303,15 @@ listBtn.addEventListener("click", () => {
       productDetails.productName.toLowerCase(),
     ];
     sessionStorage.setItem("productDets", JSON.stringify(productDetails));
-    console.log(sessionStorage.getItem("productDets"));
 
     addProduct();
-    console.log(productImg.value);
   }
 });
 const addProduct = async () => {
-  console.log(productDetails);
-
   const docRef = await addDoc(collection(database, "products"), productDetails);
   const newProductId = docRef.id;
   productDetails.productID = newProductId;
   await updateDoc(docRef, { productID: newProductId });
-
-  console.log("Document written with ID: ", newProductId);
   showSuccess("Product added").then(() => {
     location.replace("index.html");
   });
@@ -338,34 +324,42 @@ function unformat(formattedNum) {
 async function showSuccess(message) {
   return new Promise((resolve) => {
     Swal.fire({
+      icon: "success",
+      title: "Success!",
+      text: message,
       background: "#28a745",
       color: "#fff",
-      height: "fit-content",
-      padding: "0 0",
-      position: "top",
+      toast: true,
+      position: "top-end",
       showConfirmButton: false,
-      text: `${message}`,
       timer: 1500,
       timerProgressBar: true,
-    }).then(() => {
-      resolve();
-    });
+      customClass: {
+        popup: "animated fadeInDown swal-wide",
+        title: "swal-title",
+        content: "swal-text",
+      },
+    }).then(() => resolve());
   });
 }
 
 async function showError(message) {
   Swal.fire({
+    icon: "error",
+    title: "Error",
+    text: message,
     background: "#DC3545",
-    borderRadius: "0px",
     color: "#fff",
-    height: "fit-content",
-    padding: "0",
+    toast: true,
     position: "top-end",
     showConfirmButton: false,
-    text: `${message}`,
     timer: 1500,
     timerProgressBar: true,
-    width: "fit-content",
+    customClass: {
+      popup: "animated fadeInDown swal-wide",
+      title: "swal-title",
+      content: "swal-text",
+    },
   });
 }
 
@@ -398,9 +392,6 @@ function addField() {
   brandContainer1.appendChild(div1);
   brandContainer1.appendChild(div2);
   brandContainer1.appendChild(button);
-  console.log("%c" + div2.id, "color: green;");
-  console.log("%c" + div1.className, "color: blue;");
-  console.log(btnPress);
 }
 
 addTileBtn.addEventListener("click", (event) => {
@@ -417,6 +408,12 @@ function addTile(e) {
   input.style.marginTop = "10px";
   const button = document.createElement("button");
   button.textContent = "remove";
+  button.style.backgroundColor = "#fb8d28";
+  button.style.color = "#fff";
+  button.style.border = "none";
+  button.style.padding = "5px 10px";
+  button.style.cursor = "pointer";
+  button.style.marginTop = "10px";
   button.setAttribute("data-input-class", input.className);
   const div = document.getElementById(id);
   button.addEventListener("click", (event) => {
@@ -424,7 +421,6 @@ function addTile(e) {
   });
   div.appendChild(input);
   div.appendChild(button);
-  console.log(input.id);
 }
 
 function removeTile(e) {

@@ -235,3 +235,7 @@ footer a:hover {
     white-space: nowrap;
   }
 }
+
+.small-logo {
+  height: 50px;
+}

@@ -25,6 +25,7 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+setupNetworkMonitoring(app);
 const auth = getAuth();
 const database = getFirestore();
 
@@ -48,7 +49,7 @@ onAuthStateChanged(auth, (user) => {
           sessionStorage.setItem("productDets", JSON.stringify(productDetails));
           createCategory();
         } else {
-          alert("input field cant be empty");
+          showError("input field cant be empty");
         }
         categoryInput.value = "";
       }
@@ -60,7 +61,7 @@ onAuthStateChanged(auth, (user) => {
         sessionStorage.setItem("productDets", JSON.stringify(productDetails));
         createCategory();
       } else {
-        alert("input field cant be empty");
+        showError("input field cant be empty");
       }
       categoryInput.value = "";
     });
@@ -115,8 +116,6 @@ async function createCategory() {
     );
     const querySnapshot = await getDocs(q);
 
-    console.log(querySnapshot.docs);
-
     const existingCategory = querySnapshot.docs.find(
       (doc) => doc.data().name.toLowerCase() === categoryName.toLowerCase()
     );
@@ -126,13 +125,13 @@ async function createCategory() {
         name: toTitleCase(categoryName),
         createdAt: serverTimestamp(),
       });
-      console.log("Category document written", docRef.id);
-    } else {
-      console.log(existingCategory);
-      console.log("Category already exists.");
+      if (!docRef) {
+        showError("Category creation failed");
+      }
     }
     location.replace("completelist.html");
   } catch (error) {
+    showError(error.message);
     console.log(error);
   }
 }
@@ -148,17 +147,21 @@ function toTitleCase(str) {
 }
 
 async function showError(message) {
-  return new Promise((resolve) => {
-    Swal.fire({
-      background: "#dc3",
-      color: "#fff",
-      position: "top",
-      showConfirmButton: false,
-      text: `${message}`,
-      timer: 1500,
-      timerProgressBar: true,
-    }).then(() => {
-      resolve();
-    });
+  Swal.fire({
+    icon: "error",
+    title: "Error",
+    text: message,
+    background: "#DC3545",
+    color: "#fff",
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    timer: 1500,
+    timerProgressBar: true,
+    customClass: {
+      popup: "animated fadeInDown swal-wide",
+      title: "swal-title",
+      content: "swal-text",
+    },
   });
 }

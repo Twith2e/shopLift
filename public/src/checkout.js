@@ -27,6 +27,7 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+setupNetworkMonitoring(app);
 const auth = getAuth();
 const database = getFirestore();
 const user = auth.currentUser;
@@ -63,17 +64,23 @@ function checkStorage() {
 
 checkStorage();
 
-onAuthStateChanged(auth, (user) => {
+onAuthStateChanged(auth, async (user) => {
   if (!user) {
     window.location.href = "login.html";
   } else {
-    console.log(user.uid);
+    try {
+      const userRef = doc(database, "users", user.uid);
+      const userDoc = await getDoc(userRef);
+
+      if (userDoc.exists() && userDoc.data().shippingAddress) {
+        address.value = userDoc.data().shippingAddress;
+      }
+    } catch (error) {
+      console.log("Error loading address:", error);
+    }
     paymentBtn.addEventListener("click", payWithPaystack, false);
   }
 });
-
-console.log("Quantity Bought:", productInfo.qtyBought);
-console.log("Product ID:", productInfo.productID);
 
 function payWithPaystack() {
   if (!radio.checked) {
@@ -228,7 +235,6 @@ async function clearCartAfterPurchase() {
 
     // Wait for all delete operations to complete
     await Promise.all(deletePromises);
-    console.log("Cart cleared successfully.");
   } catch (error) {
     console.error("Error clearing cart: ", error);
     showError(error.message); // Use your existing error handling
@@ -253,9 +259,7 @@ function sendReceiptByEmail(email, pdfData) {
       attachment: pdfData,
     })
     .then(
-      function (response) {
-        console.log(response);
-      },
+      function (response) {},
       function (error) {
         console.error("Failed to send email:", error);
       }
@@ -270,50 +274,62 @@ prices.forEach((price) => {
 async function showSuccess(message) {
   return new Promise((resolve) => {
     Swal.fire({
+      icon: "success",
+      title: "Success!",
+      text: message,
       background: "#28a745",
       color: "#fff",
-      height: "fit-content",
-      padding: "0 0",
-      position: "top",
+      toast: true,
+      position: "top-end",
       showConfirmButton: false,
-      text: `${message}`,
       timer: 1500,
       timerProgressBar: true,
-    }).then(() => {
-      resolve();
-    });
+      customClass: {
+        popup: "animated fadeInDown swal-wide",
+        title: "swal-title",
+        content: "swal-text",
+      },
+    }).then(() => resolve());
   });
 }
 
 async function showCanceled(message) {
   Swal.fire({
+    icon: "warning",
+    title: "Cancelled",
+    text: message,
     background: "#DC3545",
-    borderRadius: "0px",
     color: "#fff",
-    height: "fit-content",
-    padding: "0",
-    position: "top",
+    toast: true,
+    position: "top-end",
     showConfirmButton: false,
-    text: `${message}`,
     timer: 1500,
     timerProgressBar: true,
-    width: "fit-content",
+    customClass: {
+      popup: "animated fadeInDown swal-wide",
+      title: "swal-title",
+      content: "swal-text",
+    },
   });
 }
 
 async function showError(message) {
   Swal.fire({
+    icon: "error",
+    title: "Error",
+    text: message,
     background: "#DC3545",
-    borderRadius: "0px",
     color: "#fff",
-    height: "fit-content",
-    padding: "0",
+    toast: true,
     position: "top-end",
     showConfirmButton: false,
-    text: `${message}`,
     timer: 1500,
     timerProgressBar: true,
-    width: "fit-content",
+    customClass: {
+      popup: "animated fadeInDown swal-wide",
+      title: "swal-title",
+      content: "swal-text",
+    },
   });
 }
 

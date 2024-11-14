@@ -19,6 +19,7 @@ import {
   uploadBytes,
 } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-storage.js";
 import { CONFIG } from "./config.js";
+import { setupNetworkMonitoring } from "./utils/networkUtils.js";
 
 const firebaseConfig = {
   apiKey: CONFIG.apiKey,
@@ -31,6 +32,7 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+setupNetworkMonitoring(app);
 const auth = getAuth();
 const database = getFirestore();
 const storage = getStorage();
@@ -44,7 +46,7 @@ const smSearchInput = document.getElementById("smsearchinput");
 const profileBtns = document.querySelectorAll("#profilebtn");
 const profileDropdowns = document.querySelectorAll("#profiledropdown");
 const userNames = document.querySelectorAll("#username");
-const signOutBtn = document.getElementById("signoutbtn");
+const signOutBtns = document.querySelectorAll("#signoutbtn");
 const profileInfo = document.getElementById("profile-info");
 const ddList = document.getElementById("dd-list");
 const profileImg = document.getElementById("profileimg");
@@ -60,7 +62,6 @@ let currentUser;
 onAuthStateChanged(auth, (user) => {
   if (user) {
     currentUser = user;
-    console.log(user);
     loadUserProfile(user);
     doneBtn.addEventListener("click", () => {
       doneBtn.disabled = true;
@@ -92,33 +93,35 @@ onAuthStateChanged(auth, (user) => {
         saveProfileImg(user, file);
       });
     });
-    signOutBtn.addEventListener("click", () => {
-      confirm("Do you want to sign out?");
-      const confirmButton = document.querySelector(".swal2-confirm");
-      if (confirmButton) {
-        confirmButton.addEventListener("click", () => {
-          signOut(auth)
-            .then(() => {
-              Swal.fire({
-                text: "Sign out successful",
-                showConfirmButton: false,
-                timer: 1500,
-                position: "top",
-              }).then(() => {
-                location.reload();
+    signOutBtns.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        confirm("Do you want to sign out?");
+        const confirmButton = document.querySelector(".swal2-confirm");
+        if (confirmButton) {
+          confirmButton.addEventListener("click", () => {
+            signOut(auth)
+              .then(() => {
+                Swal.fire({
+                  text: "Sign out successful",
+                  showConfirmButton: false,
+                  timer: 1500,
+                  position: "top",
+                }).then(() => {
+                  location.reload();
+                });
+              })
+              .catch((error) => {
+                Swal.fire({
+                  title: "Error!",
+                  text: error.message,
+                  icon: "error",
+                  showConfirmButton: false,
+                  timer: 1500,
+                });
               });
-            })
-            .catch((error) => {
-              Swal.fire({
-                title: "Error!",
-                text: error.message,
-                icon: "error",
-                showConfirmButton: false,
-                timer: 1500,
-              });
-            });
-        });
-      }
+          });
+        }
+      });
     });
   } else {
     profileInfo.style.display = "none";
@@ -155,7 +158,6 @@ document.body.addEventListener("keydown", (e) => {
 
 if (searchBtn) {
   searchBtn.addEventListener("click", () => {
-    console.log("searchBtn clicked");
     const searchValue = searchInput.value.trim();
     searchProductsByInput(searchValue);
     searchInput.value = "";
@@ -164,7 +166,6 @@ if (searchBtn) {
 
 if (smSearchBtn) {
   smSearchBtn.addEventListener("click", () => {
-    console.log("smSearchBtn clicked");
     const searchValue = smSearchInput.value.trim();
     searchProductsByInput(searchValue);
     smSearchInput.value = "";
@@ -195,9 +196,6 @@ async function searchProductsByInput(searchTerm) {
   });
 
   localStorage.setItem("searchTerm", searchTerm);
-  console.log(searchTerm);
-
-  console.log(matchingProducts);
   location.href = "search.html?searchTerm=" + matchingProducts;
   return matchingProducts;
 }
@@ -322,15 +320,22 @@ async function loadUserProfile(user) {
 
     document.getElementById("businessname").value = "Not Provided";
   } catch (error) {
-    showSuccess(error.message);
-    console.log(error.message);
+    if (
+      error.code === "unavailable" ||
+      error.code === "network-request-failed"
+    ) {
+      showError(
+        "You appear to be offline. Please check your internet connection."
+      );
+    } else {
+      showError(error.message);
+    }
+    console.log(error.code, error.message);
   }
 }
 
 if (searchInput) {
   searchInput.addEventListener("input", () => {
-    console.log(searchInput.value);
-
     if (searchInput.value === "") {
       searchMatch.style.display = "none";
       return;
@@ -401,67 +406,75 @@ async function saveProfileImg(user, file) {
     });
     const imageRef = ref(storage, `${file.name}`);
     uploadBytes(imageRef, file)
-      .then((snapshot) => {
-        console.log("image uploaded");
-      })
+      .then((snapshot) => {})
       .catch((error) => {
         console.log(error);
       });
   } catch (error) {}
 }
 
-function confirm(message) {
-  Swal.fire({
-    title: "<strong>Sign Out</strong>",
-    icon: "info",
-    html: `
-    ${message}
-  `,
-    showCloseButton: true,
-    showCancelButton: true,
-    focusConfirm: false,
-    confirmButtonText: `
-    Yes
-  `,
-    confirmButtonAriaLabel: "Thumbs up, great!",
-    cancelButtonText: `
-    No
-  `,
-    cancelButtonAriaLabel: "Thumbs down",
+function confirm(message = "Confirmation", icon = "question") {
+  return new Promise((resolve) => {
+    Swal.fire({
+      text: message,
+      icon: icon,
+      showCancelButton: true,
+      confirmButtonText: "Yes",
+      cancelButtonText: "No",
+      confirmButtonColor: "#4CAF50",
+      cancelButtonColor: "#f44336",
+      reverseButtons: true,
+      width: "300px",
+      toast: true,
+      position: "top",
+      background: "#2b2b2b",
+      color: "#ffffff",
+      customClass: {
+        popup: "animated fadeInDown",
+      },
+    }).then((result) => {
+      resolve(result.isConfirmed);
+    });
   });
 }
-
 async function showSuccess(message) {
   return new Promise((resolve) => {
     Swal.fire({
+      icon: "success",
+      title: "Success!",
+      text: message,
       background: "#28a745",
       color: "#fff",
-      height: "fit-content",
-      padding: "0 0",
-      position: "top",
+      toast: true,
+      position: "top-end",
       showConfirmButton: false,
-      text: `${message}`,
       timer: 1500,
       timerProgressBar: true,
-      width: "fit-content",
-    }).then(() => {
-      resolve();
-    });
+      customClass: {
+        popup: "animated fadeInDown swal-wide",
+        title: "swal-title",
+        content: "swal-text",
+      },
+    }).then(() => resolve());
   });
 }
 
 async function showError(message) {
   Swal.fire({
+    icon: "error",
+    title: "Error",
+    text: message,
     background: "#DC3545",
-    borderRadius: "0px",
     color: "#fff",
-    height: "fit-content",
-    padding: "0",
+    toast: true,
     position: "top-end",
     showConfirmButton: false,
-    text: `${message}`,
     timer: 1500,
     timerProgressBar: true,
-    width: "fit-content",
+    customClass: {
+      popup: "animated fadeInDown swal-wide",
+      title: "swal-title",
+      content: "swal-text",
+    },
   });
 }
