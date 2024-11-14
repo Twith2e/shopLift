@@ -22,6 +22,7 @@ import {
 
 import { CONFIG } from "../src/config.js";
 import { setupNetworkMonitoring } from "./utils/networkUtils.js";
+import { showSuccess, showError } from "./utils/customAlerts.js";
 
 const firebaseConfig = {
   apiKey: CONFIG.apiKey,
@@ -358,6 +359,7 @@ async function renderItems(uid) {
             sessionStorage.setItem("price", total.toString());
           } catch (error) {
             console.error("Error removing document: ", error);
+            showError("Error removing item from cart, try again later");
           }
         });
         removeWrapper.appendChild(remove);
@@ -397,50 +399,3 @@ menuBtn.addEventListener("click", () => {
 closeBtn.addEventListener("click", () => {
   sideMenu.style.left = "-100%";
 });
-
-function confirm(message = "Confirmation", icon = "question") {
-  return new Promise((resolve) => {
-    Swal.fire({
-      text: message,
-      icon: icon,
-      showCancelButton: true,
-      confirmButtonText: "Yes",
-      cancelButtonText: "No",
-      confirmButtonColor: "#4CAF50",
-      cancelButtonColor: "#f44336",
-      reverseButtons: true,
-      width: "300px",
-      toast: true,
-      position: "top",
-      background: "#2b2b2b",
-      color: "#ffffff",
-      customClass: {
-        popup: "animated fadeInDown",
-      },
-    }).then((result) => {
-      resolve(result.isConfirmed);
-    });
-  });
-}
-
-async function showSuccess(message) {
-  return new Promise((resolve) => {
-    Swal.fire({
-      icon: "success",
-      title: "Success!",
-      text: message,
-      background: "#28a745",
-      color: "#fff",
-      toast: true,
-      position: "top-end",
-      showConfirmButton: false,
-      timer: 1500,
-      timerProgressBar: true,
-      customClass: {
-        popup: "animated fadeInDown swal-wide",
-        title: "swal-title",
-        content: "swal-text",
-      },
-    }).then(() => resolve());
-  });
-}

@@ -16,7 +16,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 import { CONFIG } from "../src/config.js";
 import { setupNetworkMonitoring } from "./utils/networkUtils.js";
-
+import { showSuccess, showError } from "./utils/customAlerts.js";
 const firebaseConfig = {
   apiKey: CONFIG.apiKey,
   authDomain: CONFIG.authDomain,
@@ -271,68 +271,6 @@ prices.forEach((price) => {
   const priceValue = sessionStorage.getItem("price");
   price.textContent = `NGN ₦${formatter.format(priceValue)}`;
 });
-
-async function showSuccess(message) {
-  return new Promise((resolve) => {
-    Swal.fire({
-      icon: "success",
-      title: "Success!",
-      text: message,
-      background: "#28a745",
-      color: "#fff",
-      toast: true,
-      position: "top-end",
-      showConfirmButton: false,
-      timer: 1500,
-      timerProgressBar: true,
-      customClass: {
-        popup: "animated fadeInDown swal-wide",
-        title: "swal-title",
-        content: "swal-text",
-      },
-    }).then(() => resolve());
-  });
-}
-
-async function showCanceled(message) {
-  Swal.fire({
-    icon: "warning",
-    title: "Cancelled",
-    text: message,
-    background: "#DC3545",
-    color: "#fff",
-    toast: true,
-    position: "top-end",
-    showConfirmButton: false,
-    timer: 1500,
-    timerProgressBar: true,
-    customClass: {
-      popup: "animated fadeInDown swal-wide",
-      title: "swal-title",
-      content: "swal-text",
-    },
-  });
-}
-
-async function showError(message) {
-  Swal.fire({
-    icon: "error",
-    title: "Error",
-    text: message,
-    background: "#DC3545",
-    color: "#fff",
-    toast: true,
-    position: "top-end",
-    showConfirmButton: false,
-    timer: 1500,
-    timerProgressBar: true,
-    customClass: {
-      popup: "animated fadeInDown swal-wide",
-      title: "swal-title",
-      content: "swal-text",
-    },
-  });
-}
 
 function getTodayDate() {
   const today = new Date();

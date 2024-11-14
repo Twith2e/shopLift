@@ -8,6 +8,7 @@ import {
   signInWithPopup,
 } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
 import { CONFIG } from "../src/config.js";
+import { showSuccess, showError } from "./utils/customAlerts.js";
 
 const firebaseConfig = {
   apiKey: CONFIG.apiKey,
@@ -58,15 +59,15 @@ submitBtn.addEventListener("click", () => {
           <div class="loader"></div>
         </div>`;
   if (email.value === "" || password.value === "") {
-    showError("Fill all inputs!!!").then(() => {
+    showError("Please fill all inputs").then(() => {
       submitBtn.innerHTML = "Login";
     });
   } else if (!emailRegex.test(email.value)) {
-    showError("check mail").then(() => {
+    showError("Wrong email format").then(() => {
       submitBtn.innerHTML = "Login";
     });
   } else if (!passwordRegex.test(password.value)) {
-    showError("check password").then(() => {
+    showError("Wrong password format").then(() => {
       submitBtn.innerHTML = "Login";
     });
   } else {
@@ -87,12 +88,11 @@ submitBtn.addEventListener("click", () => {
             login();
           });
         } else {
-          Swal.fire({
-            text: "Please verify your email before signing in.",
-            timer: "2000",
-            timerProgressBar: true,
-          });
-          auth.signOut();
+          showSuccess("Please verify your email before signing in.").then(
+            () => {
+              auth.signOut();
+            }
+          );
         }
       })
       .catch((error) => {
@@ -131,10 +131,6 @@ openDialogBtn.addEventListener("click", () => {
   dialog.showModal();
 });
 
-// dialog.addEventListener("close", () => {
-//   dialog.close();
-// });
-
 dialog.addEventListener("click", (e) => {
   if (e.target.tagName === "DIALOG") {
     dialog.close();
@@ -159,6 +155,7 @@ forgotBtn.addEventListener("click", () => {
         const errorMessage = error.message;
         console.log(errorCode);
         console.log(errorMessage);
+        showError(errorMessage);
       });
   }
 });
@@ -167,46 +164,4 @@ function login() {
   const prevUrl = sessionStorage.getItem("prevUrl");
   sessionStorage.removeItem("prevUrl");
   window.location.href = prevUrl || "index.html";
-}
-
-async function showSuccess(message) {
-  return new Promise((resolve) => {
-    Swal.fire({
-      icon: "success",
-      title: "Success!",
-      text: message,
-      background: "#28a745",
-      color: "#fff",
-      toast: true,
-      position: "top-end",
-      showConfirmButton: false,
-      timer: 1500,
-      timerProgressBar: true,
-      customClass: {
-        popup: "animated fadeInDown swal-wide",
-        title: "swal-title",
-        content: "swal-text",
-      },
-    }).then(() => resolve());
-  });
-}
-
-async function showError(message) {
-  Swal.fire({
-    icon: "error",
-    title: "Error",
-    text: message,
-    background: "#DC3545",
-    color: "#fff",
-    toast: true,
-    position: "top-end",
-    showConfirmButton: false,
-    timer: 1500,
-    timerProgressBar: true,
-    customClass: {
-      popup: "animated fadeInDown swal-wide",
-      title: "swal-title",
-      content: "swal-text",
-    },
-  });
 }

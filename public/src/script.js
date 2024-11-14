@@ -22,6 +22,7 @@ import {
 
 import { CONFIG } from "./config.js";
 import { setupNetworkMonitoring } from "./utils/networkUtils.js";
+import { showSuccess, showError, confirm } from "./utils/customAlerts.js";
 
 const firebaseConfig = {
   apiKey: CONFIG.apiKey,
@@ -453,87 +454,4 @@ async function searchProductsByInput(searchTerm) {
   localStorage.setItem("searchTerm", searchTerm);
   location.href = "search.html?searchTerm=" + matchingProducts;
   return matchingProducts;
-}
-
-function confirm(message = "Confirmation", icon = "question") {
-  return new Promise((resolve) => {
-    Swal.fire({
-      text: message,
-      icon: icon,
-      showCancelButton: true,
-      confirmButtonText: "Yes",
-      cancelButtonText: "No",
-      confirmButtonColor: "#4CAF50",
-      cancelButtonColor: "#f44336",
-      reverseButtons: true,
-      width: "300px",
-      toast: true,
-      position: "top",
-      background: "#2b2b2b",
-      color: "#ffffff",
-      customClass: {
-        popup: "animated fadeInDown",
-      },
-    }).then((result) => {
-      resolve(result.isConfirmed);
-    });
-  });
-}
-
-async function showSuccess(message) {
-  return new Promise((resolve) => {
-    Swal.fire({
-      icon: "success",
-      title: "Success!",
-      text: message,
-      background: "#28a745",
-      color: "#fff",
-      toast: true,
-      position: "top-end",
-      showConfirmButton: false,
-      timer: 1500,
-      timerProgressBar: true,
-      customClass: {
-        popup: "animated fadeInDown swal-wide",
-        title: "swal-title",
-        content: "swal-text",
-      },
-    }).then(() => resolve());
-  });
-}
-
-async function showCanceled(message) {
-  Swal.fire({
-    background: "#DC3545",
-    borderRadius: "0px",
-    color: "#fff",
-    height: "fit-content",
-    padding: "0",
-    position: "top",
-    showConfirmButton: false,
-    text: `${message}`,
-    timer: 1500,
-    timerProgressBar: true,
-    width: "fit-content",
-  });
-}
-
-async function showError(message) {
-  Swal.fire({
-    icon: "error",
-    title: "Error",
-    text: message,
-    background: "#DC3545",
-    color: "#fff",
-    toast: true,
-    position: "top-end",
-    showConfirmButton: false,
-    timer: 1500,
-    timerProgressBar: true,
-    customClass: {
-      popup: "animated fadeInDown swal-wide",
-      title: "swal-title",
-      content: "swal-text",
-    },
-  });
 }
