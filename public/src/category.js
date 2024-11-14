@@ -13,6 +13,7 @@ import {
   onAuthStateChanged,
 } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
 import { CONFIG } from "../src/config.js";
+import { setupNetworkMonitoring } from "./utils/networkUtils.js";
 
 const firebaseConfig = {
   apiKey: CONFIG.apiKey,

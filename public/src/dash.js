@@ -19,6 +19,7 @@ import {
   ref,
 } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-storage.js";
 import { CONFIG } from "./config.js";
+import { setupNetworkMonitoring } from "./utils/networkUtils.js";
 
 const firebaseConfig = {
   apiKey: CONFIG.apiKey,
