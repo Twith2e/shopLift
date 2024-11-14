@@ -101,12 +101,7 @@ onAuthStateChanged(auth, (user) => {
           confirmButton.addEventListener("click", () => {
             signOut(auth)
               .then(() => {
-                Swal.fire({
-                  text: "Sign out successful",
-                  showConfirmButton: false,
-                  timer: 1500,
-                  position: "top",
-                }).then(() => {
+                showSuccess("Sign out successful").then(() => {
                   location.reload();
                 });
               })

@@ -21,7 +21,6 @@ import {
 import { CONFIG } from "./config.js";
 import { setupNetworkMonitoring } from "./utils/networkUtils.js";
 
-
 const firebaseConfig = {
   apiKey: CONFIG.apiKey,
   authDomain: CONFIG.authDomain,
@@ -79,12 +78,7 @@ onAuthStateChanged(auth, (user) => {
       confirm("Do you want to sign out?");
       signOut(auth)
         .then(() => {
-          Swal.fire({
-            text: "Sign out successful",
-            showConfirmButton: false,
-            timer: 1500,
-            position: "top",
-          }).then(() => {
+          showSuccess("Sign out successful").then(() => {
             location.reload();
           });
         })

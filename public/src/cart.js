@@ -93,12 +93,7 @@ onAuthStateChanged(auth, (user) => {
         confirmButton.addEventListener("click", () => {
           signOut(auth)
             .then(() => {
-              Swal.fire({
-                text: "Sign out successful",
-                showConfirmButton: false,
-                timer: 1500,
-                position: "top",
-              }).then(() => {
+              showSuccess("Sign out successful").then(() => {
                 location.reload();
               });
             })
@@ -346,16 +341,7 @@ async function renderItems(uid) {
               querySnapshot.docs.map((doc) => deleteDoc(doc.ref))
             );
 
-            Swal.fire({
-              icon: "success",
-              title: "Item Removed",
-              text: "The item has been successfully removed from your cart.",
-              background: "#28a745",
-              color: "#fff",
-              position: "top",
-              showConfirmButton: false,
-              timer: 2000,
-            });
+            showSuccess("Item removed from cart");
 
             event.target.closest(".main-wrapper").remove();
 
