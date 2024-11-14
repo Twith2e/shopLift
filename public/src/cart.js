@@ -422,3 +422,25 @@ function confirm(message = "Confirmation", icon = "question") {
     });
   });
 }
+
+async function showSuccess(message) {
+  return new Promise((resolve) => {
+    Swal.fire({
+      icon: "success",
+      title: "Success!",
+      text: message,
+      background: "#28a745",
+      color: "#fff",
+      toast: true,
+      position: "top-end",
+      showConfirmButton: false,
+      timer: 1500,
+      timerProgressBar: true,
+      customClass: {
+        popup: "animated fadeInDown swal-wide",
+        title: "swal-title",
+        content: "swal-text",
+      },
+    }).then(() => resolve());
+  });
+}
