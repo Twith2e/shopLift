@@ -260,6 +260,13 @@ async function renderInfo(user) {
       cardwrapper.style.display = "flex";
       dashheader.style.display = "flex";
     }
+    if (pfpTemplate && pfpTemplate1) {
+      pfpTemplate.style.display = "none";
+      pfpTemplate1.style.display = "none";
+      profileBtns.forEach((btn) => {
+        btn.style.display = "block";
+      });
+    }
   } catch (error) {
     console.log(error);
     showError(error.message);
@@ -276,13 +283,6 @@ async function loadProfilePic(user) {
       const imgUrl = await getDownloadURL(imgRef);
       pfp.src = imgUrl;
       pfp1.src = imgUrl;
-      if (pfpTemplate && pfpTemplate1) {
-        pfpTemplate.style.display = "none";
-        pfpTemplate1.style.display = "none";
-        profileBtns.forEach((btn) => {
-          btn.style.display = "block";
-        });
-      }
     }
   } catch (error) {
     console.log(error.message);

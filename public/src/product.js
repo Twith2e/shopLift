@@ -296,30 +296,37 @@ async function renderProduct() {
 
       buyBtn.addEventListener("click", (e) => {
         e.preventDefault();
-        if (product.quantity == 0) {
-          showError("Product is out of Stock").then(() => {
-            location.replace("index.html");
+        try {
+          if (product.quantity == 0) {
+            showError("Product is out of Stock").then(() => {
+              location.replace("index.html");
+            });
+            return;
+          }
+          sessionStorage.setItem(
+            "price",
+            Number(product.price) * Number(qty.value)
+          );
+          sessionStorage.setItem("mail", userEmail);
+          const user = auth.currentUser;
+          sessionStorage.setItem(
+            "productInfo",
+            JSON.stringify([
+              {
+                productID: product.productID,
+                qtyBought: document.getElementById("qty").value,
+                owner: user.displayName,
+                seller: product.owner,
+              },
+            ])
+          );
+          location.href = "checkout.html";
+        } catch (error) {
+          showError("Please Login to continue").then(() => {
+            sessionStorage.setItem("prevUrl", window.location.href);
+            location.replace("login.html");
           });
-          return;
         }
-        sessionStorage.setItem(
-          "price",
-          Number(product.price) * Number(qty.value)
-        );
-        sessionStorage.setItem("mail", userEmail);
-        const user = auth.currentUser;
-        sessionStorage.setItem(
-          "productInfo",
-          JSON.stringify([
-            {
-              productID: product.productID,
-              qtyBought: document.getElementById("qty").value,
-              owner: user.displayName,
-              seller: product.owner,
-            },
-          ])
-        );
-        location.href = "checkout.html";
       });
 
       if (mdTemplate) {
@@ -345,8 +352,6 @@ async function renderProduct() {
     console.log(error.message);
   }
 }
-
-// qty.addEventListener("change", () => {});
 
 function initCarousel() {
   const carousel = document.getElementById("productCarousel");

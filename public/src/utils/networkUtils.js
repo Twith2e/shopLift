@@ -21,10 +21,8 @@ export function setupNetworkMonitoring(app) {
     } catch (error) {
       // Start a timeout to display error message if the check fails
       errorTimeout = setTimeout(() => {
-        showError(
-          "You appear to be offline. Please check your internet connection."
-        );
-      }, 3000); // Adjust delay as needed
+        showError("Please check your internet connection.");
+      }, 3000);
     }
   };
 

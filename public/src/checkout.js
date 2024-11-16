@@ -174,7 +174,7 @@ function payWithPaystack() {
       }
     },
     onClose: function () {
-      showCanceled("Transaction was not completed, window closed.");
+      showError("Transaction was not completed, window closed.");
     },
   });
 
