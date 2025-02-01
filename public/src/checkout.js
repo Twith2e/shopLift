@@ -59,6 +59,7 @@ function checkStorage() {
     !sessionStorage.getItem("productInfo")
   ) {
     showError("Invalid session data");
+    location.replace("index.html");
     return;
   }
 }
@@ -100,20 +101,21 @@ function payWithPaystack() {
 
   if (!email || !price || !productInfo) {
     showError("Invalid session data");
+    location.href = "index.html";
     return;
   }
 
   const user = auth.currentUser;
   if (!user) {
     showError("User is not authenticated.");
+    location.replace("login.html");
     return;
   }
 
-  // Update user's shipping address if needed
   const userRef = doc(database, "users", user.uid);
   updateDoc(userRef, { shippingAddress: address.value.trim() }).catch(
     (error) => {
-      showError(`Failed to update shipping address: ${error.message}`);
+      showError(`Failed to update shipping address`);
       return;
     }
   );
@@ -161,7 +163,7 @@ function payWithPaystack() {
                   location.replace("index.html");
                 })
                 .catch((error) => {
-                  showError(error.message);
+                  console.log(error.message);
                 });
             });
             verifyTransaction(response.reference);
@@ -170,7 +172,7 @@ function payWithPaystack() {
             showError(error.message);
           });
       } catch (error) {
-        showError(error.message);
+        console.log(error.message);
       }
     },
     onClose: function () {
@@ -193,7 +195,7 @@ function verifyTransaction(reference) {
       if (data.status) {
         generateReceipt(data.data);
       } else {
-        showError(data.message);
+        console.log(data.message);
       }
     })
     .catch((error) => console.error("Error:", error));
@@ -224,26 +226,19 @@ async function clearCartAfterPurchase() {
   const cartQuery = query(cartRef);
 
   try {
-    // Get all items in the cart
     const cartSnapshot = await getDocs(cartQuery);
-
-    // Create an array of promises to delete all items in the cart
     const deletePromises = cartSnapshot.docs.map((cartDoc) => {
       return deleteDoc(
         doc(database, "users/" + user.uid + "/cart", cartDoc.id)
       );
     });
-
-    // Wait for all delete operations to complete
     await Promise.all(deletePromises);
   } catch (error) {
     console.error("Error clearing cart: ", error);
-    showError(error.message); // Use your existing error handling
   }
 }
 
 function sendReceiptByEmail(email, pdfData) {
-  // Create HTML content for the email message
   const message = `
   Dear Customer,\n\n
   Thank you for your purchase. Here are the details:\n
@@ -251,8 +246,6 @@ function sendReceiptByEmail(email, pdfData) {
   Total Amount: ₦${formatter.format(sessionStorage.getItem("price"))}\n\n
   Thank you for shopping with us!
 `;
-
-  // Send email with HTML content using EmailJS
   emailjs
     .send("service_zfwgbmf", "template_pfuor4j", {
       user_email: email,

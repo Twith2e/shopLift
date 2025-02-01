@@ -265,7 +265,6 @@ listBtn.addEventListener("click", () => {
   } else if (!qtyInput.value) {
     showError("please specify the quantity you are listing");
   } else {
-    // Proceed with listing the product
     if (document.getElementById("new").checked) {
       productDetails.condition = "new";
     } else {

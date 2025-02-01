@@ -58,11 +58,12 @@ const cancelBtn = document.getElementById("cancelbtn");
 const searchMatch = document.getElementById("searchmatch");
 let dropdownShown = false;
 let seeSearchBar = false;
-let currentUser;
+let currentUser = getAuth();
+
+console.log(currentUser);
 
 onAuthStateChanged(auth, (user) => {
   if (user) {
-    currentUser = user;
     loadUserProfile(user);
     doneBtn.addEventListener("click", () => {
       doneBtn.disabled = true;
@@ -215,8 +216,6 @@ profileBtns.forEach((btn, index) => {
 searchIcon.addEventListener("click", () => {
   if (!seeSearchBar) {
     if (dropdownShown) {
-      //   profileDropdowns[0].style.display = "none";
-      //   profileDropdowns[1].style.display = "none";
       dropdownShown = false;
     }
     searchBar.style.display = "block";
@@ -276,7 +275,6 @@ async function updateUserProfile(user) {
     await updateDoc(userProfileRef, updateProfile);
     showSuccess("Profile Updated");
   } catch (error) {
-    showError(error.message);
     console.log(error.message);
   }
 }
@@ -323,8 +321,6 @@ async function loadUserProfile(user) {
       showError(
         "You appear to be offline. Please check your internet connection."
       );
-    } else {
-      showError(error.message);
     }
     console.log(error.code, error.message);
   }
@@ -355,8 +351,6 @@ async function showSearchMatch(searchTerm) {
   querySnapshot.forEach((doc) => {
     const product = doc.data();
     const productName = product.productName.toLowerCase();
-
-    // Check if the productName contains the searchTerm
     if (productName.includes(lowercaseSearchTerm.trim())) {
       searchResults.push({
         name: productName,
@@ -365,10 +359,9 @@ async function showSearchMatch(searchTerm) {
     }
   });
 
-  // Display the matched results
   if (searchResults.length > 0) {
     searchResults.forEach((result) => {
-      const resultElement = document.createElement("div"); // Create a new element for each result
+      const resultElement = document.createElement("div");
       resultElement.classList.add("result");
       const button = document.createElement("button");
       button.classList.add("result-button");
@@ -400,6 +393,7 @@ async function saveProfileImg(user, file) {
     await updateDoc(userRef, updateProfile).then(() => {
       showSuccess("Profile image updated!");
     });
+    loadUserProfile(getAuth().currentUser);
     const imageRef = ref(storage, `${file.name}`);
     uploadBytes(imageRef, file)
       .then((snapshot) => {})

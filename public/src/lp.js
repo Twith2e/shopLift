@@ -195,7 +195,6 @@ async function loadProfilePic(user) {
     }
   } catch (error) {
     console.log(error.message);
-    showError(error.message);
   }
 }
 
@@ -290,7 +289,6 @@ async function loadProducts(uid) {
       }
     }
     document.querySelector("main").addEventListener("click", async (e) => {
-      // Check if the clicked element is a button with the class 'list-save-btn'
       if (e.target && e.target.classList.contains("list-save-btn")) {
         const clickedIndex = e.target.getAttribute("data-index");
         const docId = e.target.getAttribute("data-id");
@@ -310,7 +308,7 @@ async function loadProducts(uid) {
           `productDesc${clickedIndex}`
         ).value;
         try {
-          const productRef = doc(database, "products", docId); // Use correct document ID
+          const productRef = doc(database, "products", docId);
           const productUpdate = {
             productName: productName,
             brand: productBrand,
@@ -329,12 +327,10 @@ async function loadProducts(uid) {
             });
         } catch (error) {
           console.log(error);
-          showError(error.message);
         }
       }
     });
   } catch (error) {
     console.log(error);
-    showError(error.message);
   }
 }

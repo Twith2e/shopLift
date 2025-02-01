@@ -219,11 +219,9 @@ function fetchItems(productID) {
         const imgDiv = document.createElement("div");
         imgDiv.style.height = "150px";
         imgDiv.style.borderRadius = "5px";
-        imgDiv.style.boxShadow = "0.5px 0.5px 10px #000";
         const descDiv = document.createElement("div");
         descDiv.style.display = "flex";
         descDiv.style.flexDirection = "column";
-        descDiv.style.gap = "20px";
         const header = document.createElement("p");
         header.classList.add("product-name");
         const features = document.createElement("span");
@@ -234,11 +232,8 @@ function fetchItems(productID) {
 
         const img = document.createElement("img");
         img.style.width = "100%";
-        img.style.height = "100%";
-        img.style.borderRadius = "10px";
-        img.style.boxShadow = "0.5px 0.5px 10px #000";
-
-        // img.style.objectFit = "contain";
+        img.style.height = "60%";
+        img.style.objectFit = "contain";
         const imgRef = ref(storage, `${docSnap.data().productImages[0]}`);
         getDownloadURL(imgRef)
           .then((ref) => {
@@ -352,9 +347,7 @@ function fetchCategory(category) {
           location.href = `product.html?productId=${doc.id}`;
         });
         const imgDiv = document.createElement("div");
-        imgDiv.style.height = "200px";
-        imgDiv.style.borderRadius = "5px";
-        imgDiv.style.boxShadow = "0.5px 0.5px 10px #000";
+        imgDiv.style.height = "140px";
         const descDiv = document.createElement("div");
         const header = document.createElement("p");
         const features = document.createElement("span");
@@ -362,11 +355,9 @@ function fetchCategory(category) {
         features.style.gap = "10px";
         const price = document.createElement("p");
         price.classList.add("price");
-
         const img = document.createElement("img");
         img.style.width = "100%";
         img.style.height = "100%";
-        img.style.borderRadius = "10px";
         const imgRef = ref(storage, `${doc.data().productImages[0]}`);
         getDownloadURL(imgRef)
           .then((ref) => {
@@ -397,11 +388,11 @@ function fetchCategory(category) {
 
 document.body.addEventListener("keypress", (e) => {
   if (e.key === "Enter") {
-    const searchValue = searchInput.value.trim(); // Trim here to remove spaces
+    const searchValue = searchInput.value.trim();
     if (searchValue) {
-      searchProductsByInput(searchValue); // Only search if the input is not empty
+      searchProductsByInput(searchValue);
     } else {
-      showError("Please enter a valid search term."); // Error message for empty input
+      showError("Please enter a valid search term.");
     }
   }
 });
@@ -412,11 +403,11 @@ console.log(searchBtns);
 searchBtns.forEach((btn) => {
   if (btn) {
     btn.addEventListener("click", () => {
-      const searchValue = searchInput.value.trim(); // Trim input spaces
+      const searchValue = searchInput.value.trim();
       if (searchValue) {
-        searchProductsByInput(searchValue); // Only search if input is valid
+        searchProductsByInput(searchValue);
       } else {
-        showError("Please enter a valid search term."); // Error for empty search term
+        showError("Please enter a valid search term.");
       }
     });
   }

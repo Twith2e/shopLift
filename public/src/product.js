@@ -41,7 +41,6 @@ const storage = getStorage();
 const similarProducts = [];
 let isInCart = false;
 let isShown = false;
-let userInfo;
 let userEmail;
 const formatter = Intl.NumberFormat("en-NG");
 const productName = document.getElementById("productname");
@@ -162,9 +161,7 @@ async function renderProduct() {
           getDownloadURL(imgRef).then((url) => {
             const imgElement = document.createElement("img");
             imgElement.src = url;
-            imgElement.style.height = "550px";
-            imgElement.style.width = "100%";
-            imgElement.style.objectFit = "cover";
+            imgElement.style.objectFit = "contain";
             imgElement.classList.add("carousel-item");
             if (index === 0) imgElement.classList.add("active");
             carouselInner.appendChild(imgElement);
@@ -209,6 +206,7 @@ async function renderProduct() {
           const similarItem = document.createElement("div");
           similarItem.classList.add("product-card");
           const img = document.createElement("img");
+          img.style.borderBlockEnd = "3px solid #fd8d28";
           const imgRef = ref(storage, similarProduct.productImages[0]);
           getDownloadURL(imgRef).then((url) => {
             img.src = url;
@@ -223,11 +221,14 @@ async function renderProduct() {
           });
           similarItem.appendChild(img);
           const name = document.createElement("p");
+          name.style.paddingInline = "10px";
           name.textContent = similarProduct.productName;
           similarItem.appendChild(name);
           const price = document.createElement("h4");
           price.textContent = `NGN ₦${formatter.format(similarProduct.price)}`;
           similarItem.appendChild(price);
+          price.style.paddingInline = "10px";
+          price.style.paddingBottom = "10px";
           similarItem.addEventListener("click", () => {
             location.href = `product.html?productId=${similarProduct.productID.trim()}`;
           });

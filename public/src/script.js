@@ -281,8 +281,12 @@ async function renderLaptops() {
       productCard.addEventListener("click", () => {
         location.href = `product.html?productId=${product.id}`;
       });
+      const productImgCard = document.createElement("div");
+      productImgCard.className = "product-img-card";
       const productImg = document.createElement("img");
       productImg.className = "product-img";
+      productImgCard.appendChild(productImg);
+
       const imgRef = ref(storage, `${product.data().productImages[0]}`);
       getDownloadURL(imgRef)
         .then((ref) => {
@@ -297,13 +301,16 @@ async function renderLaptops() {
           console.log(error);
         });
       productImg.alt = product.data().productName;
-      productCard.appendChild(productImg);
+      productCard.appendChild(productImgCard);
       const productName = document.createElement("span");
       productName.textContent = product.data().productName;
       productName.style.fontSize = "0.875rem";
+      productName.style.paddingInline = "10px";
       productCard.appendChild(productName);
       const productPrice = document.createElement("h1");
       productPrice.style.fontSize = "1rem";
+      productPrice.style.paddingInline = "10px";
+      productPrice.style.paddingBottom = "10px";
       productPrice.textContent = `NGN ₦${formatter.format(
         product.data().price
       )}`;
@@ -366,8 +373,10 @@ async function renderPhones() {
       productCard.addEventListener("click", () => {
         location.href = `product.html?productId=${product.id}`;
       });
-      productCard.classList.add("product-card");
+      const productImgCard = document.createElement("div");
+      productImgCard.className = "product-img-card";
       const productImg = document.createElement("img");
+      productImgCard.appendChild(productImg);
       productImg.className = "product-img";
       const imgRef = ref(storage, `${product.data().productImages[0]}`);
       getDownloadURL(imgRef)
@@ -383,13 +392,16 @@ async function renderPhones() {
           console.log(error);
         });
       productImg.alt = product.data().productName;
-      productCard.appendChild(productImg);
+      productCard.appendChild(productImgCard);
       const productName = document.createElement("span");
       productName.style.fontSize = "0.875rem";
+      productName.style.paddingInline = "10px";
       productName.textContent = product.data().productName;
       productCard.appendChild(productName);
       const productPrice = document.createElement("h4");
       productPrice.style.fontSize = "1rem";
+      productPrice.style.paddingInline = "10px";
+      productPrice.style.paddingBottom = "10px";
       productPrice.textContent = `NGN ₦${formatter.format(
         product.data().price
       )}`;
@@ -427,7 +439,7 @@ async function searchProductsByInput(searchTerm) {
   const lowercaseSearchTerm = searchTerm.toLowerCase();
 
   if (searchTerm === "") {
-    showErrorMessage("Please enter a search term.");
+    showError("Please enter a search term.");
     return;
   }
 

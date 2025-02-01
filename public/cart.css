@@ -108,9 +108,9 @@ i {
 }
 
 .about-item img {
-  object-fit: cover;
+  object-fit: contain;
   height: 200px;
-  width: 100px;
+  width: 300px;
 }
 
 .remove {

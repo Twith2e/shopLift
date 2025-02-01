@@ -20,7 +20,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-storage.js";
 import { CONFIG } from "./config.js";
 import { setupNetworkMonitoring } from "./utils/networkUtils.js";
-import { showSuccess, showError, confirm } from "./utils/customAlerts.js";
+import { showSuccess, confirm } from "./utils/customAlerts.js";
 
 const firebaseConfig = {
   apiKey: CONFIG.apiKey,
@@ -269,7 +269,6 @@ async function renderInfo(user) {
     }
   } catch (error) {
     console.log(error);
-    showError(error.message);
   }
 }
 

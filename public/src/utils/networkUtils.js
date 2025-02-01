@@ -7,28 +7,22 @@ import {
 export function setupNetworkMonitoring(app) {
   const db = getFirestore(app);
   let errorTimeout;
-
-  // Firestore document for testing connection (a small, read-only document is ideal)
   const testDocRef = doc(db, "networkCheck/testDoc");
 
   const checkConnection = async () => {
     try {
       await getDoc(testDocRef);
       console.log("Connected to Firestore");
-
-      // Clear any pending error display if reconnected
       if (errorTimeout) clearTimeout(errorTimeout);
     } catch (error) {
-      // Start a timeout to display error message if the check fails
       errorTimeout = setTimeout(() => {
         showError("Please check your internet connection.");
       }, 3000);
     }
   };
 
-  // Initial connection check and periodic re-check every few seconds
   checkConnection();
-  setInterval(checkConnection, 60000); // Checks every 60 seconds
+  setInterval(checkConnection, 5000);
 }
 
 export function showError(message) {

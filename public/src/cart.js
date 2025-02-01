@@ -262,7 +262,7 @@ async function renderItems(uid) {
         plus.style.cursor = "pointer";
         minus.style.cursor = "pointer";
 
-        plus.disabled = false; // Enable the plus button initially
+        plus.disabled = false;
 
         plus.addEventListener("click", () => {
           let currentQty = parseInt(desiredQty.textContent);
