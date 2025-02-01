@@ -118,6 +118,10 @@ main {
   width: 80%;
 }
 
+#productname{
+    margin-top: 30px;
+  }
+
 #profile:hover,
 #dashboard:hover,
 #myprod:hover {
@@ -444,7 +448,7 @@ i {
   .none {
     display: none;
   }
-}
+ }
 
 @media (max-width: 49.9375rem) {
   .sell-nav {
@@ -485,6 +489,10 @@ i {
     justify-content: center;
     width: 3em;
   }
+
+  #productname{
+    margin-top: 0;
+  }
 }
 
 @media (min-width: 64rem) {
@@ -493,4 +501,9 @@ i {
     gap: 10%;
     grid-template-columns: 50% 40%;
   }
+
+  #productname{
+    margin-top: 0;
+  }
+
 }

@@ -55,6 +55,7 @@ const delivery = document.getElementById("delivery");
 const productTemp = document.getElementById("productTemp");
 const similarItemsContainer = document.getElementById("s-i-tray");
 const searchMatch = document.getElementById("searchmatch");
+let userInfo;
 
 onAuthStateChanged(auth, (user) => {
   if (user) {
@@ -258,7 +259,7 @@ async function renderProduct() {
           sellerimg.loading = "lazy";
         })
         .catch((error) => {
-          console.log(error);
+          sellerimg.src = "assets/default-pfp.jpg";
         });
       productName.textContent = product.productName;
       productPrice.textContent = `NGN ₦${formatter.format(product.price)}`;

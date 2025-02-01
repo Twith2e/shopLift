@@ -217,8 +217,7 @@ function fetchItems(productID) {
           location.href = `product.html?productId=${productRef.id}`;
         });
         const imgDiv = document.createElement("div");
-        imgDiv.style.height = "150px";
-        imgDiv.style.borderRadius = "5px";
+        imgDiv.style.height = "140px";
         const descDiv = document.createElement("div");
         descDiv.style.display = "flex";
         descDiv.style.flexDirection = "column";
@@ -232,7 +231,7 @@ function fetchItems(productID) {
 
         const img = document.createElement("img");
         img.style.width = "100%";
-        img.style.height = "60%";
+        img.style.height = "100%";
         img.style.objectFit = "contain";
         const imgRef = ref(storage, `${docSnap.data().productImages[0]}`);
         getDownloadURL(imgRef)
@@ -261,7 +260,6 @@ function fetchItems(productID) {
         const p = document.createElement("p");
         p.textContent = "No products found";
         p.classList.add("error-message");
-        // errorDiv.appendChild(p);
         searchedItems.innerHTML = "";
         searchedItems.appendChild(p);
       }
@@ -329,12 +327,9 @@ function fetchCategory(category) {
     .then((querySnapshot) => {
       if (querySnapshot.empty) {
         console.log("No matching documents.");
-        // const errorDiv = document.createElement("div");
-        // errorDiv.classList.add("error-message-wrapper");
         const p = document.createElement("p");
         p.classList.add("error-message");
         p.textContent = "No products found";
-        // errorDiv.appendChild(p);
         searchedItems.innerHTML = "";
         searchedItems.appendChild(p);
         return;
