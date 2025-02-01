@@ -118,7 +118,7 @@ main {
   width: 80%;
 }
 
-#productname{
+#productname, #productnameTemp{
     margin-top: 30px;
   }
 
@@ -337,10 +337,11 @@ i {
 
 .product-card {
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  max-width: 250px;
+  min-width: 200px;
   min-height: 150px;
   width: 250px;
 }
@@ -348,7 +349,7 @@ i {
 .product-img-card{
  border-bottom: 3px solid #fb8d28;
   padding-block: 10px;
-  width: 250px;
+  width: 100%
 }
 
 .sellercard {
@@ -489,10 +490,6 @@ i {
     justify-content: center;
     width: 3em;
   }
-
-  #productname{
-    margin-top: 0;
-  }
 }
 
 @media (min-width: 64rem) {
@@ -502,7 +499,7 @@ i {
     grid-template-columns: 50% 40%;
   }
 
-  #productname{
+  #productname, #productnameTemp{
     margin-top: 0;
   }
 
